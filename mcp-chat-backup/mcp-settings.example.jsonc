@@ -1,0 +1,12 @@
+{
+  // Example MCP server configuration for VS Code
+  // Add this to your VS Code settings.json under "mcp.servers"
+  
+  "chat-backup": {
+    "command": "node",
+    "args": ["${workspaceFolder}/mcp-chat-backup/server.js"],
+    "env": {
+      "CHAT_BACKUP_PATH": "${workspaceFolder}/.knowledge/chat-backups"
+    }
+  }
+}

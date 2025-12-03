@@ -1,0 +1,11 @@
+{
+  "name": "mcp-ado-wrapper",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Wrapper around @azure-devops/mcp adding PAT resolution and preflight.",
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "@azure-devops/mcp": "latest"
+  }
+}

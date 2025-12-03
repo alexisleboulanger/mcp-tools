@@ -1,0 +1,40 @@
+### Serp API > Google API Key Setup for SerpAPI
+# https://serpapi.com/dashboard
+
+### env
+@SERPAPI_API_KEY = {{SERPAPI_API_KEY}}
+# @SERPAPI_API_KEY = {{$dotenv SERPAPI_API_KEY}}
+
+### Google Search
+GET https://serpapi.com/search?engine=google&q=Coffee
+api_key: {{SERPAPI_API_KEY}}
+
+### Google Search Light
+GET https://serpapi.com/search?engine=google_light&q=Coffee
+api_key: {{SERPAPI_API_KEY}}
+
+### Google AI Overview
+@page_token= eyJvbnMiOiIxMDA0MSIsImZjIjoiRXFFQkNtSkJUR3QwWDNaR09Ga3dSblF5Y1VZek1VVlFVVFJIWkZoNVJFSTRWVGxVUkRGWWRFbFdSamxJYm1oc1VsWjRabXBLZDFFelVYWndRblpIYkd4TlRIYzBSVVp0T0ZSYVZIaHBNVE5mVW5sWlpFVTFPVVJJUkhOTE9HbHZaMDUzWDI1a1p4SVhjVU4zUTJGa2VXSk1PRWRHZDJKclVHcEtla3MyVVRRYUlrRkdUVUZIUjNKMU9FRmpkM0JwVkVRMGFrcFJTRUpWUWxnNU1EVkNUMk0wWjBFIiwiZmN2IjoiMyIsImVpIjoicUN3Q2FkeWJMOEdGd2JrUGpKeks2UTQiLCJxYyI6IkNnWmpiMlptWldVUUFIM3dZUzBfIiwicXVlc3Rpb24iOiJXaGljaCBpcyB0aGUgaGVhbHRoaWVzdCBjb2ZmZWUgdG8gZHJpbms%2FIiwibGsiOiJHaWQzYUdsamFDQnBjeUIwYUdVZ2FHVmhiSFJvYVdWemRDQmpiMlptWldVZ2RHOGdaSEpwYm1zIiwiYnMiOiJjLVB5NWxMMkxGWkl6azlMUzAxVlNFd3VLVTNNeWFsVXlFaE56Q25KcUZSSXl5OVNxTXd2dFRkU2tWTEtKS2lNeTRkTEtUd2pzVVFCcUxRa0kxWEJ3a0RmeUVDaHFEUW5GYXdDb3R0ZVlrV3lrYktVWWptS1FnVk1oVndSWEJyaEdabkpHVEJWRU5zeVU0dExZQTRweVZkSUtjck15N2FYbUNKaHBDbWxYazZjY2k1bkxubGtkeWFocWtrcXJiUTNVcENTSzhlclJJQVJBQSIsImlkIjoiZmNfcUN3Q2FkeWJMOEdGd2JrUGpKeks2UTRfMiJ9
+GET https://serpapi.com/search?engine=google_ai_overview&page_token=
+api_key: {{SERPAPI_API_KEY}}
+
+### Google AI Mode
+GET https://serpapi.com/search?engine=google_ai_mode&q=Coffee
+api_key: {{SERPAPI_API_KEY}}
+
+### Google Videos Light
+GET https://serpapi.com/search?engine=google_videos_light&q=Coffee
+api_key: {{SERPAPI_API_KEY}}
+
+### Google Videos
+GET https://serpapi.com/search?engine=google_videos&q=Coffee
+api_key: {{SERPAPI_API_KEY}}
+
+### Google Search
+GET https://serpapi.com/search?engine=bing&q=Coffee
+api_key: {{SERPAPI_API_KEY}}
+
+### Youtube
+GET https://serpapi.com/search?engine=youtube&q=Coffee
+api_key: {{SERPAPI_API_KEY}}
+

@@ -1,0 +1,200 @@
+### Google Credentials for Youtube Data API
+# https://developers.google.com
+# https://developers.google.com/youtube?hl=en
+# https://console.cloud.google.com/apis/api/youtube.googleapis.com/metrics?project=generativeai-393115
+# https://console.cloud.google.com/apis/credentials?pli=1&project=generativeai-393115
+
+@GOOGLE_API_KEY = {{$dotenv GOOGLE_API_KEY}}
+# Google API Key for Youtube Analytics API v2 need OAuth2
+# @GOOGLEANALYTICS_API_KEY = {{$dotenv GOOGLEANALYTICS_API_KEY}}
+
+### Youtube Data API v3 - Videos list
+# https://developers.google.com/youtube/v3/docs/?apix=true
+# https://developers.google.com/youtube/v3/docs/videos/list
+# https://developers.google.com/youtube/v3/docs/videos/list
+GET https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&id=Ks-_Mh1QhMc&key={{GOOGLE_API_KEY}}
+###
+GET https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&id=zXSPEQAdhl0&key={{GOOGLE_API_KEY}}
+
+### Youtube Data API v3 - Captions list
+# @videoId= zXSPEQAdhl0
+@videoId= Kpdl2D7-pMo
+GET https://www.googleapis.com/youtube/v3/captions?part=snippet&videoId={{videoId}}&key={{GOOGLE_API_KEY}}
+
+###############################################OAuth2 flow###############################################
+# https://developers.google.com/oauthplayground/
+
+@GOOGLE_CLIENTID={{$dotenv GOOGLE_CLIENTID}}
+# Never commit real client secrets; load from .env instead and rotate if exposed.
+@GOOGLE_CLIENTSECRET={{$dotenv GOOGLE_CLIENTSECRET}}
+# Redirect URI: must EXACTLY match one registered in Google Cloud console (unencoded here)
+@GOOGLE_REDIRECT_URI={{$dotenv GOOGLE_REDIRECT_URI}}
+# Encoded variants for building authorization URL
+@GOOGLE_REDIRECT_URI_ENC={{$dotenv GOOGLE_REDIRECT_URI_ENC}}
+# https://console.cloud.google.com/auth/scopes
+# https://developers.google.com/identity/protocols/oauth2/scopes?hl=fr#youtube
+# Unencoded scope (for reference / debugging)
+@GOOGLE_SCOPE_ENC={{$dotenv GOOGLE_SCOPE_ENC}}
+
+# Optional PKCE (recommended for public/native clients). Generate a high-entropy code verifier (43-128 chars).
+# Example generation (PowerShell): [System.Convert]::ToBase64String((New-Object byte[] 32)) -replace '[+/]','_' -replace '=',''
+@PKCE_CODE_VERIFIER={{$dotenv PKCE_CODE_VERIFIER}}
+@PKCE_CODE_CHALLENGE={{$dotenv PKCE_CODE_CHALLENGE}}
+# If you prefer inline (not env): uncomment and replace below
+# @PKCE_CODE_VERIFIER=GENERATED_VERIFIER_VALUE
+# @PKCE_CODE_CHALLENGE=GENERATED_CHALLENGE_VALUE
+# Generation (bash):
+#   PKCE_CODE_VERIFIER=$(openssl rand -base64 64 | tr -d '=\n' | tr '+/' '-_')
+#   PKCE_CODE_CHALLENGE=$(printf %s "$PKCE_CODE_VERIFIER" | openssl sha256 -binary | openssl base64 -A | tr '+/' '-_' | tr -d '=')
+# Generation (PowerShell):
+# $bytes = New-Object byte[] 64
+# [Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($bytes)
+# $cv = [Convert]::ToBase64String($bytes).Replace('+','-').Replace('/','_').Replace('=','')
+# $cc = [Convert]::ToBase64String([Security.Cryptography.SHA256]::Create().ComputeHash([Text.Encoding]::UTF8.GetBytes($cv))).Replace('+','-').Replace('/','_').Replace('=','')
+# Write-Host "VERIFIER=$cv"
+# Write-Host "CHALLENGE=$cc"
+### Fetch Authorization Code
+# Open this URL in browser to authorize and get code
+GET https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id={{GOOGLE_CLIENTID}}&redirect_uri={{GOOGLE_REDIRECT_URI}}&scope={{GOOGLE_SCOPE_ENC}}&code_challenge_method=S256&code_challenge={{PKCE_CODE_CHALLENGE}}&access_type=offline&prompt=consent&state=xyz123
+
+# https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=xxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com&redirect_uri=http://localhost:2000&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube.force-ssl&code_challenge_method=S256&code_challenge=yyyyyyyyyyyyyyyyyyyyyyyyy&access_type=offline&prompt=consent&state=xyz123
+# http://localhost:2000/?state=xyz123&code=zzzzzzzzzzzzzzzzzzzzzzzzzzzzz&scope=https://www.googleapis.com/auth/youtube.force-ssl%20https://www.googleapis.com/auth/youtube.readonly
+@GOOGLE_CODE=
+
+### Fetch Access Token
+POST https://oauth2.googleapis.com/token
+Content-Type: application/application/json
+
+{
+  "grant_type": "authorization_code",
+  "code": "{{GOOGLE_CODE}}",
+  "redirect_uri": "{{GOOGLE_REDIRECT_URI}}",
+  "client_id": "{{GOOGLE_CLIENTID}}",
+  "client_secret": "{{GOOGLE_CLIENTSECRET}}",
+  "code_verifier": "{{PKCE_CODE_VERIFIER}}"
+}
+
+# Single-line form body (preferred to avoid parsing issues)
+### PKCE Verification Notes
+# Ensure:
+# 1. The code_verifier here EXACTLY matches PKCE_CODE_VERIFIER used to derive PKCE_CODE_CHALLENGE seen in the auth URL.
+# 2. redirect_uri parameter value must be UNENCODED (http://localhost:2000) – you currently use GOOGLE_REDIRECT_URI_ENC which is encoded; replace with the unencoded variant if mismatch persists.
+# 3. Do not regenerate verifier after creating the auth URL.
+# 4. Length 43-128 characters (current length: manual check required, HTTP client won’t auto-validate).
+# 5. Only allowed chars A-Z a-z 0-9 - _ . If plus, slash, equals appear you skipped the URL-safe transform.
+# 6. If you added client_secret but want pure PKCE public flow, you can omit client_secret for a web client that allows it; inconsistent usage will not cause Invalid code verifier but helps isolate problems.
+
+# {
+#   "access_token": "",
+#   "expires_in": 3599,
+#   "refresh_token": "",
+#   "scope": "https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/youtube.force-ssl",
+#   "token_type": "Bearer",
+#   "refresh_token_expires_in": 604799
+# }
+
+@GOOGLE_ACCESS_TOKEN=
+@GOOGLE_REFRESH_TOKEN=
+
+### Refresh Access Token
+POST https://oauth2.googleapis.com/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=refresh_token
+&refresh_token={{GOOGLE_REFRESH_TOKEN}}
+&client_id={{GOOGLE_CLIENTID}}
+&client_secret={{GOOGLE_CLIENTSECRET}}
+
+# {
+#   "access_token": "",
+#   "expires_in": 3599,
+#   "scope": "https://www.googleapis.com/auth/youtube.readonly",
+#   "token_type": "Bearer",
+#   "refresh_token_expires_in": 604736
+# }
+
+### Debug: Inspect token scopes (requires oauth2.googleapis.com tokeninfo endpoint)
+GET https://oauth2.googleapis.com/tokeninfo?access_token={{GOOGLE_ACCESS_TOKEN}}
+
+###############################################Caption download###############################################
+
+### Transcript download
+# https://developers.google.com/youtube/v3/docs/captions/download
+### Caption operations (require OAuth; API key alone insufficient)
+@captionId=
+
+### List caption tracks for video (needs auth if not public or to access downloadable tracks)
+GET https://www.googleapis.com/youtube/v3/captions?part=id,snippet&videoId={{videoId}}
+Authorization: Bearer {{GOOGLE_ACCESS_TOKEN}}
+Accept: application/json
+
+### Download caption track (SRT). Auto-generated captions cannot be downloaded via API.
+GET https://www.googleapis.com/youtube/v3/captions/{{captionId}}?tfmt=srt&alt=media
+Authorization: Bearer {{GOOGLE_ACCESS_TOKEN}}
+Accept: application/octet-stream
+
+### Debug: List all captions again with id,snippet to confirm track kind & ownership
+GET https://www.googleapis.com/youtube/v3/captions?part=id,snippet&videoId={{videoId}}
+Authorization: Bearer {{GOOGLE_ACCESS_TOKEN}}
+Accept: application/json
+
+### If forbidden persists:
+# - Track may be auto-generated (cannot download). snippet.trackKind == ASR indicates auto-generated.
+# - You might not be the video owner; only owners (or those with permissions) can download certain caption tracks.
+# - Caption may be a draft (snippet.isDraft true) or not published.
+# - Third-party contributions disabled; some tracks disallow external download.
+# - Scope missing youtube.force-ssl (tokeninfo will show scopes granted).
+# Remediation: Upload your own caption via captions.insert, then download that track; or request owner to provide; or use external speech-to-text respecting ToS.
+
+### Download caption track (TTML)
+# GET https://www.googleapis.com/youtube/v3/captions/{{captionId}}?tfmt=ttml&alt=media
+# Authorization: Bearer {{GOOGLE_ACCESS_TOKEN}}
+
+###############################################OAuth flow###############################################
+### Youtube Analytics API v2 - Reports
+# https://developers.google.com/youtube/analytics/reference/?apix=true
+GET https://youtubeanalytics.googleapis.com/v2/groups?mine=true&key={{GOOGLEANALYTICS_API_KEY}}
+Authorization: Bearer {{GOOGLE_ACCESS_TOKEN}}
+
+###############################################DEBUG invalid_client###############################################
+# If you keep receiving invalid_client, run the following diagnostic requests.
+# 1. Echo variables to ensure they are populated (some HTTP clients support this syntax; if not, verify via .env file directly).
+GET https://example.com/variables-placeholder
+X-Debug-GOOGLE_CLIENTID: {{GOOGLE_CLIENTID}}
+X-Debug-GOOGLE_CLIENTSECRET-LEN: LENGTH_PLACEHOLDER
+X-Debug-GOOGLE_REDIRECT_URI: {{GOOGLE_REDIRECT_URI}}
+X-Debug-GOOGLE_SCOPE_ENC: {{GOOGLE_SCOPE_ENC}}
+
+# 2. Minimal auth URL (no extras) – open manually:
+# https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id={{GOOGLE_CLIENTID}}&redirect_uri={{GOOGLE_REDIRECT_URI}}&scope={{GOOGLE_SCOPE_ENC}}
+###
+# 3. Raw token exchange WITHOUT PKCE (only if you did not use code_challenge):
+POST https://oauth2.googleapis.com/token
+Content-Type: application/x-www-form-urlencoded
+
+code={{GOOGLE_CODE}}&client_id={{GOOGLE_CLIENTID}}&client_secret={{GOOGLE_CLIENTSECRET}}&redirect_uri={{GOOGLE_REDIRECT_URI}}&grant_type=authorization_code&code_verifier={{PKCE_CODE_VERIFIER}}
+
+# 4. Raw token exchange WITH PKCE (replace placeholders if used):
+# code={{GOOGLE_CODE}}&client_id={{GOOGLE_CLIENTID}}&redirect_uri={{GOOGLE_REDIRECT_URI}}&grant_type=authorization_code&code_verifier={{PKCE_CODE_VERIFIER}}
+
+# 5. Common causes checklist:
+# - GOOGLE_CLIENTSECRET env var missing or mismatched (invalid_client)
+# - Redirect URI differs (even trailing slash) from console registration (invalid_client or invalid_grant)
+# - Using client type "Desktop" but sending a custom localhost port not listed (invalid_client)
+# - Code already used or expired (would be invalid_grant, not invalid_client)
+# - Attempted to mix PKCE (code_challenge) in auth but omitted code_verifier (invalid_grant)
+# - Scope string contains unintended characters (e.g., newline) -> verify .env formatting
+# - Secret rotated after being leaked; console still shows new secret but old one in use
+
+# 6. Regenerate secret steps (summary):
+#   Google Cloud Console > APIs & Services > Credentials > OAuth 2.0 Client IDs > select client > RESET SECRET.
+#   Update .env, restart editor, re-run authorization to get a fresh code.
+
+# 7. To test outside the editor (bash):
+# curl -X POST https://oauth2.googleapis.com/token \
+#   -H 'Content-Type: application/x-www-form-urlencoded' \
+#   -d "code=$GOOGLE_CODE&client_id=$GOOGLE_CLIENTID&client_secret=$GOOGLE_CLIENT_SECRET&redirect_uri=$GOOGLE_REDIRECT_URI&grant_type=authorization_code" -v
+
+# 8. If still failing, confirm client_id belongs to project where YouTube Data API is ENABLED.
+#    (Enabling API is not strictly required for OAuth, but some policies may restrict scopes until API enabled.)
+

@@ -1,0 +1,34 @@
+
+# Powershell
+# $env:AZURE_DEVOPS_PAT="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+# $env:AZURE_DEVOPS_EXT_PAT="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+# $env:AZDO_ORG="yorizon"
+# $env:AZDO_PROJECT="Yorizon Nexus"
+
+# az login --tenant 9ccbe1b5-7323-46aa-91a1-4fe222c47cb0 
+# az account show --output table
+# az account get-access-token --resource https://graph.microsoft.com --query accessToken -o tsv  
+
+# # In bash.exe (will call Windows setx)
+# setx AZDO_ORG "https://dev.azure.com/yourOrg"
+# setx AZDO_PROJECT "YourProjectName"
+# # PAT (discouraged long-term—rotate frequently)
+# setx AZURE_DEVOPS_EXT_PAT "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# az devops configure --defaults organization=https://dev.azure.com/${AZDO_ORG}
+# az devops project list
+# curl -H "Authorization: Basic $(echo -n :{AZURE_DEVOPS_EXT_PAT} | base64)" https://dev.azure.com/${AZDO_ORG}/_apis/projects?api-version=7.0
+
+### env
+@AZDO_ORG = {{$processEnv AZDO_ORG}}
+@AZDO_PROJECT =  {{$processEnv AZDO_PROJECT}}
+@AZURE_DEVOPS_PAT = {{$processEnv AZURE_DEVOPS_PAT}}
+@AZURE_DEVOPS_EXT_PAT = {{$processEnv AZURE_DEVOPS_EXT_PAT}}
+### .env file
+# @AZURE_DEVOPS_PAT = {{$dotenv AZURE_DEVOPS_PAT}}
+
+### GET Azure DevOps
+GET  https://dev.azure.com/{{AZDO_ORG}}/_apis/projects?api-version=7.0
+Authorization: Basic {{AZURE_DEVOPS_EXT_PAT}}
+
+###

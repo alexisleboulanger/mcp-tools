@@ -1,0 +1,58 @@
+@CLIENT_ID=3458764644326436273
+@CLIENT_SECRET=TtqsgEIHOh0RgG9KhaSnZTZl1GsG8EKZ
+@REDIRECT_URI=http%3A%2F%2Flocalhost%3A8899%2Fcallback
+@SCOPE=boards:read%20boards:write
+@CODE=eyJtaXJvLm9yaWdpbiI6ImV1MDEifQ_O1ibZU&state=xyz123&client_id=3458764644326436273&team_id=3458764644326436232&user_id=3458764614442949438
+
+# to be obtained via the OAuth2 flow
+@ACCESS_TOKEN=eyJtaXJvLm9yaWdpbiI6ImV1MDEifQ_sb_l26sXr7YhfcPr6LNW3sR33Vc
+
+###############################################OAuth flow###############################################
+### Fetch Authorization Code
+GET https://miro.com/oauth/authorize?response_type=code&client_id={{CLIENT_ID}}&redirect_uri={{REDIRECT_URI}}&scope={{SCOPE}}&state=xyz123
+# https://miro.com/oauth/authorize?response_type=code&client_id=3458764644326436273&redirect_uri=http%3A%2F%2Flocalhost%3A8899%2Fcallback&scope=boards:read%20boards:write&state=xyz123
+
+### Fetch Access Token
+POST https://api.miro.com/v1/oauth/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=authorization_code
+&code={{CODE}}
+&redirect_uri={{REDIRECT_URI}}
+&client_id={{CLIENT_ID}}
+&client_secret={{CLIENT_SECRET}}
+
+# {
+#   "user_id": "3458764614442949438",
+#   "scope": "boards:write boards:read",
+#   "expires_in": 0,
+#   "access_token": "eyJtaXJvLm9yaWdpbiI6ImV1MDEifQ_ZNfM9IAgWT4e5l4KgVvrsDHOCeU",
+#   "team_id": "3458764644326436232",
+#   "token_type": "bearer"
+# }
+
+###############################################OAuth flow###############################################
+### 1. Token validity / identity
+# curl -s -o /dev/null -w "%{http_code}\n" \
+#   -H "Authorization: Bearer $MIRO_TOKEN" \
+#   https://api.miro.com/v2/users/me
+
+GET https://api.miro.com/v2/users/me
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+### 3. List boards (first page)
+# curl -s -H "Authorization: Bearer $MIRO_TOKEN" \
+#   "https://api.miro.com/v2/boards?limit=10" | jq
+
+GET https://api.miro.com/v2/boards?limit=10
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+
+### 4. Get the specific board
+# curl -s -D - -H "Authorization: Bearer $MIRO_TOKEN" \
+#   https://api.miro.com/v2/boards/uXjVLqvZ6qY= | jq
+
+GET https://api.miro.com/v2/boards/uXjVLqvZ6qY=
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+

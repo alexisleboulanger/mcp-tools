@@ -1,0 +1,27 @@
+{
+  // Recommended keybindings for Copilot Chat management
+  // Copy these to your user keybindings.json (Ctrl+Shift+P → "Open Keyboard Shortcuts (JSON)")
+  
+  "recommendations": [
+    {
+      "key": "ctrl+shift+alt+e",
+      "command": "workbench.action.chat.export",
+      "when": "chatIsEnabled",
+      "description": "Quick export current Copilot chat"
+    },
+    {
+      "key": "ctrl+shift+alt+i", 
+      "command": "workbench.action.chat.import",
+      "when": "chatIsEnabled",
+      "description": "Import a previous chat session"
+    },
+    {
+      "key": "ctrl+shift+alt+h",
+      "command": "workbench.action.chat.history",
+      "when": "chatIsEnabled", 
+      "description": "Show chat history"
+    }
+  ],
+  
+  "instructions": "To add these keybindings: 1) Press Ctrl+Shift+P 2) Type 'Open Keyboard Shortcuts (JSON)' 3) Add the key/command/when properties from each recommendation"
+}

@@ -1,0 +1,2 @@
+$env:AZURE_DEVOPS_PAT=
+$env:SERPAPI_API_KEY=

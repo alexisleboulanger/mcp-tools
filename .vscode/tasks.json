@@ -1,0 +1,73 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "� Start MCP Chat Backup Server",
+      "type": "shell",
+      "windows": {
+        "command": "node",
+        "args": ["${workspaceFolder}/mcp-chat-backup/server.js"]
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "isBackground": true
+    },
+    {
+      "label": "�📦 Backup Copilot Chat",
+      "type": "shell",
+      "command": "echo",
+      "args": [
+        "📋 BACKUP REMINDER:",
+        "1. Open Copilot Chat panel",
+        "2. Click ... menu → Export Chat...",
+        "3. Save to: .knowledge/chat-backups/2026/01/",
+        "4. Name: $(Get-Date -Format 'yyyy-MM-dd-HH-mm')-[topic].json",
+        "&&",
+        "explorer",
+        ".knowledge\\chat-backups\\2026\\01"
+      ],
+      "windows": {
+        "command": "powershell",
+        "args": [
+          "-Command",
+          "$folder = '.knowledge\\chat-backups\\' + (Get-Date -Format 'yyyy') + '\\' + (Get-Date -Format 'MM'); New-Item -ItemType Directory -Force -Path $folder | Out-Null; Write-Host ''; Write-Host '╔══════════════════════════════════════════════════════════════╗' -ForegroundColor Cyan; Write-Host '║  📦 COPILOT CHAT BACKUP REMINDER                             ║' -ForegroundColor Cyan; Write-Host '╠══════════════════════════════════════════════════════════════╣' -ForegroundColor Cyan; Write-Host '║                                                              ║' -ForegroundColor Cyan; Write-Host '║  1. Press Ctrl+Shift+P                                       ║' -ForegroundColor Yellow; Write-Host '║  2. Type: Chat: Export Chat...                               ║' -ForegroundColor Yellow; Write-Host '║  3. Save to folder below                                     ║' -ForegroundColor Yellow; Write-Host '║                                                              ║' -ForegroundColor Cyan; Write-Host '╚══════════════════════════════════════════════════════════════╝' -ForegroundColor Cyan; Write-Host ''; Write-Host \"Backup folder: $folder\" -ForegroundColor Green; Write-Host \"Suggested name: $(Get-Date -Format 'yyyy-MM-dd-HH-mm')-[topic].json\" -ForegroundColor Green; Write-Host ''; explorer $folder"
+        ]
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "📂 Open Chat Backups Folder",
+      "type": "shell",
+      "windows": {
+        "command": "powershell",
+        "args": [
+          "-Command",
+          "$folder = '.knowledge\\chat-backups\\' + (Get-Date -Format 'yyyy') + '\\' + (Get-Date -Format 'MM'); New-Item -ItemType Directory -Force -Path $folder | Out-Null; explorer $folder"
+        ]
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "📋 List Recent Chat Backups",
+      "type": "shell",
+      "windows": {
+        "command": "powershell",
+        "args": [
+          "-Command",
+          "Write-Host ''; Write-Host 'Recent Chat Backups:' -ForegroundColor Cyan; Write-Host '─────────────────────────────────────' -ForegroundColor DarkGray; Get-ChildItem -Path '.knowledge\\chat-backups' -Recurse -Filter '*.json' -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 10 | ForEach-Object { Write-Host \"  $($_.LastWriteTime.ToString('yyyy-MM-dd HH:mm'))  $($_.Name)\" -ForegroundColor White }; if (-not (Get-ChildItem -Path '.knowledge\\chat-backups' -Recurse -Filter '*.json' -ErrorAction SilentlyContinue)) { Write-Host '  No backups found. Export your first chat!' -ForegroundColor Yellow }"
+        ]
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always"
+      }
+    }
+  ]
+}
