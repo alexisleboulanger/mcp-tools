@@ -34,9 +34,14 @@ export function loadConfig() {
     accessToken: process.env.MICROSOFT_ACCESS_TOKEN || undefined,
     refreshToken: process.env.MICROSOFT_REFRESH_TOKEN || undefined,
     
+    // Authentication mode flags
+    useInteractive: process.env.USE_INTERACTIVE !== 'false', // Default: true
+    useDeviceCode: process.env.USE_DEVICE_CODE === 'true',   // Default: false
+    useAzureCli: process.env.USE_AZURE_CLI !== 'false',      // Default: true
+    
     // Scopes
     scopes: (process.env.MICROSOFT_SCOPES || 
-      'User.Read Files.Read.All Sites.Read.All Mail.Read Calendars.Read Team.ReadBasic.All'
+      'User.Read Files.Read.All Sites.Read.All Mail.Read Calendars.Read Team.ReadBasic.All OnlineMeetings.Read OnlineMeetingArtifact.Read.All OnlineMeetingTranscript.Read.All'
     ).split(/\s+/).filter(Boolean),
     
     // Optional SharePoint site scope

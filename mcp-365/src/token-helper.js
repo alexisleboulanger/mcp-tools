@@ -1,16 +1,19 @@
 #!/usr/bin/env node
 /**
  * Interactive token helper for mcp-365
- * Prompts for Graph Explorer token when needed
+ * Supports both Graph Explorer tokens and interactive browser login
  */
 
 import { createInterface } from 'readline';
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { loadConfig } from './config.js';
+import { interactiveLogin } from './auth-interactive.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const envPath = join(__dirname, '..', '.env');
+const tokenCachePath = join(__dirname, '..', '.token-cache.json');
 
 /**
  * Decode JWT to check expiration
@@ -216,15 +219,86 @@ export function showTokenStatus() {
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const command = process.argv[2];
   
-  if (command === 'refresh' || command === 'update') {
+  if (command === 'login') {
+    // Interactive login using Graph Explorer's client ID (no admin consent needed!)
+    try {
+      const config = loadConfig();
+      // No client ID needed - we use Graph Explorer's pre-consented app
+      await interactiveLogin(config);
+      process.exit(0);
+    } catch (e) {
+      console.error('Login failed:', e.message);
+      process.exit(1);
+    }
+  } else if (command === 'logout') {
+    // Clear cached tokens
+    try {
+      if (existsSync(tokenCachePath)) {
+        writeFileSync(tokenCachePath, '{}', 'utf8');
+      }
+      // Also clear static token from .env
+      let envContent = readFileSync(envPath, 'utf8');
+      envContent = envContent.replace(/^MICROSOFT_ACCESS_TOKEN=.*$/m, 'MICROSOFT_ACCESS_TOKEN=');
+      writeFileSync(envPath, envContent, 'utf8');
+      console.log('✓ Logged out - cached tokens cleared.\n');
+    } catch (e) {
+      console.error('Logout failed:', e.message);
+    }
+  } else if (command === 'refresh' || command === 'update') {
     ensureValidToken().then(() => process.exit(0));
   } else if (command === 'status') {
     showTokenStatus();
+    showCacheStatus();
   } else {
-    console.log('MCP-365 Token Helper');
+    console.log('\n╔════════════════════════════════════════════════════════════╗');
+    console.log('║              MCP-365 Token Helper                          ║');
+    console.log('╚════════════════════════════════════════════════════════════╝\n');
+    console.log('Commands:');
+    console.log('  login     - Interactive browser login (recommended)');
+    console.log('  logout    - Clear cached tokens');
+    console.log('  status    - Show current authentication status');
+    console.log('  refresh   - Manually enter a Graph Explorer token\n');
     console.log('Usage:');
-    console.log('  node src/token-helper.js status   - Show current token status');
-    console.log('  node src/token-helper.js refresh  - Prompt for new token');
+    console.log('  npm run token:login   - Sign in via browser');
+    console.log('  npm run token:status  - Check auth status');
+    console.log('  npm run token:refresh - Enter Graph Explorer token\n');
     showTokenStatus();
+    showCacheStatus();
   }
+}
+
+/**
+ * Show status of cached interactive tokens
+ */
+function showCacheStatus() {
+  console.log('\n=== Interactive Auth Cache ===\n');
+  
+  if (!existsSync(tokenCachePath)) {
+    console.log('Status: No cached session');
+    console.log('Run: npm run token:login\n');
+    return;
+  }
+  
+  try {
+    const cache = JSON.parse(readFileSync(tokenCachePath, 'utf8'));
+    
+    // Check for MSAL cache structure
+    if (cache.Account) {
+      const accounts = Object.values(cache.Account);
+      if (accounts.length > 0) {
+        const account = accounts[0];
+        console.log('Status: ✓ Session cached');
+        console.log(`User: ${account.username || 'Unknown'}`);
+        console.log(`Name: ${account.name || 'N/A'}`);
+        console.log(`Tenant: ${account.realm || account.tenant_id || 'N/A'}`);
+      } else {
+        console.log('Status: No active session');
+      }
+    } else {
+      console.log('Status: No active session');
+    }
+  } catch {
+    console.log('Status: Cache invalid or empty');
+  }
+  console.log('');
 }

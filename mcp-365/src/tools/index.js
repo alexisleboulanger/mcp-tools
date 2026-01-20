@@ -116,8 +116,8 @@ export async function handleToolCall(name, args, client, config) {
       return handleCalendarTool(name, args, client, config);
     }
     
-    // Teams tools
-    if (name.startsWith('m365_teams')) {
+    // Teams tools (including recordings via Files API)
+    if (name.startsWith('m365_teams') || name.startsWith('m365_recording')) {
       return handleTeamsTool(name, args, client, config);
     }
     

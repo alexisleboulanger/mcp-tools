@@ -1,8 +1,9 @@
 /**
  * Authentication provider for Microsoft Graph API
  * Supports multiple auth flows:
- * - Azure CLI (recommended - pre-approved, auto-refresh)
- * - Pre-configured access token (for testing)
+ * - Interactive browser login (recommended - uses OAuth 2.0 with PKCE)
+ * - Azure CLI (auto-refresh, but limited scopes)
+ * - Pre-configured access token (for testing with Graph Explorer)
  * - Device code flow (interactive, delegated permissions)
  * - Client credentials (app-only, for background services)
  */
@@ -10,6 +11,7 @@
 import { ConfidentialClientApplication, PublicClientApplication } from '@azure/msal-node';
 import { exec } from 'child_process';
 import { promisify } from 'util';
+import { InteractiveAuthProvider } from './auth-interactive.js';
 
 const execAsync = promisify(exec);
 
@@ -19,15 +21,8 @@ const execAsync = promisify(exec);
  * @returns {object} Auth provider with getAccessToken() method
  */
 export async function createAuthProvider(config) {
-  // Option 1: Azure CLI (recommended - handles login & refresh automatically)
-  if (config.useAzureCli !== false && !config.accessToken) {
-    const azureCliProvider = await tryAzureCliProvider();
-    if (azureCliProvider) {
-      return azureCliProvider;
-    }
-  }
-
-  // Option 2: Pre-configured access token (for testing with Graph Explorer token)
+  // Option 1: Pre-configured access token (for testing with Graph Explorer token)
+  // This takes priority for quick testing scenarios
   if (config.accessToken) {
     console.error('[mcp-365] Using pre-configured access token');
     return {
@@ -38,7 +33,42 @@ export async function createAuthProvider(config) {
     };
   }
 
-  // Option 3: Client credentials flow (app-only, no user context)
+  // Option 2: Interactive authentication (RECOMMENDED)
+  // Uses Graph Explorer's client ID by default - no admin consent needed!
+  // Falls back to device code flow which works everywhere
+  if (config.useInteractive !== false) {
+    const clientId = config.clientId || 'de8bc8b5-d9f9-48b1-a8ad-b748da725064'; // Graph Explorer
+    console.error('[mcp-365] Using interactive authentication (Graph Explorer app)');
+    const provider = new InteractiveAuthProvider({ ...config, clientId });
+    
+    // Wrap to match expected interface
+    return {
+      async getAccessToken(additionalScopes = []) {
+        return provider.getAccessToken(additionalScopes);
+      },
+      async requestAdditionalScopes(scopes) {
+        return provider.requestAdditionalScopes(scopes);
+      },
+      async signOut() {
+        return provider.signOut();
+      },
+      getAccountInfo() {
+        return provider.getAccountInfo();
+      },
+      type: 'interactive',
+      provider,
+    };
+  }
+
+  // Option 3: Azure CLI (handles login & refresh automatically)
+  if (config.useAzureCli !== false) {
+    const azureCliProvider = await tryAzureCliProvider();
+    if (azureCliProvider) {
+      return azureCliProvider;
+    }
+  }
+
+  // Option 4: Client credentials flow (app-only, no user context)
   if (config.clientSecret) {
     console.error('[mcp-365] Using client credentials flow (app-only)');
     const cca = new ConfidentialClientApplication({
@@ -76,8 +106,8 @@ export async function createAuthProvider(config) {
     };
   }
 
-  // Option 4: Device code flow (interactive, delegated permissions)
-  if (config.clientId) {
+  // Option 5: Device code flow (fallback interactive, delegated permissions)
+  if (config.clientId && config.useDeviceCode) {
     console.error('[mcp-365] Using device code flow (interactive)');
     const pca = new PublicClientApplication({
       auth: {
@@ -136,7 +166,14 @@ export async function createAuthProvider(config) {
     };
   }
 
-  throw new Error('No valid authentication configuration. Run "az login" or set MICROSOFT_ACCESS_TOKEN');
+  throw new Error(
+    'No valid authentication configuration.\n\n' +
+    'To authenticate, either:\n' +
+    '1. Set MICROSOFT_CLIENT_ID for interactive browser login (recommended)\n' +
+    '2. Run "az login" for Azure CLI auth\n' +
+    '3. Set MICROSOFT_ACCESS_TOKEN with a Graph Explorer token\n\n' +
+    'See README.md for setup instructions.'
+  );
 }
 
 /**

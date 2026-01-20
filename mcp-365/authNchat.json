@@ -1,0 +1,2087 @@
+{
+  "responderUsername": "GitHub Copilot",
+  "responderAvatarIconUri": {
+    "id": "copilot"
+  },
+  "initialLocation": "panel",
+  "requests": [
+    {
+      "requestId": "request_9f17e1ec-8cee-47b0-9c8c-1ed35efe6cbb",
+      "message": {
+        "parts": [
+          {
+            "range": {
+              "start": 0,
+              "endExclusive": 13
+            },
+            "editorRange": {
+              "startLineNumber": 1,
+              "startColumn": 1,
+              "endLineNumber": 1,
+              "endColumn": 14
+            },
+            "text": "test mcp m365",
+            "kind": "text"
+          }
+        ],
+        "text": "test mcp m365"
+      },
+      "variableData": {
+        "variables": [
+          {
+            "kind": "file",
+            "value": {
+              "$mid": 1,
+              "fsPath": "c:\\Users\\aleboula\\OneDrive - Insight\\_Clients\\Yorizon\\FusionAI\\FusionAI SignalR Discussion.vtt",
+              "_sep": 1,
+              "external": "file:///c%3A/Users/aleboula/OneDrive%20-%20Insight/_Clients/Yorizon/FusionAI/FusionAI%20SignalR%20Discussion.vtt",
+              "path": "/C:/Users/aleboula/OneDrive - Insight/_Clients/Yorizon/FusionAI/FusionAI SignalR Discussion.vtt",
+              "scheme": "file"
+            },
+            "id": "file:///c%3A/Users/aleboula/OneDrive%20-%20Insight/_Clients/Yorizon/FusionAI/FusionAI%20SignalR%20Discussion.vtt",
+            "name": "FusionAI SignalR Discussion.vtt"
+          },
+          {
+            "kind": "directory",
+            "value": {
+              "$mid": 1,
+              "fsPath": "c:\\dev\\yorizon\\.knowledge",
+              "_sep": 1,
+              "external": "file:///c%3A/dev/yorizon/.knowledge",
+              "path": "/c:/dev/yorizon/.knowledge",
+              "scheme": "file"
+            },
+            "id": "file:///c%3A/dev/yorizon/.knowledge",
+            "name": ".knowledge",
+            "omittedState": 0
+          },
+          {
+            "kind": "directory",
+            "value": {
+              "$mid": 1,
+              "fsPath": "c:\\dev\\yorizon\\Yorizon Nexus.wiki",
+              "_sep": 1,
+              "external": "file:///c%3A/dev/yorizon/Yorizon%20Nexus.wiki",
+              "path": "/c:/dev/yorizon/Yorizon Nexus.wiki",
+              "scheme": "file"
+            },
+            "id": "file:///c%3A/dev/yorizon/Yorizon%20Nexus.wiki",
+            "name": "Yorizon Nexus.wiki",
+            "omittedState": 0
+          },
+          {
+            "id": "vscode.prompt.instructions.root__file:///c%3A/dev/yorizon/.github/copilot-instructions.md",
+            "name": "prompt:copilot-instructions.md",
+            "value": {
+              "$mid": 1,
+              "external": "file:///c%3A/dev/yorizon/.github/copilot-instructions.md",
+              "path": "/c:/dev/yorizon/.github/copilot-instructions.md",
+              "scheme": "file"
+            },
+            "kind": "promptFile",
+            "modelDescription": "Prompt instructions file",
+            "isRoot": true,
+            "originLabel": "Automatically attached as setting github.copilot.chat.codeGeneration.useInstructionFiles is enabled",
+            "automaticallyAdded": true
+          }
+        ]
+      },
+      "response": [
+        {
+          "kind": "mcpServersStarting",
+          "didStartServerIds": []
+        },
+        {
+          "kind": "progressTaskSerialized",
+          "content": {
+            "value": "Optimizing tool selection...",
+            "uris": {}
+          },
+          "progress": []
+        },
+        {
+          "kind": "thinking",
+          "value": "The user wants to test the MCP M365 integration. Let me check the status of the Microsoft 365 capabilities first to see what's available.",
+          "id": "1768900768954",
+          "generatedTitle": "Checked Microsoft 365 capabilities status"
+        },
+        {
+          "kind": "thinking",
+          "value": "",
+          "id": "",
+          "metadata": {
+            "vscodeReasoningDone": true,
+            "stopReason": "other"
+          }
+        },
+        {
+          "kind": "prepareToolInvocation",
+          "toolName": "mcp_m365_m365_status"
+        },
+        {
+          "kind": "toolInvocationSerialized",
+          "invocationMessage": {
+            "value": "Running `m365_status`",
+            "isTrusted": false,
+            "supportThemeIcons": false,
+            "supportHtml": false,
+            "supportAlertSyntax": false
+          },
+          "pastTenseMessage": {
+            "value": "Ran `m365_status` ",
+            "isTrusted": false,
+            "supportThemeIcons": false,
+            "supportHtml": false,
+            "supportAlertSyntax": false
+          },
+          "originMessage": "m365 (MCP Server)",
+          "isConfirmed": {
+            "type": 3,
+            "scope": "profile"
+          },
+          "isComplete": true,
+          "source": {
+            "type": "mcp",
+            "serverLabel": "mcp-365",
+            "label": "m365",
+            "collectionId": "mcp.config.ws0",
+            "definitionId": "mcp.config.ws0.m365"
+          },
+          "resultDetails": {
+            "input": "{}",
+            "output": [
+              {
+                "type": "embed",
+                "isText": true,
+                "value": "{\n  \"capabilities\": {\n    \"user\": false,\n    \"mail\": false,\n    \"calendar\": false,\n    \"files\": false,\n    \"sites\": false,\n    \"teams\": false,\n    \"search\": false\n  },\n  \"available\": [],\n  \"unavailable\": [\n    \"✗ User Profile: Requires additional permissions\",\n    \"✗ Outlook Mail: Requires additional permissions\",\n    \"✗ Calendar: Requires additional permissions\",\n    \"✗ OneDrive/Files: Requires additional permissions\",\n    \"✗ SharePoint Sites: Requires additional permissions\",\n    \"✗ Microsoft Teams: Requires additional permissions\",\n    \"✗ Unified Search: Requires additional permissions\"\n  ],\n  \"recommendations\": [\n    \"To access more features:\",\n    \"1. Use Graph Explorer token (quick): https://developer.microsoft.com/graph/graph-explorer\",\n    \"2. Run: node src/token-helper.js refresh\",\n    \"3. Or request admin consent for your app registration\"\n  ]\n}"
+              }
+            ],
+            "isError": false
+          },
+          "toolSpecificData": {
+            "kind": "input",
+            "rawInput": {}
+          },
+          "toolCallId": "0acc1da5-d115-4bb2-af96-88e554e604c5",
+          "toolId": "mcp_m365_m365_status"
+        },
+        {
+          "value": "The M365 MCP server is responding, but **no capabilities are currently available**. All features require additional permissions:\n\n| Capability | Status |\n|------------|--------|\n| User Profile | ✗ Requires additional permissions |\n| Outlook Mail | ✗ Requires additional permissions |\n| Calendar | ✗ Requires additional permissions |\n| OneDrive/Files | ✗ Requires additional permissions |\n| SharePoint Sites | ✗ Requires additional permissions |\n| Microsoft Teams | ✗ Requires additional permissions |\n| Unified Search | ✗ Requires additional permissions |\n\n**To enable M365 features, you have 3 options:**\n\n1. **Quick test with Graph Explorer token:**\n   - Go to [Graph Explorer](https://developer.microsoft.com/graph/graph-explorer)\n   - Sign in and copy the access token\n   - Configure it in your MCP settings\n\n2. **Refresh token:**\n   ```bash\n   node src/token-helper.js refresh\n   ```\n\n3. **Request admin consent** for your Azure AD app registration\n\nWould you like me to help configure the authentication, or check the MCP configuration file?",
+          "supportThemeIcons": false,
+          "supportHtml": false,
+          "baseUri": {
+            "$mid": 1,
+            "path": "/c:/dev/yorizon/",
+            "scheme": "file"
+          }
+        }
+      ],
+      "agent": {
+        "extensionId": {
+          "value": "GitHub.copilot-chat",
+          "_lower": "github.copilot-chat"
+        },
+        "extensionVersion": "0.36.1",
+        "publisherDisplayName": "GitHub",
+        "extensionPublisherId": "GitHub",
+        "extensionDisplayName": "GitHub Copilot Chat",
+        "id": "github.copilot.editsAgent",
+        "description": "Edit files in your workspace in agent mode",
+        "when": "config.chat.agent.enabled",
+        "metadata": {
+          "themeIcon": {
+            "id": "tools"
+          },
+          "hasFollowups": false,
+          "supportIssueReporting": false
+        },
+        "name": "agent",
+        "fullName": "GitHub Copilot",
+        "isDefault": true,
+        "locations": [
+          "panel"
+        ],
+        "modes": [
+          "agent"
+        ],
+        "slashCommands": [],
+        "disambiguation": []
+      },
+      "timestamp": 1768900751684,
+      "modelId": "copilot/claude-opus-4.5",
+      "responseId": "response_b8ab66ed-9255-45bb-94f6-337ae6a91151",
+      "result": {
+        "timings": {
+          "firstProgress": 18365,
+          "totalElapsed": 24798
+        },
+        "metadata": {
+          "codeBlocks": [],
+          "renderedUserMessage": [
+            {
+              "type": 1,
+              "text": "<attachments>\n<attachment id=\"FusionAI SignalR Discussion.vtt\" isSummarized=\"true\" filePath=\"c:\\\\Users\\\\aleboula\\\\OneDrive - Insight\\\\_Clients\\\\Yorizon\\\\FusionAI\\\\FusionAI SignalR Discussion.vtt\">\nWEBVTT\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/8-0\r\n00:00:03.363 --> 00:00:05.683\r\n<v Alexis Le Boulanger>Net API pods, multiple instances.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/12-0\r\n00:00:06.683 --> 00:00:11.364\r\n<v Alexis Le Boulanger>So there's a first negotiation which is\r\ndone here to actually create the</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/12-1\r\n00:00:11.364 --> 00:00:15.403\r\n<v Alexis Le Boulanger>connection state and the connection state\r\nis created on pod A.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/17-0\r\n00:00:16.403 --> 00:00:21.596\r\n<v Alexis Le Boulanger>Then when we want to have some updates,\r\nsame thing,</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/17-1\r\n00:00:21.596 --> 00:00:26.889\r\n<v Alexis Le Boulanger>message is flowing through the proxy,\r\nreverse proxy,</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/17-2\r\n00:00:26.889 --> 00:00:30.683\r\n<v Alexis Le Boulanger>but then we lost the IP state, the IP.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/18-0\r\n00:00:31.323 --> 00:00:31.763\r\n<v Alexis Le Boulanger>Cookie, let's say.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/20-0\r\n00:00:33.643 --> 00:00:38.963\r\n<v Alexis Le Boulanger>And then the proxy is not able to fit to\r\nforward this message to the proper port.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/22-0\r\n00:00:42.203 --> 00:00:42.323\r\n<v Alexis Le Boulanger>Uh.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/26-0\r\n00:00:46.403 --> 00:00:53.323\r\n<v Alexis Le Boulanger>Because the session cookie is forwarding\r\nto the same proxy, so it looks like.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/29-0\r\n00:00:55.523 --> 00:00:59.438\r\n<v Alexis Le Boulanger>For signaler clients,\r\nhe connects to the same back end,</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/29-1\r\n00:00:59.438 --> 00:01:03.283\r\n<v Alexis Le Boulanger>but the fact is the true back end is\r\nbehind the proxy.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/34-0\r\n00:01:05.363 --> 00:01:10.418\r\n<v Alexis Le Boulanger>So my first comment would be we shouldn't\r\nneed this proxy in the 1st place because</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/34-1\r\n00:01:10.418 --> 00:01:13.463\r\n<v Alexis Le Boulanger>the we should connect directly to the\r\nright part.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/34-2\r\n00:01:13.463 --> 00:01:18.091\r\n<v Alexis Le Boulanger>But this is an architectural issue\r\nbecause if we look to the problem in the</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/34-3\r\n00:01:18.091 --> 00:01:21.684\r\n<v Alexis Le Boulanger>wider perspective,\r\nthere will be multiple gateways we will</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/34-4\r\n00:01:21.684 --> 00:01:22.963\r\n<v Alexis Le Boulanger>need to pass through.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/37-0\r\n00:01:23.243 --> 00:01:27.904\r\n<v Alexis Le Boulanger>Because there is a portal gateway,\r\nthere is a few system API gateway.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/37-1\r\n00:01:27.904 --> 00:01:33.297\r\n<v Alexis Le Boulanger>So all these problems is also added to\r\nthe initial problem that will come in the</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/37-2\r\n00:01:33.297 --> 00:01:33.763\r\n<v Alexis Le Boulanger>future.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/39-0\r\n00:01:36.763 --> 00:01:40.563\r\n<v Alexis Le Boulanger>Don't hesitate to interrupt me if you\r\nhave any comments on this.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/41-0\r\n00:01:41.803 --> 00:01:44.803\r\n<v Alexis Le Boulanger>Everybody, everybody, everyone agrees.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/42-0\r\n00:01:46.683 --> 00:01:46.963\r\n<v Alexis Le Boulanger>So.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/48-0\r\n00:01:49.643 --> 00:01:55.590\r\n<v Alexis Le Boulanger>As Ion is still not there,\r\nI could just try to just simplify and Ion</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/44-0\r\n00:01:53.083 --> 00:01:54.443\r\n<v Ion Vasilasco>No, you want is here.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/45-0\r\n00:01:53.363 --> 00:01:54.723\r\n<v Viktor Dochev>Oh, he's here.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/48-1\r\n00:01:55.590 --> 00:02:00.243\r\n<v Alexis Le Boulanger>is here. I couldn't see him. OK,\r\nI mean Ion Buzdugan.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/49-0\r\n00:01:59.883 --> 00:02:01.643\r\n<v Ion Vasilasco>Yeah, yeah, yeah. Yes, here as well.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/55-0\r\n00:02:01.723 --> 00:02:09.037\r\n<v Alexis Le Boulanger>Oh, OK, I cannot see. OK, right. Sorry.\r\nSo the 1st way to solve this in the in</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/50-0\r\n00:02:03.003 --> 00:02:04.203\r\n<v Eric Salvat>Yes, yes.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/55-1\r\n00:02:09.037 --> 00:02:16.535\r\n<v Alexis Le Boulanger>the in the closest future because we need\r\nto have a quick solution to answer all</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/55-2\r\n00:02:16.535 --> 00:02:21.163\r\n<v Alexis Le Boulanger>these problems and I think it's already\r\nthe case.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/58-0\r\n00:02:21.243 --> 00:02:26.156\r\n<v Alexis Le Boulanger>Maybe you can tell me differently,\r\nbut is to just simplify the number of.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/58-1\r\n00:02:26.156 --> 00:02:30.803\r\n<v Alexis Le Boulanger>net pods to one single instance so we\r\ndon't have any problem anymore.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/61-0\r\n00:02:32.243 --> 00:02:37.558\r\n<v Alexis Le Boulanger>OK, so this is the easiest path,\r\nthe wrongest path because we're not</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/61-1\r\n00:02:37.558 --> 00:02:42.103\r\n<v Alexis Le Boulanger>scalable anymore,\r\nbut we will be to actually deliver a POC</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/61-2\r\n00:02:42.103 --> 00:02:43.643\r\n<v Alexis Le Boulanger>which is functional.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/63-0\r\n00:02:45.603 --> 00:02:45.843\r\n<v Alexis Le Boulanger>Right.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/64-0\r\n00:02:46.843 --> 00:02:47.163\r\n<v Alexis Le Boulanger>Yes, Eric.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/67-0\r\n00:02:48.843 --> 00:02:55.347\r\n<v Eric Salvat>Yeah, question.\r\nDo you need to be scalable right now for</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/70-0\r\n00:02:53.723 --> 00:02:59.752\r\n<v Alexis Le Boulanger>No, no, no, I'm I'm not saying I need.\r\nIt's just for now the first step thing is</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/67-1\r\n00:02:55.347 --> 00:02:55.803\r\n<v Eric Salvat>1.5?</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/70-1\r\n00:02:59.752 --> 00:03:03.548\r\n<v Alexis Le Boulanger>to make sure that the system works is not\r\nfailing.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/70-2\r\n00:03:03.548 --> 00:03:08.683\r\n<v Alexis Le Boulanger>So because right now it looks like we had\r\nsome the issues were like.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/74-0\r\n00:03:08.763 --> 00:03:12.141\r\n<v Alexis Le Boulanger>Linked to the fact that we have multiple\r\ninstances.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/74-1\r\n00:03:12.141 --> 00:03:16.818\r\n<v Alexis Le Boulanger>net API instances that were actually\r\nmaking it fail. So if I'm correct,</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/74-2\r\n00:03:16.818 --> 00:03:20.455\r\n<v Alexis Le Boulanger>I think Ion already deactivated to one\r\nsingle instance.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/74-3\r\n00:03:20.455 --> 00:03:23.443\r\n<v Alexis Le Boulanger>I think that's the case right now,\r\nright Ion?</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/75-0\r\n00:03:24.963 --> 00:03:25.203\r\n<v Viktor Dochev>And.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/79-0\r\n00:03:30.363 --> 00:03:35.145\r\n<v Ion Vasilasco>I think we don't hear you, Yun.\r\nI think he'll say yes because he</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/79-1\r\n00:03:35.145 --> 00:03:41.323\r\n<v Ion Vasilasco>increased the resources like we countered\r\nmultiple times and we have no new limits.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/81-0\r\n00:03:37.043 --> 00:03:41.112\r\n<v Alexis Le Boulanger>Yeah, I think there's, if I'm correct,\r\nI think there's, yeah,</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/81-1\r\n00:03:41.112 --> 00:03:43.803\r\n<v Alexis Le Boulanger>I think there's only one point right now.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/83-0\r\n00:03:42.723 --> 00:03:45.043\r\n<v Ion Vasilasco>Yes, in.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/82-0\r\n00:03:45.083 --> 00:03:45.603\r\n<v Alexis Le Boulanger>So I I.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/88-0\r\n00:03:47.043 --> 00:03:53.651\r\n<v Alexis Le Boulanger>Now I'd like just to browse the different\r\nproposition I had from Yong B and GitHub</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/88-1\r\n00:03:53.651 --> 00:03:59.383\r\n<v Alexis Le Boulanger>Copilot as well was the first.\r\nThe first solution I I I've seen is like</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/88-2\r\n00:03:59.383 --> 00:04:03.363\r\n<v Alexis Le Boulanger>GitHub Copilot proposed to me to actually\r\nchange.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/92-0\r\n00:04:03.723 --> 00:04:09.409\r\n<v Alexis Le Boulanger>The settings on the cookie affinity and\r\nput the the IP which is not there I think</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/92-1\r\n00:04:09.409 --> 00:04:12.806\r\n<v Alexis Le Boulanger>or something like that.\r\nOr was it the client ID?</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/92-2\r\n00:04:12.806 --> 00:04:16.758\r\n<v Alexis Le Boulanger>The user ID in the cookie I think which\r\nwould be better,</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/92-3\r\n00:04:16.758 --> 00:04:19.323\r\n<v Alexis Le Boulanger>but I'm not sure it's really working.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/97-0\r\n00:04:19.803 --> 00:04:26.457\r\n<v Alexis Le Boulanger>Another solution which was mentioned was\r\nto actually use some Redis back end</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/97-1\r\n00:04:26.457 --> 00:04:31.036\r\n<v Alexis Le Boulanger>connection,\r\nbut this is not this is not good because</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/97-2\r\n00:04:31.036 --> 00:04:37.603\r\n<v Alexis Le Boulanger>if you look in Azure Signalr description,\r\nnot Azure Signalr, sorry Signalr.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/102-0\r\n00:04:38.363 --> 00:04:42.483\r\n<v Alexis Le Boulanger>Specification.\r\nIt implies that this Redis back end is</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/102-1\r\n00:04:42.483 --> 00:04:47.671\r\n<v Alexis Le Boulanger>only to actually be make possible\r\nbroadcasting to multiple clients.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/102-2\r\n00:04:47.671 --> 00:04:53.698\r\n<v Alexis Le Boulanger>Like if you have a message coming from\r\nany pod that you want to broadcast then</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/102-3\r\n00:04:53.698 --> 00:04:57.283\r\n<v Alexis Le Boulanger>the Redis will be able to multiply the\r\nnumber.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/105-0\r\n00:04:57.643 --> 00:05:01.123\r\n<v Alexis Le Boulanger>Well,\r\nlet's say to mirror the the message to</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/105-1\r\n00:05:01.123 --> 00:05:06.459\r\n<v Alexis Le Boulanger>all the different clients that are able\r\nto be broadcasted basically,</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/105-2\r\n00:05:06.459 --> 00:05:12.723\r\n<v Alexis Le Boulanger>but you won't be able to actually use\r\nRedis to multiply the state of connection.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/106-0\r\n00:05:13.083 --> 00:05:15.243\r\n<v Alexis Le Boulanger>Meaning that's.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/111-0\r\n00:05:16.403 --> 00:05:22.820\r\n<v Alexis Le Boulanger>A single browser client won't be\r\nconnected to multiple back end instances</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/111-1\r\n00:05:22.820 --> 00:05:28.803\r\n<v Alexis Le Boulanger>through the cache because the state still\r\nremains in one single pop.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/115-0\r\n00:05:31.483 --> 00:05:35.551\r\n<v Alexis Le Boulanger>So that's that doesn't work.\r\nAnd the other proposition mentioned by</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/115-1\r\n00:05:35.551 --> 00:05:38.302\r\n<v Alexis Le Boulanger>Kopalu,\r\nwhich is just we don't care about it,</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/115-2\r\n00:05:38.302 --> 00:05:42.907\r\n<v Alexis Le Boulanger>is just he proposed to use Azure and\r\nAzure Signaler, but we're not on Azure,</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/115-3\r\n00:05:42.907 --> 00:05:44.163\r\n<v Alexis Le Boulanger>so that doesn't work.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/118-0\r\n00:05:45.643 --> 00:05:49.541\r\n<v Alexis Le Boulanger>Another proposition,\r\nwhich is here described,</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/118-1\r\n00:05:49.541 --> 00:05:55.471\r\n<v Alexis Le Boulanger>is to use Signalr and configure it in\r\nsuch a way that it's only using</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/118-2\r\n00:05:55.471 --> 00:05:56.403\r\n<v Alexis Le Boulanger>Websockets.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/121-0\r\n00:05:57.483 --> 00:06:02.530\r\n<v Alexis Le Boulanger>But the problem about this is we don't\r\nhave any fallback solution and if</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/121-1\r\n00:06:02.530 --> 00:06:06.885\r\n<v Alexis Le Boulanger>Websocket fails then the connection is is\r\nnot working anymore.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/121-2\r\n00:06:06.885 --> 00:06:09.443\r\n<v Alexis Le Boulanger>So that's not really a good solution.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/127-0\r\n00:06:13.243 --> 00:06:19.892\r\n<v Alexis Le Boulanger>And one other thing I asked also to my\r\nmagic copilot friend was what if we want</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/127-1\r\n00:06:19.892 --> 00:06:26.374\r\n<v Alexis Le Boulanger>to have a long term solution and be able\r\nto deal with more wider notification</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/127-2\r\n00:06:26.374 --> 00:06:30.363\r\n<v Alexis Le Boulanger>solution and even deal with streaming\r\nservices?</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/131-0\r\n00:06:30.963 --> 00:06:37.033\r\n<v Alexis Le Boulanger>So basically GitHub Copilot was adding\r\nlet's say in the solution some ways to</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/131-1\r\n00:06:37.033 --> 00:06:43.414\r\n<v Alexis Le Boulanger>actually connect some message broker to\r\nsome dedicated real time broker connected</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/131-2\r\n00:06:43.414 --> 00:06:48.083\r\n<v Alexis Le Boulanger>to with Websocket and server sent events\r\non your front end.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/133-0\r\n00:06:48.363 --> 00:06:51.142\r\n<v Alexis Le Boulanger>Blah blah blah.\r\nSo this is like you need to break</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/133-1\r\n00:06:51.142 --> 00:06:53.643\r\n<v Alexis Le Boulanger>everything and redo it again.\r\nSo it's a bit.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/138-0\r\n00:06:55.043 --> 00:07:01.746\r\n<v Alexis Le Boulanger>So which is where we're like going to,\r\nwe'll be kind of going to with Eric and</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/138-1\r\n00:07:01.746 --> 00:07:07.940\r\n<v Alexis Le Boulanger>the other solution we're going to propose\r\ntogether for for future. Well,</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/138-2\r\n00:07:07.940 --> 00:07:13.963\r\n<v Alexis Le Boulanger>one proposition of solution let's say,\r\nbut so let's say right now for.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/142-0\r\n00:07:14.083 --> 00:07:17.543\r\n<v Alexis Le Boulanger>Demo and stuff.\r\nLet's keep with like single one single</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/142-1\r\n00:07:17.543 --> 00:07:21.695\r\n<v Alexis Le Boulanger>port. That will be enough.\r\nI think we don't need to have a really</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/142-2\r\n00:07:21.695 --> 00:07:26.035\r\n<v Alexis Le Boulanger>scalable solution for phase 1.5,\r\nwhich is not an enterprise version,</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/142-3\r\n00:07:26.035 --> 00:07:28.803\r\n<v Alexis Le Boulanger>it's just making sure the system works\r\nand.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/143-0\r\n00:07:29.003 --> 00:07:33.403\r\n<v Alexis Le Boulanger>We don't have an issue about that. Yes,\r\nIon V please.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/148-0\r\n00:07:33.563 --> 00:07:38.258\r\n<v Ion Vasilasco>It if it is right now,\r\nbut the issue is will always be raised up</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/148-1\r\n00:07:38.258 --> 00:07:43.891\r\n<v Ion Vasilasco>like by surprise something changes,\r\nnew services were something new was added</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/148-2\r\n00:07:43.891 --> 00:07:49.162\r\n<v Ion Vasilasco>and we have a service like the API\r\nstarted consuming more resources when</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/148-3\r\n00:07:49.162 --> 00:07:52.123\r\n<v Ion Vasilasco>allowed and it like enabled auto scaling.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/153-0\r\n00:07:52.123 --> 00:07:57.946\r\n<v Ion Vasilasco>So it's scaled to the to two instances.\r\nSo this is always like by surprise it</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/150-0\r\n00:07:56.483 --> 00:07:57.243\r\n<v Alexis Le Boulanger>Yes.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/153-1\r\n00:07:57.946 --> 00:08:00.483\r\n<v Ion Vasilasco>doesn't fail, it just creates the.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/156-0\r\n00:07:58.763 --> 00:08:02.712\r\n<v Alexis Le Boulanger>No, no, no, no, no, no.\r\nThe the solution is not keeping the auto</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/156-1\r\n00:08:02.712 --> 00:08:05.750\r\n<v Alexis Le Boulanger>scaling.\r\nSee you just deactivate auto scaling and</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/154-0\r\n00:08:03.723 --> 00:08:04.243\r\n<v Ion Vasilasco>Mhm.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/156-2\r\n00:08:05.750 --> 00:08:08.483\r\n<v Alexis Le Boulanger>you just fix the number of instances to\r\none.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/158-0\r\n00:08:08.843 --> 00:08:11.163\r\n<v Ion Vasilasco>Mm-hmm. OK.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/163-0\r\n00:08:10.043 --> 00:08:15.462\r\n<v Alexis Le Boulanger>No autoscaler involved here.\r\nThe idea is just to make sure that you</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/163-1\r\n00:08:15.462 --> 00:08:19.525\r\n<v Alexis Le Boulanger>have only one API.net API. OK,\r\nso that's possible.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/163-2\r\n00:08:19.525 --> 00:08:25.501\r\n<v Alexis Le Boulanger>It's just a matter of configuring the\r\nright way on the on the DevOps side.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/163-3\r\n00:08:25.501 --> 00:08:29.883\r\n<v Alexis Le Boulanger>We just need to change the helm chart and\r\njust change.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/167-0\r\n00:08:30.163 --> 00:08:35.747\r\n<v Alexis Le Boulanger>The number of instances and say it's only\r\none instance of the net API part.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/167-1\r\n00:08:35.747 --> 00:08:41.258\r\n<v Alexis Le Boulanger>Now the question would be do we need to\r\nhave this front end reverse proxy?</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/167-2\r\n00:08:41.258 --> 00:08:47.062\r\n<v Alexis Le Boulanger>It looks like it's not really useful here.\r\nWe need to discuss this with Yongbi</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/167-3\r\n00:08:47.062 --> 00:08:47.723\r\n<v Alexis Le Boulanger>actually.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/171-0\r\n00:08:48.523 --> 00:08:54.939\r\n<v Alexis Le Boulanger>And because the other question will be,\r\nwe'll need to actually change this</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/171-1\r\n00:08:54.939 --> 00:09:01.697\r\n<v Alexis Le Boulanger>architecture to a gateway configuration\r\nwith the portal gateway and the system</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/171-2\r\n00:09:01.697 --> 00:09:02.723\r\n<v Alexis Le Boulanger>API gateway.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/173-0\r\n00:09:04.883 --> 00:09:08.083\r\n<v Alexis Le Boulanger>So now basically what it means is like.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/176-0\r\n00:09:10.163 --> 00:09:15.796\r\n<v Alexis Le Boulanger>If we do this,\r\nwe will need to first step to actually</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/176-1\r\n00:09:15.796 --> 00:09:20.803\r\n<v Alexis Le Boulanger>move the signal or proxy to the portal\r\ngateway.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/178-0\r\n00:09:22.563 --> 00:09:24.403\r\n<v Alexis Le Boulanger>Which leads to a new conclusion.</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/182-0\r\n00:09:25.803 --> 00:09:31.275\r\n<v Alexis Le Boulanger>Which is this is not good in the next\r\narchitecture where we do the integration</v>\r\n\r\n26c4c226-e3e1-4467-8d8b-465218b67b2a/182-1\r\n00:09:31.275 --> 00:09:36.885\r\n/* Lines 616-3300 omitted */\r\n<v Eric Salvat>Not really.</v>\n</attachment>\n<attachment id=\".knowledge\" folderPath=\"c:\\\\dev\\\\yorizon\\\\.knowledge\">\nThe user attached the folder `c:\\dev\\yorizon\\.knowledge` which has the following structure: ```\nCONTRIBUTING.md\nINDEX.md\nknowledge-index.json\nREADME.md\n.ontology/\n\tknowledge-model.md\n\tknowledge-ontology.md\n.tools/\n\tMAINTENANCE.md\n\tsequentialthinking.md\n\tupdate-knowledge-index-checksums.js\n\tprompts/\n\t\tcopilot-introspection-prompt.md\n\t\tcopilot-prompt-library.md\n\t\tgeneral-architecture-prompt.md\n\t\tprogram-strategic-introspection-prompt.md\n\t\tprompt-folder-usage-recommendations.md\nchat-backups/\n\t.gitkeep\n\tREADME.md\ndelivery/\n\tadr/\n\t\tadr-0001-authorization-strategy.md\n\t\tdecision-index.md\n\tdiscovery/\n\t\tmiro_fetch.py\n\t\tmiro-extract-testing-environments-discovery.md\n\t\tREADME.md\n\t\twiki-global-architecture-scan-2026-01-16.md\n\t\tarchitecture/\n\t\t\tmiro-architecture-governance.md\n\t\t\tmiro-extract-architecture-governance-board.md\n\t\t\twiki-global-architecture-scan-2026-01-16.md\n\t\tcopilot-sessions/\n\t\t\tREADME.md\n\t\tfusionai/\n\t\t\tfusion-ai-roadmap.md\n\t\t\tFusion AI/\n\t\t\t\tmiro-extract-fusionAI-discovery.md\n\t\t\tFusion AI Post-Beta Internal Workshop/\n\t\t\t\tAIaaS.md\n\t\t\t\tAIFaaS.md\n\t\t\t\tAIFactory-AIPaaS-Integration.md\n\t\t\t\tAIPaaS.md\n\t\t\t\tframe_3458764634206909918.txt\n\t\t\t\tframe_3458764641528482578.txt\n\t\t\t\tframe_3458764642234629396.txt\n\t\t\t\tframe_3458764642535397319.txt\n\t\t\t\tframe_3458764644903737973.txt\n\t\t\t\tframe_3458764646488103793.txt\n\t\t\t\t...\n\t\t\tFusion AI Roadmap Planning/\n\t\t\t\t...\n\t\t\tFusion AI Touchpoints/\n\t\tportal/\n\t\t\tmiro-extract-portal-notification-discovery.md\n\t\t\tmiro-extract-portal-roles-permissions-discovery.md\n\t\t\tmiro-extract-systemapi-cross-domain-data-model.md\n\t\tstrategy/\n\t\t\tbusiness-model-canvas.md\n\t\t\tcapability-map.md\n\t\t\tprogram-strategy.md\n\t\t\tsustainability-metrics.md\n\tgovernance/\n\t\tintegration-architecture-weekly.md\n\t\tmiro-board-coverage-checklist.md\n\t\townership-mapping.md\n\t\tracif-matrix.md\n\tprocesses/\n\t\trelease-management.md\n\t\trequirements-and-security-lifecycle.md\nsolution/\n\tarchitecture/\n\t\tglobal-architecture.md\n\t\tpatterns/\n\t\t\tpartitionning/\n\t\tservices/\n\t\t\tamdaris/\n\t\t\tartcodix/\n\t\t\texternal/\n\t\t\tuhurutec/\n\ttemplates/\n\t\tadr-template.md\n\t\tcopilot-session-template.md\n\t\texample-domain.md\n```\n</attachment>\n<attachment id=\"Yorizon Nexus.wiki\" folderPath=\"c:\\\\dev\\\\yorizon\\\\Yorizon Nexus.wiki\">\nThe user attached the folder `c:\\dev\\yorizon\\Yorizon Nexus.wiki` which has the following structure: ```\n.gitignore\n.order\n[General]-Yorizon-Nexus.md\nArchive.md\nGPU-Story.md\nYorizon-Architecture-&-Governance.md\nYorizon-DevOps.md\nYorizon-Fusion-AI.md\nYorizon-Global-Architecture.md\nYorizon-Network-&-Infrastructure.md\nYorizon-Portal.md\nYorizon-Product-Integration-Security.md\nYorizon-QA.md\nYorizon-Security-(Workstream-Completed).md\nYorizon-System-API.md\n.attachments/\n\tStark Site Audit - Yorizon Portal - Clients - ClientID - Overview-42da44a3-05c4-429c-bfec-97a3f64bfff9.html\n\tStark Site Audit - Yorizon Portal - Clients-a0b7bb4e-dc89-4886-a294-516bd2cf1bec.html\n\tStark Site Audit - Yorizon Portal - Companies-4687350d-9194-46dd-9ab7-920049d4fc08.html\n\tStark Site Audit - Yorizon Portal - Contact Us-d90fd08e-91e3-4eb7-aba5-231d8e37ea52.html\n\tStark Site Audit - Yorizon Portal - Help-ce167d2c-a402-4829-9207-05dc07257114.html\n\tStark Site Audit - Yorizon Portal - Onboarding - Ready to explore Step-0e7b5b0f-bbca-46fb-86c8-868d105e8359.html\n\tStark Site Audit - Yorizon Portal - Partner Dashboard-ce3aa639-9d71-46ac-8a27-03212bc3d2c2.html\n\tStark Site Audit - Yorizon Portal - Resources-d805f8d5-4344-44c5-a064-180aead7cbbb.html\n\tStark Site Audit - Yorizon Portal - Sales - Add New Opportunity-a9b86c3e-38e6-483c-a100-07767f40648a.html\n\tStark Site Audit - Yorizon Portal - Sales - Summary-273efd98-8f58-4df0-9970-08c9450323ef.html\n\tStark Site Audit - Yorizon Portal - User Management & Add New User Dialog-1522b7b7-09df-4ef1-ac84-c6d1f50c1c19.html\n\tStark Site Audit - Yorizon Portal - User Management-32ce5096-7bd1-4a11-a686-42ed6b497901.html\n\tStark Site Audit - Yorizon Portal - View Profile-85fe591e-b3c1-4fa8-a207-2f7127938133.html\n\t.models/\n[General]-Yorizon-Nexus/\n\t.order\n\tAvailability-Calendar.md\n\t...\nArchive/\n\t.order\n\t...\nGPU-Story/\n\t...\nYorizon-Architecture-&-Governance/\nYorizon-DevOps/\nYorizon-Fusion-AI/\nYorizon-Global-Architecture/\nYorizon-Network-&-Infrastructure/\nYorizon-Portal/\nYorizon-Product-Integration-Security/\nYorizon-QA/\nYorizon-Security-(Workstream-Completed)/\nYorizon-System-API/\n```\n</attachment>\n\n</attachments>\n<context>\nThe current date is January 20, 2026.\nTerminals:\nTerminal: bash\nLast Command: git push -f\nCwd: C:/dev/yorizon/.knowledge\nExit Code: 0\n\n</context>\n<editorContext>\nThe user's current file is c:\\dev\\yorizon\\.vscode\\mcp.json. \n</editorContext>\n<reminderInstructions>\nWhen using the replace_string_in_file tool, include 3-5 lines of unchanged code before and after the string you want to replace, to make it unambiguous which part of the file should be edited.\nFor maximum efficiency, whenever you plan to perform multiple independent edit operations, invoke them simultaneously using multi_replace_string_in_file tool rather than sequentially. This will greatly improve user's cost and time efficiency leading to a better user experience. Do not announce which tool you're using (for example, avoid saying \"I'll implement all the changes using multi_replace_string_in_file\").\nDo NOT create a new markdown file to document each change or summarize your work unless specifically requested by the user.\n\n</reminderInstructions>\n<userRequest>\ntest mcp m365\n</userRequest>\n"
+            },
+            {
+              "type": 3,
+              "cacheType": "ephemeral"
+            }
+          ],
+          "renderedGlobalContext": [
+            {
+              "type": 1,
+              "text": "<environment_info>\nThe user's current OS is: Windows\n</environment_info>\n<workspace_info>\nThe following tasks can be executed using the run_task tool if they are not already running:\n<workspaceFolder path=\"c:\\\\dev\\\\yorizon\">\n<task id=\"shell: 📦 Backup Copilot Chat\">\n{\n\t\"label\": \"📦 Backup Copilot Chat\",\n\t\"type\": \"shell\",\n\t\"command\": \"powershell\",\n\t\"args\": [\n\t\t\"-Command\",\n\t\t\"$folder = '.knowledge\\\\chat-backups\\\\' + (Get-Date -Format 'yyyy') + '\\\\' + (Get-Date -Format 'MM'); New-Item -ItemType Directory -Force -Path $folder | Out-Null; Write-Host ''; Write-Host '╔══════════════════════════════════════════════════════════════╗' -ForegroundColor Cyan; Write-Host '║  📦 COPILOT CHAT BACKUP REMINDER                             ║' -ForegroundColor Cyan; Write-Host '╠══════════════════════════════════════════════════════════════╣' -ForegroundColor Cyan; Write-Host '║                                                              ║' -ForegroundColor Cyan; Write-Host '║  1. Press Ctrl+Shift+P                                       ║' -ForegroundColor Yellow; Write-Host '║  2. Type: Chat: Export Chat...                               ║' -ForegroundColor Yellow; Write-Host '║  3. Save to folder below                                     ║' -ForegroundColor Yellow; Write-Host '║                                                              ║' -ForegroundColor Cyan; Write-Host '╚══════════════════════════════════════════════════════════════╝' -ForegroundColor Cyan; Write-Host ''; Write-Host \\\"Backup folder: $folder\\\" -ForegroundColor Green; Write-Host \\\"Suggested name: $(Get-Date -Format 'yyyy-MM-dd-HH-mm')-[topic].json\\\" -ForegroundColor Green; Write-Host ''; explorer $folder\"\n\t]\n}\n</task>\n<task id=\"shell: 📂 Open Chat Backups Folder\">\n{\n\t\"label\": \"📂 Open Chat Backups Folder\",\n\t\"type\": \"shell\",\n\t\"command\": \"powershell\",\n\t\"args\": [\n\t\t\"-Command\",\n\t\t\"$folder = '.knowledge\\\\chat-backups\\\\' + (Get-Date -Format 'yyyy') + '\\\\' + (Get-Date -Format 'MM'); New-Item -ItemType Directory -Force -Path $folder | Out-Null; explorer $folder\"\n\t]\n}\n</task>\n<task id=\"shell: 📋 List Recent Chat Backups\">\n{\n\t\"label\": \"📋 List Recent Chat Backups\",\n\t\"type\": \"shell\",\n\t\"command\": \"powershell\",\n\t\"args\": [\n\t\t\"-Command\",\n\t\t\"Write-Host ''; Write-Host 'Recent Chat Backups:' -ForegroundColor Cyan; Write-Host '─────────────────────────────────────' -ForegroundColor DarkGray; Get-ChildItem -Path '.knowledge\\\\chat-backups' -Recurse -Filter '*.json' -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 10 | ForEach-Object { Write-Host \\\"  $($_.LastWriteTime.ToString('yyyy-MM-dd HH:mm'))  $($_.Name)\\\" -ForegroundColor White }; if (-not (Get-ChildItem -Path '.knowledge\\\\chat-backups' -Recurse -Filter '*.json' -ErrorAction SilentlyContinue)) { Write-Host '  No backups found. Export your first chat!' -ForegroundColor Yellow }\"\n\t]\n}\n</task>\n\n</workspaceFolder>\nI am working in a workspace with the following folders:\n- c:\\dev\\yorizon \nI am working in a workspace that has the following structure:\n```\nCCLM.http\ndeployment-sequence.md\ndeployment.md\nHLD.md\nKubeCmds.md\nsequence-namespaces.md\nsequence.md\nsequence2.md\nyorizon-devops,.yml\nyorizon,.yml\narchitecture/\n\tprimary_key\n\tarchitecture/\nhubspot/\n\tHubSpotEventTest/\n\tHubSpotTest/\nYorizon Nexus.wiki/\n\t[General]-Yorizon-Nexus.md\n\tArchive.md\n\tGPU-Story.md\n\tYorizon-Architecture-&-Governance.md\n\tYorizon-DevOps.md\n\tYorizon-Fusion-AI.md\n\tYorizon-Global-Architecture.md\n\tYorizon-Network-&-Infrastructure.md\n\tYorizon-Portal.md\n\tYorizon-Product-Integration-Security.md\n\tYorizon-QA.md\n\tYorizon-Security-(Workstream-Completed).md\n\tYorizon-System-API.md\n\t[General]-Yorizon-Nexus/\n\tArchive/\n\tGPU-Story/\n\tYorizon-Architecture-&-Governance/\n\tYorizon-DevOps/\n\tYorizon-Fusion-AI/\n\tYorizon-Global-Architecture/\n\tYorizon-Network-&-Infrastructure/\n\tYorizon-Portal/\n\tYorizon-Product-Integration-Security/\n\tYorizon-QA/\n\tYorizon-Security-(Workstream-Completed)/\n\tYorizon-System-API/\nyorizon-accounting-service/\n\tcompose.yml\n\tconfig.yaml\n\tdatabase_definitions.sql\n\tDockerfile\n\tevent_definitions.yaml\n\tgo.mod\n\tmain.go\n\tMakefile\n\tREADME.md\n\tdeploy/\n\tdocs/\n\tpkg/\n\ttestresources/\n\ttools/\nyorizon-argo-helm-values/\n\tREADME.md\n\tdev/\n\tlocal/\n\tqa/\nyorizon-argo-manifests/\n\tREADME.md\n\tapplications/\nyorizon-cclm/\n\tconftest.py\n\tdocker-compose.yml\n\tDockerfile\n\tjustfile\n\tLICENSE\n\tmanage.py\n\tmkdocs.yml\n\tpoetry.toml\n\tpyproject.toml\n\tREADME.md\n\tsetup.cfg\n\twait_for_postgres.py\n\t_docs/\n\tcclm_rest_api/\n\tcclm_task_helper/\n\tci/\n\tdocs/\n\thelm_chart/\n\tposting/\n\tschemas/\n\ttools/\nyorizon-fusion-ai/\n\tARCHITECTURE - Copy.md\n\tARCHITECTURE-Vision.md\n\tARCHITECTURE.md\n\tdocker-compose.yml\n\tREADME.md\n\tazure-pipelines/\n\tFusionAI-AI/\n\tFusionAI-API/\n\tFusionAI-UI/\n\tmcp-ado-wrapper/\n\tmodel/\n\treports/\nyorizon-helm-charts/\n\tREADME.md\n\tapplications/\n\tinfrastructure/\nyorizon-iac/\n\tREADME.md\n\tscripts/\n\tterraform/\nyorizon-infrastructure/\n\tazure-pipelines.yaml\n\tREADME.md\n\tk8s-clusters/\n\tk8s-resources/\n\tvault/\nyorizon-pipelines/\n\tREADME.md\n\tazure/\n\ttests/\nyorizon-portal/\n\t...\nyorizon-system-api/\n\t...\n```\nThis is the state of the context at this point in the conversation. The view of the workspace structure may be truncated. You can use tools to collect more context if needed.\n</workspace_info>\n"
+            },
+            {
+              "type": 3,
+              "cacheType": "ephemeral"
+            }
+          ],
+          "cacheKey": "file:///c%3A/dev/yorizon",
+          "toolCallRounds": [
+            {
+              "response": "",
+              "toolCalls": [
+                {
+                  "name": "mcp_m365_m365_status",
+                  "arguments": "{}",
+                  "id": "toolu_016GRh2HkZixPVAfgQw1VpNu__vscode-1768899158981"
+                }
+              ],
+              "toolInputRetry": 0,
+              "id": "2b779a39-416e-4756-8c8d-735f0020a19a",
+              "thinking": {
+                "id": "5duXjXuPs1X8rvT1AKYuxwgn4dAPrlxYlmGsCZvmW+vwwK7EuxZer9mfsihXv9gHVLCXozAgmwp2AUuTSHv9d9nKywLAiMrDL9L33v4rsr599CJLNHie9Zxy9PqucPNlFa/elCU3X+odWEn4IdhCwBexRbqhGCmzkoAQAPtqoJnlNlJyOy3WafqZ9vafxTMjGbmvcPBvCNkHsm1zOURoyJVbuDnviRZGYtXyt1QmPMgsCEshBbtjPfRFuDbM7aCtIJE0d+S9IaE9FfOvbuu3//HmM07kfHSe+ICr2JfHy+jao/fdusi0A2N4FkeEyQ7oDsTbDrSlEDaasMWk8FitSVIF47GvELfnCXNmf7Q02pYPPBxbfKYubaP0MSlc1IU2V6KN00ThSIubdQQlEesxnj7VnYp62pBteoNhZ6zvurneiwuFwTXj8neHXoT96xg8QEEf7f9FvopR5SV02ODxOPzy6jR8KE7WDnvyeqda3lfN3Lri1AYlj+YhClctKAUgetdyVX47bf6Ru/MKJCg9QKBwzeZUzH9wbRQ9Uq3vnMy7Jz9fE0OB2iVUmegYj5weVxs6QxspObGhlUksmsNsehtQsLt1IWHjiMNFtIHiy4xz/oj7vUVkURLHHBmr3bBa6u6UDw9yMoZ5oJW0Bnus5IT1T1uoxgAQ4n2Fgf1glbNMda0u9/lgOw1e9us/sHfgG21Pskw8+7Rvcy0sc9RXct3DaY+f8ChyIb1cveYMS1a/mJJ6ICkMNDxmtBrWmz5qRxCS+iTQTJNaxyQCzFhAOgZauF2vUOos4klPXDL2tlUKSBFUJjV48SEBj5A3BRop8pmUa/N6iygPsa+vWyUIW2cyqiO0rnRciHeNcJ5EC7KBi2RLmK+gf7WAD3EObTDj+jo8Oq64+pDHkIxIyV8w7SYiN5U=",
+                "text": "The user wants to test the MCP M365 integration. Let me check the status of the Microsoft 365 capabilities first to see what's available.",
+                "encrypted": "5duXjXuPs1X8rvT1AKYuxwgn4dAPrlxYlmGsCZvmW+vwwK7EuxZer9mfsihXv9gHVLCXozAgmwp2AUuTSHv9d9nKywLAiMrDL9L33v4rsr599CJLNHie9Zxy9PqucPNlFa/elCU3X+odWEn4IdhCwBexRbqhGCmzkoAQAPtqoJnlNlJyOy3WafqZ9vafxTMjGbmvcPBvCNkHsm1zOURoyJVbuDnviRZGYtXyt1QmPMgsCEshBbtjPfRFuDbM7aCtIJE0d+S9IaE9FfOvbuu3//HmM07kfHSe+ICr2JfHy+jao/fdusi0A2N4FkeEyQ7oDsTbDrSlEDaasMWk8FitSVIF47GvELfnCXNmf7Q02pYPPBxbfKYubaP0MSlc1IU2V6KN00ThSIubdQQlEesxnj7VnYp62pBteoNhZ6zvurneiwuFwTXj8neHXoT96xg8QEEf7f9FvopR5SV02ODxOPzy6jR8KE7WDnvyeqda3lfN3Lri1AYlj+YhClctKAUgetdyVX47bf6Ru/MKJCg9QKBwzeZUzH9wbRQ9Uq3vnMy7Jz9fE0OB2iVUmegYj5weVxs6QxspObGhlUksmsNsehtQsLt1IWHjiMNFtIHiy4xz/oj7vUVkURLHHBmr3bBa6u6UDw9yMoZ5oJW0Bnus5IT1T1uoxgAQ4n2Fgf1glbNMda0u9/lgOw1e9us/sHfgG21Pskw8+7Rvcy0sc9RXct3DaY+f8ChyIb1cveYMS1a/mJJ6ICkMNDxmtBrWmz5qRxCS+iTQTJNaxyQCzFhAOgZauF2vUOos4klPXDL2tlUKSBFUJjV48SEBj5A3BRop8pmUa/N6iygPsa+vWyUIW2cyqiO0rnRciHeNcJ5EC7KBi2RLmK+gf7WAD3EObTDj+jo8Oq64+pDHkIxIyV8w7SYiN5U="
+              }
+            },
+            {
+              "response": "The M365 MCP server is responding, but **no capabilities are currently available**. All features require additional permissions:\n\n| Capability | Status |\n|------------|--------|\n| User Profile | ✗ Requires additional permissions |\n| Outlook Mail | ✗ Requires additional permissions |\n| Calendar | ✗ Requires additional permissions |\n| OneDrive/Files | ✗ Requires additional permissions |\n| SharePoint Sites | ✗ Requires additional permissions |\n| Microsoft Teams | ✗ Requires additional permissions |\n| Unified Search | ✗ Requires additional permissions |\n\n**To enable M365 features, you have 3 options:**\n\n1. **Quick test with Graph Explorer token:**\n   - Go to [Graph Explorer](https://developer.microsoft.com/graph/graph-explorer)\n   - Sign in and copy the access token\n   - Configure it in your MCP settings\n\n2. **Refresh token:**\n   ```bash\n   node src/token-helper.js refresh\n   ```\n\n3. **Request admin consent** for your Azure AD app registration\n\nWould you like me to help configure the authentication, or check the MCP configuration file?",
+              "toolCalls": [],
+              "toolInputRetry": 0,
+              "id": "417c4ba4-2519-49f1-b0a4-5225ff41ccb1"
+            }
+          ],
+          "toolCallResults": {
+            "toolu_016GRh2HkZixPVAfgQw1VpNu__vscode-1768899158981": {
+              "$mid": 20,
+              "content": [
+                {
+                  "$mid": 21,
+                  "value": "{\n  \"capabilities\": {\n    \"user\": false,\n    \"mail\": false,\n    \"calendar\": false,\n    \"files\": false,\n    \"sites\": false,\n    \"teams\": false,\n    \"search\": false\n  },\n  \"available\": [],\n  \"unavailable\": [\n    \"✗ User Profile: Requires additional permissions\",\n    \"✗ Outlook Mail: Requires additional permissions\",\n    \"✗ Calendar: Requires additional permissions\",\n    \"✗ OneDrive/Files: Requires additional permissions\",\n    \"✗ SharePoint Sites: Requires additional permissions\",\n    \"✗ Microsoft Teams: Requires additional permissions\",\n    \"✗ Unified Search: Requires additional permissions\"\n  ],\n  \"recommendations\": [\n    \"To access more features:\",\n    \"1. Use Graph Explorer token (quick): https://developer.microsoft.com/graph/graph-explorer\",\n    \"2. Run: node src/token-helper.js refresh\",\n    \"3. Or request admin consent for your app registration\"\n  ]\n}"
+                }
+              ]
+            }
+          },
+          "modelMessageId": "218429d5-b21f-4c0a-a319-b03ac433670f",
+          "responseId": "8099a432-9d91-4338-aec6-13b2368194db",
+          "sessionId": "1a7fa43c-78fd-4c08-9847-dbf91b6986c7",
+          "agentId": "github.copilot.editsAgent"
+        },
+        "details": "Claude Opus 4.5 • 3x"
+      },
+      "responseMarkdownInfo": [],
+      "followups": [],
+      "modelState": {
+        "value": 1,
+        "completedAt": 1768900776504
+      },
+      "contentReferences": [
+        {
+          "kind": "reference",
+          "reference": {
+            "$mid": 1,
+            "fsPath": "c:\\dev\\yorizon\\.github\\copilot-instructions.md",
+            "_sep": 1,
+            "external": "file:///c%3A/dev/yorizon/.github/copilot-instructions.md",
+            "path": "/c:/dev/yorizon/.github/copilot-instructions.md",
+            "scheme": "file"
+          }
+        }
+      ],
+      "codeCitations": [],
+      "timeSpentWaiting": 0
+    },
+    {
+      "requestId": "request_110abc54-7b85-4e4e-855b-cfbd2d956d8b",
+      "message": {
+        "parts": [
+          {
+            "range": {
+              "start": 0,
+              "endExclusive": 107
+            },
+            "editorRange": {
+              "startLineNumber": 1,
+              "startColumn": 1,
+              "endLineNumber": 1,
+              "endColumn": 108
+            },
+            "text": "what endpoint should I use to make sure I could obtain an accessToken with proper Teams recordings access ?",
+            "kind": "text"
+          }
+        ],
+        "text": "what endpoint should I use to make sure I could obtain an accessToken with proper Teams recordings access ?"
+      },
+      "variableData": {
+        "variables": [
+          {
+            "id": "vscode.prompt.instructions.root__file:///c%3A/dev/yorizon/.github/copilot-instructions.md",
+            "name": "prompt:copilot-instructions.md",
+            "value": {
+              "$mid": 1,
+              "external": "file:///c%3A/dev/yorizon/.github/copilot-instructions.md",
+              "path": "/c:/dev/yorizon/.github/copilot-instructions.md",
+              "scheme": "file"
+            },
+            "kind": "promptFile",
+            "modelDescription": "Prompt instructions file",
+            "isRoot": true,
+            "originLabel": "Automatically attached as setting github.copilot.chat.codeGeneration.useInstructionFiles is enabled",
+            "automaticallyAdded": true
+          }
+        ]
+      },
+      "response": [
+        {
+          "kind": "mcpServersStarting",
+          "didStartServerIds": []
+        },
+        {
+          "kind": "thinking",
+          "value": "The user wants to know what Microsoft Graph API endpoint and permissions they need to access Teams recordings. Let me search for information about this.",
+          "id": "1768900871075",
+          "generatedTitle": "Searched for Microsoft Graph API information"
+        },
+        {
+          "kind": "thinking",
+          "value": "",
+          "id": "",
+          "metadata": {
+            "vscodeReasoningDone": true,
+            "stopReason": "other"
+          }
+        },
+        {
+          "kind": "prepareToolInvocation",
+          "toolName": "copilot_fetchWebPage"
+        },
+        {
+          "kind": "toolInvocationSerialized",
+          "presentation": "hidden",
+          "invocationMessage": "Using \"Fetch Web Page\"",
+          "isConfirmed": {
+            "type": 1
+          },
+          "isComplete": true,
+          "source": {
+            "type": "internal",
+            "label": "Built-In"
+          },
+          "toolCallId": "e1788ee3-9b25-4ba6-8ed9-cf71e4fddf3b",
+          "toolId": "copilot_fetchWebPage"
+        },
+        {
+          "kind": "toolInvocationSerialized",
+          "invocationMessage": {
+            "value": "Fetching 3 resources",
+            "isTrusted": false,
+            "supportThemeIcons": false,
+            "supportHtml": false,
+            "supportAlertSyntax": false
+          },
+          "pastTenseMessage": {
+            "value": "Fetched 3 resources",
+            "isTrusted": false,
+            "supportThemeIcons": false,
+            "supportHtml": false,
+            "supportAlertSyntax": false
+          },
+          "isConfirmed": {
+            "type": 1
+          },
+          "isComplete": true,
+          "source": {
+            "type": "internal",
+            "label": "Built-In"
+          },
+          "resultDetails": [
+            {
+              "$mid": 1,
+              "fsPath": "\\en-us\\graph\\api\\onlinemeeting-get",
+              "_sep": 1,
+              "external": "https://learn.microsoft.com/en-us/graph/api/onlinemeeting-get?view%3Dgraph-rest-1.0",
+              "path": "/en-us/graph/api/onlinemeeting-get",
+              "scheme": "https",
+              "authority": "learn.microsoft.com",
+              "query": "view=graph-rest-1.0"
+            },
+            {
+              "$mid": 1,
+              "fsPath": "\\en-us\\graph\\cloud-communications-online-meeting-application-access-policy",
+              "_sep": 1,
+              "external": "https://learn.microsoft.com/en-us/graph/cloud-communications-online-meeting-application-access-policy",
+              "path": "/en-us/graph/cloud-communications-online-meeting-application-access-policy",
+              "scheme": "https",
+              "authority": "learn.microsoft.com"
+            },
+            {
+              "$mid": 1,
+              "fsPath": "\\en-us\\graph\\api\\resources\\callrecording",
+              "_sep": 1,
+              "external": "https://learn.microsoft.com/en-us/graph/api/resources/callrecording?view%3Dgraph-rest-1.0",
+              "path": "/en-us/graph/api/resources/callrecording",
+              "scheme": "https",
+              "authority": "learn.microsoft.com",
+              "query": "view=graph-rest-1.0"
+            }
+          ],
+          "toolCallId": "823b548f-f22b-4602-9f8b-3b0c32d249bd",
+          "toolId": "vscode_fetchWebPage_internal"
+        },
+        {
+          "value": "Based on the Microsoft Graph documentation, here's what you need for **Teams meeting recordings access**:\n\n## Required Permissions for Teams Recordings\n\n| Permission | Type | Description |\n|------------|------|-------------|\n| `OnlineMeetingArtifact.Read.All` | Delegated or Application | **Required** for accessing recordings and artifacts |\n| `OnlineMeetings.Read` or `OnlineMeetings.ReadWrite` | Delegated | For meeting metadata (delegated scenarios) |\n| `OnlineMeetings.Read.All` or `OnlineMeetings.ReadWrite.All` | Application | For meeting metadata (app-only scenarios) |\n\n## API Endpoints for Recordings\n\n**For scheduled meetings:**\n```\nGET /users/{userId}/onlineMeetings/{meetingId}/recordings\nGET /users/{userId}/onlineMeetings/{meetingId}/recordings/{recordingId}\nGET /users/{userId}/onlineMeetings/{meetingId}/recordings/{recordingId}/content\n```\n\n**List recordings organized by a user:**\n```\nGET /users/{userId}/onlineMeetings/getAllRecordings\n```\n\n## Key Requirements for Application Access\n\n1. **Application Access Policy** (for app-only tokens):\n   - Tenant administrators must create an [application access policy](https://learn.microsoft.com/en-us/graph/cloud-communication-online-meeting-application-access-policy)\n   - Grant it to specific users to authorize the app to fetch recordings on their behalf\n\n2. **Token endpoint:** Use the standard Microsoft identity platform:\n   ```\n   https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token\n   ```\n\n3. **Scope for delegated auth:**\n   ```\n   https://graph.microsoft.com/OnlineMeetingArtifact.Read.All\n   https://graph.microsoft.com/OnlineMeetings.Read\n   ```\n\n4. **Scope for app-only auth:**\n   ```\n   https://graph.microsoft.com/.default\n   ```\n   (with the permissions configured in Azure AD app registration)\n\n## Azure AD App Registration Setup\n\nEnsure your app has these API permissions in Azure Portal:\n- `Microsoft Graph` → `OnlineMeetingArtifact.Read.All` \n- `Microsoft Graph` → `OnlineMeetings.Read.All` (for app-only)\n\nSome permissions require **admin consent**.\n\nWould you like me to help configure the M365 MCP server with these scopes?",
+          "supportThemeIcons": false,
+          "supportHtml": false,
+          "baseUri": {
+            "$mid": 1,
+            "path": "/c:/dev/yorizon/",
+            "scheme": "file"
+          }
+        }
+      ],
+      "agent": {
+        "extensionId": {
+          "value": "GitHub.copilot-chat",
+          "_lower": "github.copilot-chat"
+        },
+        "extensionVersion": "0.36.1",
+        "publisherDisplayName": "GitHub",
+        "extensionPublisherId": "GitHub",
+        "extensionDisplayName": "GitHub Copilot Chat",
+        "id": "github.copilot.editsAgent",
+        "description": "Edit files in your workspace in agent mode",
+        "when": "config.chat.agent.enabled",
+        "metadata": {
+          "themeIcon": {
+            "id": "tools"
+          },
+          "hasFollowups": false,
+          "supportIssueReporting": false
+        },
+        "name": "agent",
+        "fullName": "GitHub Copilot",
+        "isDefault": true,
+        "locations": [
+          "panel"
+        ],
+        "modes": [
+          "agent"
+        ],
+        "slashCommands": [],
+        "disambiguation": []
+      },
+      "timestamp": 1768900868400,
+      "modelId": "copilot/claude-opus-4.5",
+      "responseId": "response_4f533f0e-30af-4c1c-92d0-290b3db34166",
+      "result": {
+        "timings": {
+          "firstProgress": 3552,
+          "totalElapsed": 33222
+        },
+        "metadata": {
+          "codeBlocks": [
+            {
+              "code": "GET /users/{userId}/onlineMeetings/{meetingId}/recordings\nGET /users/{userId}/onlineMeetings/{meetingId}/recordings/{recordingId}\nGET /users/{userId}/onlineMeetings/{meetingId}/recordings/{recordingId}/content\n",
+              "language": "",
+              "markdownBeforeBlock": "Based on the Microsoft Graph documentation, here's what you need for **Teams meeting recordings access**:\n\n## Required Permissions for Teams Recordings\n\n| Permission | Type | Description |\n|------------|------|-------------|\n| `OnlineMeetingArtifact.Read.All` | Delegated or Application | **Required** for accessing recordings and artifacts |\n| `OnlineMeetings.Read` or `OnlineMeetings.ReadWrite` | Delegated | For meeting metadata (delegated scenarios) |\n| `OnlineMeetings.Read.All` or `OnlineMeetings.ReadWrite.All` | Application | For meeting metadata (app-only scenarios) |\n\n## API Endpoints for Recordings\n\n**For scheduled meetings:**\n"
+            },
+            {
+              "code": "GET /users/{userId}/onlineMeetings/getAllRecordings\n",
+              "language": "",
+              "markdownBeforeBlock": "\n**List recordings organized by a user:**\n"
+            }
+          ],
+          "renderedUserMessage": [
+            {
+              "type": 1,
+              "text": "<context>\nThe current date is January 20, 2026.\nTerminals:\nTerminal: bash\nLast Command: git push -f\nCwd: C:/dev/yorizon/.knowledge\nExit Code: 0\n\n</context>\n<editorContext>\nThe user's current file is c:\\dev\\yorizon\\.vscode\\mcp.json. \n</editorContext>\n<reminderInstructions>\nWhen using the replace_string_in_file tool, include 3-5 lines of unchanged code before and after the string you want to replace, to make it unambiguous which part of the file should be edited.\nFor maximum efficiency, whenever you plan to perform multiple independent edit operations, invoke them simultaneously using multi_replace_string_in_file tool rather than sequentially. This will greatly improve user's cost and time efficiency leading to a better user experience. Do not announce which tool you're using (for example, avoid saying \"I'll implement all the changes using multi_replace_string_in_file\").\nDo NOT create a new markdown file to document each change or summarize your work unless specifically requested by the user.\n\n</reminderInstructions>\n<userRequest>\nwhat endpoint should I use to make sure I could obtain an accessToken with proper Teams recordings access ?\n</userRequest>\n"
+            },
+            {
+              "type": 3,
+              "cacheType": "ephemeral"
+            }
+          ],
+          "toolCallRounds": [
+            {
+              "response": "",
+              "toolCalls": [
+                {
+                  "name": "fetch_webpage",
+                  "arguments": "{\"urls\": [\"https://learn.microsoft.com/en-us/graph/api/onlinemeeting-get?view=graph-rest-1.0\",\"https://learn.microsoft.com/en-us/graph/cloud-communications-online-meeting-application-access-policy\",\"https://learn.microsoft.com/en-us/graph/api/resources/callrecording?view=graph-rest-1.0\"], \"query\": \"Teams meeting recordings access token permissions Graph API endpoint\"}",
+                  "id": "toolu_016bWwkjLqP63UAWUxt5FhfP__vscode-1768899158982"
+                }
+              ],
+              "toolInputRetry": 0,
+              "id": "6171c876-e118-49ca-b926-f78225c9fd06",
+              "thinking": {
+                "id": "tg1BfjudirMEW48ZTmHAoTXk0/njuizmrgjiy3Avc+BXa31nC3wT6bzjH/Twbegfcg5nFqdvlGRJOmrsFbo/bUAimM2SJCYKV+zXjhLNN2J9D8WJTlxvNpQkvfD30UF17ID2NEERQW4n05/w2Nt/I7W/9KHWuhnsU1feGV5Os/l/eArbcurCacg7K56+t4JH4tUWc8FqjC/WtPxlGoZ1mJsxeMJurDpiJd/kg7CrcaTis+GIfLOg3b3sl0FLhy10V8tB1g6ePyJ4N2MRXltIVEPX0sEq++JFMC//dYZ6MmSdheyTZKV1+D7NolUTp01LvHGUFPQ2DXp9JEA/mN3/tA9qCvPZ9aa2OJ3TYzRauhm2ugZiMi8Ra5RfiUbrAIV4VW8IiLFvnxfC8v9TrLr5lL/sLTYbqvcBSGp135WIrSd4ndVW2/DIzq+YV1cZNGulbiViz7vrWTRNJCPQZUPQtJ0zHozXKBH8O+GN8G7E+OjlBr7fsmkG2RKmhtCplp1nJy5rXhIhsJ1vjluwUUNHio22oDp9VVX8E2O4ifDus8Sk2rq7LnaC5N3+5RPw/JRZvSznhOzTy7LsJP5tEYfKE2D3H3JIodCjrah7i1DUkKWx0zDgy9vnOI4cBAvOsvV+WbUkoXQqfBojinHgVnjDqa3bqKgu9Fi0EzMxO9J82O7VdBGC33Ain30YNXNI7ZBoA0z4XIRlg8+LIwj8ryYSrTgDGdgJuSfDt3BrsvBG0vDuzVwSdql19XKosqvq9Dj8cDGNDlj6EJ6G30NUbK1nK/zNKQUsxuUOyS6QcMI9Kb4UQZf3anmHo4zUqw5Xe7zy9icnHwLYgDyCM0J5bqsvlEGwJMomhesgKYYgaHIX2P46GlIQsCF5MVghFj0nc74bLWy2ELK6CIv3D5OVqtlocDw0s0gl0LE45NOswLLMPgdD8k+zPvE4NA==",
+                "text": "The user wants to know what Microsoft Graph API endpoint and permissions they need to access Teams recordings. Let me search for information about this.",
+                "encrypted": "tg1BfjudirMEW48ZTmHAoTXk0/njuizmrgjiy3Avc+BXa31nC3wT6bzjH/Twbegfcg5nFqdvlGRJOmrsFbo/bUAimM2SJCYKV+zXjhLNN2J9D8WJTlxvNpQkvfD30UF17ID2NEERQW4n05/w2Nt/I7W/9KHWuhnsU1feGV5Os/l/eArbcurCacg7K56+t4JH4tUWc8FqjC/WtPxlGoZ1mJsxeMJurDpiJd/kg7CrcaTis+GIfLOg3b3sl0FLhy10V8tB1g6ePyJ4N2MRXltIVEPX0sEq++JFMC//dYZ6MmSdheyTZKV1+D7NolUTp01LvHGUFPQ2DXp9JEA/mN3/tA9qCvPZ9aa2OJ3TYzRauhm2ugZiMi8Ra5RfiUbrAIV4VW8IiLFvnxfC8v9TrLr5lL/sLTYbqvcBSGp135WIrSd4ndVW2/DIzq+YV1cZNGulbiViz7vrWTRNJCPQZUPQtJ0zHozXKBH8O+GN8G7E+OjlBr7fsmkG2RKmhtCplp1nJy5rXhIhsJ1vjluwUUNHio22oDp9VVX8E2O4ifDus8Sk2rq7LnaC5N3+5RPw/JRZvSznhOzTy7LsJP5tEYfKE2D3H3JIodCjrah7i1DUkKWx0zDgy9vnOI4cBAvOsvV+WbUkoXQqfBojinHgVnjDqa3bqKgu9Fi0EzMxO9J82O7VdBGC33Ain30YNXNI7ZBoA0z4XIRlg8+LIwj8ryYSrTgDGdgJuSfDt3BrsvBG0vDuzVwSdql19XKosqvq9Dj8cDGNDlj6EJ6G30NUbK1nK/zNKQUsxuUOyS6QcMI9Kb4UQZf3anmHo4zUqw5Xe7zy9icnHwLYgDyCM0J5bqsvlEGwJMomhesgKYYgaHIX2P46GlIQsCF5MVghFj0nc74bLWy2ELK6CIv3D5OVqtlocDw0s0gl0LE45NOswLLMPgdD8k+zPvE4NA=="
+              }
+            },
+            {
+              "response": "Based on the Microsoft Graph documentation, here's what you need for **Teams meeting recordings access**:\n\n## Required Permissions for Teams Recordings\n\n| Permission | Type | Description |\n|------------|------|-------------|\n| `OnlineMeetingArtifact.Read.All` | Delegated or Application | **Required** for accessing recordings and artifacts |\n| `OnlineMeetings.Read` or `OnlineMeetings.ReadWrite` | Delegated | For meeting metadata (delegated scenarios) |\n| `OnlineMeetings.Read.All` or `OnlineMeetings.ReadWrite.All` | Application | For meeting metadata (app-only scenarios) |\n\n## API Endpoints for Recordings\n\n**For scheduled meetings:**\n```\nGET /users/{userId}/onlineMeetings/{meetingId}/recordings\nGET /users/{userId}/onlineMeetings/{meetingId}/recordings/{recordingId}\nGET /users/{userId}/onlineMeetings/{meetingId}/recordings/{recordingId}/content\n```\n\n**List recordings organized by a user:**\n```\nGET /users/{userId}/onlineMeetings/getAllRecordings\n```\n\n## Key Requirements for Application Access\n\n1. **Application Access Policy** (for app-only tokens):\n   - Tenant administrators must create an [application access policy](https://learn.microsoft.com/en-us/graph/cloud-communication-online-meeting-application-access-policy)\n   - Grant it to specific users to authorize the app to fetch recordings on their behalf\n\n2. **Token endpoint:** Use the standard Microsoft identity platform:\n   ```\n   https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token\n   ```\n\n3. **Scope for delegated auth:**\n   ```\n   https://graph.microsoft.com/OnlineMeetingArtifact.Read.All\n   https://graph.microsoft.com/OnlineMeetings.Read\n   ```\n\n4. **Scope for app-only auth:**\n   ```\n   https://graph.microsoft.com/.default\n   ```\n   (with the permissions configured in Azure AD app registration)\n\n## Azure AD App Registration Setup\n\nEnsure your app has these API permissions in Azure Portal:\n- `Microsoft Graph` → `OnlineMeetingArtifact.Read.All` \n- `Microsoft Graph` → `OnlineMeetings.Read.All` (for app-only)\n\nSome permissions require **admin consent**.\n\nWould you like me to help configure the M365 MCP server with these scopes?",
+              "toolCalls": [],
+              "toolInputRetry": 0,
+              "id": "1de8031f-2cdc-4443-87d8-31ff4072b42f"
+            }
+          ],
+          "toolCallResults": {
+            "toolu_016bWwkjLqP63UAWUxt5FhfP__vscode-1768899158982": {
+              "$mid": 20,
+              "content": [
+                {
+                  "$mid": 23,
+                  "value": {
+                    "node": {
+                      "type": 1,
+                      "ctor": 2,
+                      "ctorName": "dvt",
+                      "children": [
+                        {
+                          "type": 1,
+                          "ctor": 2,
+                          "ctorName": "n",
+                          "children": [
+                            {
+                              "type": 1,
+                              "ctor": 2,
+                              "ctorName": "f$e",
+                              "children": [
+                                {
+                                  "type": 1,
+                                  "ctor": 2,
+                                  "ctorName": "",
+                                  "children": [
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 9007199254740991,
+                                          "text": "Here is some relevant context from the web page https://learn.microsoft.com/en-us/graph/api/onlinemeeting-get?view%3Dgraph-rest-1.0:",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {},
+                                      "references": []
+                                    }
+                                  ],
+                                  "props": {},
+                                  "references": [],
+                                  "keepWithId": 55
+                                },
+                                {
+                                  "type": 1,
+                                  "ctor": 2,
+                                  "ctorName": "",
+                                  "children": [
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 996,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Permissions\n\n\nThe following tables show the least privileged permission or permissions\nrequired to call this API on each supported resource type. Follow [best practices](https://learn.microsoft.com/en-us/graph/permissions-overview#best-practices-for-using-microsoft-graph-permissions) to request least privileged permissions. For details about delegated and\napplication permissions, see [Permission types](https://learn.microsoft.com/en-us/graph/permissions-overview#permission-types). To learn more about these permissions, see the [permissions reference](https://learn.microsoft.com/en-us/graph/permissions-reference).\n\n\nPermissions for the following HTTP requests:\n\n HTTPCopy\n```\nGET /me/onlineMeetings/{meetingId}\nGET /me/onlineMeetings?$filter=JoinWebUrl%20eq%20'{joinWebUrl}'\nGET /me/onlineMeetings?$filter=joinMeetingIdSettings/joinMeetingId%20eq%20'{joinMeetingId}'\n\n```\nExpand table\n|  |\n|  |\n| Delegated (work or school account) | OnlineMeetings.Read | OnlineMeetings.ReadWrite |\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 996
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 992,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Permissions\n...\n| Delegated (personal Microsoft account) | Not supported. | Not supported. |\n| Application | Not supported. | Not supported. |\n\n\nPermissions for the following HTTP requests:\n\n HTTPCopy\n```\nGET /users/{userId}/onlineMeetings/{meetingId}\nGET /users/{userId}/onlineMeetings?$filter=JoinWebUrl%20eq%20'{joinWebUrl}'\nGET /users/{userId}/onlineMeetings?$filter=joinMeetingIdSettings/joinMeetingId%20eq%20'{joinMeetingId}'\nGET /app/onlineMeetings/?$filter=VideoTeleconferenceId%20eq%20'{videoTeleconferenceId}'\nGET /communications/onlineMeetings/?$filter=VideoTeleconferenceId%20eq%20'{videoTeleconferenceId}'\n\n```\nExpand table\n|  |\n|  |\n| Delegated (work or school account) | OnlineMeetings.Read | OnlineMeetings.ReadWrite |\n| Delegated (personal Microsoft account) | Not supported. | Not supported. |\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 992
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 1000,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Permissions\n...\n| Application | OnlineMeetings.Read.All | OnlineMeetings.ReadWrite.All |\n\n\nPermissions for the following HTTP requests that apply only to Microsoft Teams\nlive events:\n\n HTTPCopy\n```\nGET /me/onlineMeetings/{meetingId}/attendeeReport\nGET /users/{userId}/onlineMeetings/{meetingId}/attendeeReport\n\n```\nExpand table\n|  |\n|  |\n| Delegated (work or school account) | OnlineMeetingArtifact.Read.All | Not available. |\n| Delegated (personal Microsoft account) | Not supported. | Not supported. |\n| Application | OnlineMeetingArtifact.Read.All | Not available. |\n\n\nPermissions for the following HTTP requests that apply only to Microsoft Teams\nlive events:\n\n HTTPCopy\n```\nGET /me/onlineMeetings/{meetingId}/recording\nGET /me/onlineMeetings/{meetingId}/alternativeRecording\n\n```\nExpand table\n|  |\n|  |\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 1000
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 997,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Permissions\n...\n| Delegated (work or school account) | OnlineMeetingArtifact.Read.All | OnlineMeetings.Read, OnlineMeetings.ReadWrite |\n| Delegated (personal Microsoft account) | Not supported. | Not supported. |\n| Application | OnlineMeetingArtifact.Read.All | Not available. |\n\n\nPermissions for the following HTTP requests that apply only to Microsoft Teams\nlive events:\n\n HTTPCopy\n```\nGET /users/{userId}/onlineMeetings/{meetingId}/recording\nGET /users/{userId}/onlineMeetings/{meetingId}/alternativeRecording\n\n```\nExpand table\n|  |\n|  |\n| Delegated (work or school account) | OnlineMeetingArtifact.Read.All | OnlineMeetings.Read, OnlineMeetings.ReadWrite |\n| Delegated (personal Microsoft account) | Not supported. | Not supported. |\n| Application | OnlineMeetingArtifact.Read.All | OnlineMeetings.Read.All, OnlineMeetings.ReadWrite.All |\n\n \nNote\n\n\nTo use application permission for this API, tenant administrators must create an\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 997
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 989,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Permissions\n...\n[application access policy](https://learn.microsoft.com/en-us/graph/cloud-communication-online-meeting-application-access-policy) and grant it to a user to authorize the app configured in the policy to fetch\nonline meetings and/or online meeting artifacts on behalf of that user (with user\nID specified in the request path).\n\n \nImportant\n\n\nOnly the OnlineMeetingArtifact.Read.All permissions are required if you fetch online meeting artifacts and you cannot\nfetch meeting artifacts without it. For details, see [Online meeting artifacts and permissions](https://learn.microsoft.com/en-us/graph/cloud-communications-online-meeting-artifacts).\n\n Section titled: HTTP request\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 989
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 991,
+                                          "text": "...\n# Get onlineMeeting\n...\n## HTTP request\n\n\nTo get an onlineMeeting using meeting ID with delegated (`/me`) and app (`/users/{userId}`) permission:\n\n HTTPCopy\n```\nGET /me/onlineMeetings/{meetingId}\nGET /users/{userId}/onlineMeetings/{meetingId}\n\n```\n\nThese request URLs accept both the organizer's and the invited attendee's user\ntoken (delegated permission) or user ID (app permission).\n\n\nTo get an onlineMeeting using videoTeleconferenceId with app permission*:\n\n HTTPCopy\n```\nGET /communications/onlineMeetings/?$filter=VideoTeleconferenceId%20eq%20'{videoTeleconferenceId}'\n\n```\n\nTo get an onlineMeeting using joinWebUrl with delegated and app permission:\n\n HTTPCopy\n```\nGET /me/onlineMeetings?$filter=JoinWebUrl%20eq%20'{joinWebUrl}'\nGET /users/{userId}/onlineMeetings?$filter=JoinWebUrl%20eq%20'{joinWebUrl}'\n\n```\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 991
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 987,
+                                          "text": "...\n# Get onlineMeeting\n...\n## HTTP request\n...\nTo get an onlineMeeting using joinMeetingId with delegated (`/me`) and app (`/users/{userId}`) permission:\n\n HTTPCopy\n```\nGET /me/onlineMeetings?$filter=joinMeetingIdSettings/joinMeetingId%20eq%20'{joinMeetingId}'\nGET /users/{userId}/onlineMeetings?$filter=joinMeetingIdSettings/joinMeetingId%20eq%20'{joinMeetingId}'\n\n```\n\nTo get the attendee report of a [Teams live event](https://learn.microsoft.com/en-us/microsoftteams/teams-live-events/what-are-teams-live-events) with delegated (`/me`) and app (`/users/{userId}`) permission: (deprecated)\n\n HTTPCopy\n```\nGET /me/onlineMeetings/{meetingId}/attendeeReport\nGET /users/{userId}/onlineMeetings/{meetingId}/attendeeReport\n\n```\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 987
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 999,
+                                          "text": "...\n# Get onlineMeeting\n...\n## HTTP request\n...\nTo get the recordings of a [Teams live event](https://learn.microsoft.com/en-us/microsoftteams/teams-live-events/what-are-teams-live-events) with delegated (`/me`) and app (`/users/{userId}`) permission: (deprecated)\n\n HTTPCopy\n```\nGET /me/onlineMeetings/{meetingId}/recording\nGET /me/onlineMeetings/{meetingId}/alternativeRecording\nGET /users/{userId}/onlineMeetings/{meetingId}/recording\nGET /users/{userId}/onlineMeetings/{meetingId}/alternativeRecording\n\n```\n \nNote\n\n\n• userId is the object ID of a user in [Microsoft Entra admin center > user management page](https://entra.microsoft.com/#blade/Microsoft_AAD_IAM/UsersManagementMenuBlade). For more details, see [Allow applications to access online meetings on behalf of a user](https://learn.microsoft.com/en-us/graph/cloud-communication-online-meeting-application-access-policy).\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 999
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 984,
+                                          "text": "...\n# Get onlineMeeting\n...\n## HTTP request\n...\n• meetingId is the id of an [onlineMeeting](https://learn.microsoft.com/en-us/graph/api/resources/onlinemeeting?view=graph-rest-1.0) object.\n• videoTeleconferenceId is generated for Cloud-Video-Interop licensed users and can be found in an [onlineMeeting](https://learn.microsoft.com/en-us/graph/api/resources/onlinemeeting?view=graph-rest-1.0) object. For details, see [VTC conference id](https://learn.microsoft.com/en-us/microsoftteams/cloud-video-interop-for-teams-set-up).\n• * This scenario only supports application token and doesn't support application\naccess policy.\n• joinWebUrl must be URL encoded.\n• The format of `joinWebUrl` might differ from the following examples, depending on how the URLs were\nobtained. These variations don't affect how `joinWebUrl` is used in the API.\n• joinMeetingId is the meeting ID to be used to join a meeting.\n\n Section titled: Optional query parameters\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 984
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 951,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Optional query parameters\n\n\nThis method supports the [OData query parameters](https://learn.microsoft.com/en-us/graph/query-parameters) to help customize the response.\n\n Section titled: Request headers\n## Request headers\n\nExpand table\n|  |\n|  |\n| Authorization | Bearer {token}. Required. Learn more about authentication and authorization. |\n| Accept-Language | Language. Optional. |\n\n\nIf the request contains an `Accept-Language` HTTP header, the `content` of `joinInformation` will be in the language and locale variant specified in the `Accept-Language` header. The default content will be in English.\n\n Section titled: Request body\n## Request body\n\n\nDon't supply a request body for this method.\n\n Section titled: Response\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 951
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 957,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Response\n\n\nIf successful, this method returns a `200 OK` response code. The response also includes one of the following:\n\n\n• If you fetch an online meeting by meeting ID, this method returns an [onlineMeeting](https://learn.microsoft.com/en-us/graph/api/resources/onlinemeeting?view=graph-rest-1.0) object in the response body.\n• If you fetch an online meeting by videoTeleconferenceId or joinWebUrl, this method returns a collection that contains only one [onlineMeeting](https://learn.microsoft.com/en-us/graph/api/resources/onlinemeeting?view=graph-rest-1.0) object in the response body.\n• If you fetch the attendee report of a [Teams live event](https://learn.microsoft.com/en-us/microsoftteams/teams-live-events/what-are-teams-live-events), this method returns a `Location` header that indicates the URI to the attendee report. (deprecated)\n\n \nNote\n\n\n• joinMeetingIdSettings might not be generated for some prescheduled meetings if the meeting was\ncreated before this feature was supported.\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 957
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 943,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Response\n...\n Section titled: Examples\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 943
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 964,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 1: Retrieve an online meeting by videoTeleconferenceId\n...\n#### Request\n\n\nThe following example shows a request.\n\n HTTPC#GoJavaJavaScriptPHPPowerShellPython msgraphCopyTry It\n```\nGET https://graph.microsoft.com/v1.0/communications/onlineMeetings/?$filter=VideoTeleconferenceId%20eq%20'123456789'\n\n```\n> \n\n\nNote: If 'Accept-Language: ja' is specified to indicate Japanese, for example, the\nresponse will include the following.\n\n JSONCopy\n```\n    \"joinInformation\": {\n    ...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 964
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 946,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 1: Retrieve an online meeting by videoTeleconferenceId\n...\n#### Request\n...\n        \"content\": \"data%3Atext%2Fhtml%2C%0A++%3Cdiv+style%3D%22width%3A100%25%3Bheight%3A+20px%3B%22%3E%0A%09%09%3Cspan+style%3D%22white-space%3Anowrap%3Bcolor%3Agray%3Bopacity%3A.36%3B%22%3E________________________________________________________________________________%3C%2Fspan%3E%0A%09+%3C%2Fdiv%3E%0A++++%3Cdiv+class%3D%22me-email-text%22+style%3D%22color%3A%23252424%3Bfont-family%3A'Segoe+UI'%2C'Helvetica+Neue'%2CHelvetica%2CArial%2...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 946
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 939,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 1: Retrieve an online meeting by videoTeleconferenceId\n...\n#### Request\n...\n        \"contentType\": \"Html\"\n    }  \n\n```\n Section titled: Response\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 939
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 949,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 1: Retrieve an online meeting by videoTeleconferenceId\n...\n#### Response\n\n\nThe following example shows the response.\n\n> \n\n\nNote: The response object shown here might be shortened for readability.\n\n HTTPCopy\n```\nHTTP/1.1 200 OK\nContent-Type: application/json\nContent-Length: 1574\n\n{\n  \"@odata.type\": \"#microsoft.graph.onlineMeeting\",\n  \"autoAdmittedUsers\": \"everyone\",\n  \"audioConferencing\": {\n    \"tollNumber\": \"5552478\",\n    \"tollFreeNumber\": \"5550588\",\n    \"ConferenceId\": \"9999999\",\n    \"dialinUrl\": \"https://dialin.teams.microsoft.com/6787A136-B9B8-4D39-846C-C0F1FF937F10?id=xxxxxxx\"\n  },\n  \"chatInfo\": {\n    \"@odata.type\": \"#microsoft.graph.chatInfo\",\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 949
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 944,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 1: Retrieve an online meeting by videoTeleconferenceId\n...\n#### Response\n...\n    \"threadId\": \"19:cbee7c1c860e465cebf7bee0d@thread.skype\",\n    \"messageId\": \"153367081\"\n  },\n  \"creationDateTime\": \"2018-05-30T00:12:19.0726086Z\",\n  \"endDateTime\": \"2018-05-30T01:00:00Z\",\n  \"expiryDateTime\": \"2026-04-12T23:57:47.6388574Z\",\n  \"id\": \"112f7296-5fa4-42ca-bae8-6a692b15d4b8_19:cbee7c1c860e465f8258e3cebf7bee0d@thread.skype\",\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 944
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 972,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 1: Retrieve an online meeting by videoTeleconferenceId\n...\n#### Response\n...\n  \"joinWebUrl\": \"https://teams.microsoft.com/l/meetup-join/19%3a:meeting_NTg0NmQ3NTctZDVkZC00YzRhLThmNmEtOGQDdmZDZk@thread.v2/0?context=%7b%22Tid%22%3a%aa67bd4c-8475-432d-bd41-39f255720e0a%22%2c%22Oid%22%3a%22112f7296-5fa4-42ca-bb15d4b8%22%7d\",\n  \"participants\": {\n  \"@odata.type\": \"#microsoft.graph.meetingParticipants\",\n    \"attendees\": [\n      {\n        \"@odata.type\": \"#microsoft.graph.identitySet\",\n        \"identity\": {\n          \"user\": {\n            \"@odata.type\": \"#microsoft.graph.identity\",\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 972
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 978,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 1: Retrieve an online meeting by videoTeleconferenceId\n...\n#### Response\n...\n            \"id\": \"112f7296-5ca-bae8-6a692b15d4b8\",\n            \"displayName\": \"Tyler Stein\"\n          }\n        },\n        \"upn\": \"upn-value\"\n      }\n    ],\n    \"organizer\": {\n      \"@odata.type\": \"#microsoft.graph.identitySet\",\n      \"identity\": {\n        \"user\": {\n          \"@odata.type\": \"#microsoft.graph.identity\",\n          \"id\": \"5810cedeb-b2c1-e9bd5d53ec96\",\n          \"displayName\": \"Jasmine Miller\"\n        }\n      },\n      \"upn\": \"upn-value\"\n    }\n  },\n  \"sensitivityLabelAssignment\": {\n    \"sensitivityLabelId\": \"c7f2d7a7-6a36-4a41-9a6b-0d2761a9f4f0\"\n  },\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 978
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 974,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 1: Retrieve an online meeting by videoTeleconferenceId\n...\n#### Response\n...\n  \"meetingOptionsWebUrl\": \"https://teams.microsoft.com/meetingOptions/?meetingId=abc123\",\n  \"meetingSpokenLanguageTag\": \"en-US\",\n  \"startDateTime\": \"2018-05-30T00:30:00Z\",\n  \"subject\": \"Test Meeting.\",\n  \"videoTeleconferenceId\": \"123456789\",\n  \"lobbyBypassSettings\": {\n    \"scope\": \"everyone\",\n    \"isDialInBypassEnabled\": true\n  },\n  \"joinMeetingIdSettings\": {\n    \"isPasscodeRequired\": false,\n    \"joinMeetingId\": \"1234567890\",\n    \"passcode\": null\n  },\n  \"isEntryExitAnnounced\": true,\n  \"allowedPresenters\": \"everyone\"\n}\n\n```\n Section titled: Example 2: Retrieve an online meeting by meeting ID\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 974
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 940,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 1: Retrieve an online meeting by videoTeleconferenceId\n\n Section titled: Request\n#### Request\n...\n#### Response\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 940
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 980,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 2: Retrieve an online meeting by meeting ID\n...\n#### Request\n\n\nThe following example shows a request that uses a user (delegated) token.\n\n> \n\n\nNote: The meeting ID has been truncated for readability.\n\n HTTPC#GoJavaJavaScriptPHPPowerShellPython msgraphCopyTry It\n```\nGET https://graph.microsoft.com/v1.0/me/onlineMeetings/MSpkYzE3Njc0Yy04MWQ5LTRhZGItYmZiMi04ZdFpHRTNaR1F6WGhyZWFkLnYy\n\n```\n\nThe following request uses an app token.\n\n HTTPCopy\n```\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 980
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 959,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 2: Retrieve an online meeting by meeting ID\n...\n#### Request\n...\nGET https://graph.microsoft.com/v1.0/users/dc17674c-81d9-4adb-bfb2-8f6a442e4622/onlineMeetings/MSpkYzE3Njc0Yy04MWQ5LTRhZGItYmZiMi04ZdFpHRTNaR1F6WGhyZWFkLnYy\n\n```\n Section titled: Response\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 959
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 945,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 2: Retrieve an online meeting by meeting ID\n...\n#### Response\n\n\nThe following example shows the response.\n\n HTTPCopy\n```\nHTTP/1.1 200 OK\nContent-Type: application/json\n\n{\n    \"id\": \"MSpkYzE3Njc0Yy04MWQiMi04ZdFpHRTNaR1F6WGhyZWFkLnYy\",\n    \"creationDateTime\": \"2020-09-29T22:35:33.1594516Z\",\n    \"startDateTime\": \"2020-09-29T22:35:31.389759Z\",\n    \"endDateTime\": \"2020-09-29T23:35:31.389759Z\",\n    \"expiryDateTime\": \"2025-04-12T23:57:47.6388574Z\",\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 945
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 985,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 2: Retrieve an online meeting by meeting ID\n...\n#### Response\n...\n    \"joinWebUrl\": \"https://teams.microsoft.com/l/meetup-join/19%3ameeting_MGQ4MDQyNTE2EtZWVkODYxODYzMmY2%40thread.v2/0?context=%7b%22Tid%22%3a%22909c6581-5130-43e9-88f3-fcb3582cde37%22%2c%22Oid%22%3a%22dc17674c-81d9-4adb-442e4622%22%7d\",\n    \"subject\": null,\n    \"autoAdmittedUsers\": \"EveryoneInCompany\",\n    \"isEntryExitAnnounced\": true,\n    \"allowedPresenters\": \"everyone\",\n    \"videoTeleconferenceId\": \"(redacted)\",\n    \"sensitivityLabelAssignment\": {\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 985
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 969,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 2: Retrieve an online meeting by meeting ID\n...\n#### Response\n...\n      \"sensitivityLabelId\": \"c7f2d7a7-6a36-4a41-9a6b-0d2761a9f4f0\"\n    },\n    \"meetingOptionsWebUrl\": \"https://teams.microsoft.com/meetingOptions/?meetingId=abc123\",\n    \"meetingSpokenLanguageTag\": \"en-US\",\n    \"participants\": {\n        \"organizer\": {\n            \"upn\": \"(redacted)\",\n            \"role\": \"presenter\",\n            \"identity\": {\n                \"user\": {\n                    \"id\": \"dc17674c-81d9-4adb-a442e4622\",\n                    \"displayName\": null,\n                    \"tenantId\": \"909c6581-5188f3-fcb3582cde38\",\n                    \"identityProvider\": \"AAD\"\n                }\n            }\n        },\n        \"attendees\": [],\n        \"producers\": [],\n        \"contributors\": []\n    },\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 969
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 950,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 2: Retrieve an online meeting by meeting ID\n...\n#### Response\n...\n    \"lobbyBypassSettings\": {\n        \"scope\": \"organization\",\n        \"isDialInBypassEnabled\": false\n    },\n    \"joinMeetingIdSettings\": {\n        \"isPasscodeRequired\": false,\n        \"joinMeetingId\": \"1234567890\",\n        \"passcode\": null\n    }\n}\n\n```\n Section titled: Example 3: Retrieve an online meeting by joinWebUrl\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 950
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 956,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 2: Retrieve an online meeting by meeting ID\n\n\nYou can retrieve meeting information via meeting ID with either a user or\napplication token. The meeting ID is provided in the response object when creating an [onlineMeeting](https://learn.microsoft.com/en-us/graph/api/resources/onlinemeeting?view=graph-rest-1.0). This option is available to support use cases where the meeting ID is known,\nsuch as when an application first creates the online meeting using Graph API\nfirst then retrieves meeting information later as a separate action.\n\n Section titled: Request\n#### Request\n...\n#### Response\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 956
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 970,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 3: Retrieve an online meeting by joinWebUrl\n...\n#### Request\n\n\nThe following example shows a request that uses a user (delegated) token.\n\n HTTPC#GoJavaJavaScriptPHPPowerShellPython msgraphCopyTry It\n```\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 970
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 977,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 3: Retrieve an online meeting by joinWebUrl\n...\n#### Request\n...\nGET https://graph.microsoft.com/v1.0/me/onlineMeetings?$filter=JoinWebUrl eq 'https%3A%2F%2Fteams.microsoft.com%2Fl%2Fmeetup-join%2F19%253ameeting_MGQ4MDQyNTEtNTQ2NS00YjQxLTlkM2EtZWVkODYxODYzMmY2%2540thread.v2%2F0%3Fcontext%3D%257b%2522Tid%2522%253a%2522909c6581-5130-43e9-88f3-fcb3582cde37%2522%252c%2522Oid%2522%253a%2522dc17674c-81d9-4adb-bfb2-8f6a442e4622%2522%257d'\n\n```\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 977
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 958,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 3: Retrieve an online meeting by joinWebUrl\n...\n#### Request\n...\nThe following request uses an app token.\n\n HTTPCopy\n```\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 958
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 968,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 3: Retrieve an online meeting by joinWebUrl\n...\n#### Request\n...\nGET https://graph.microsoft.com/v1.0/users/dc17674c-81d9-4adb-bfb2-8f6a442e4622/onlineMeetings?$filter=JoinWebUrl%20eq%20'https%3A%2F%2Fteams.microsoft.com%2Fl%2Fmeetup-join%2F19%253ameeting_MGQ4MDQyNTEtNTQ2NS00YjQxLTlkM2EtZWVkODYxODYzMmY2%2540thread.v2%2F0%3Fcontext%3D%257b%2522Tid%2522%253a%2522909c6581-5130-43e9-88f3-fcb3582cde37%2522%252c%2522Oid%2522%253a%2522dc17674c-81d9-4adb-b...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 968
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 942,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 3: Retrieve an online meeting by joinWebUrl\n...\n#### Request\n...\n```\n Section titled: Response\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 942
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 962,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 3: Retrieve an online meeting by joinWebUrl\n...\n#### Response\n\n\nThe following example shows the response.\n\n HTTPCopy\n```\nHTTP/1.1 200 OK\nContent-Type: application/json\n\n{\n    \"value\": [\n        {\n            \"id\": \"dc17674c-81d9-4adb-bfb2-8f6a442e4622_19:meeting_MGQ4MDQyNTEtNTQVkODYxODYzMmY2@thread.v2\",\n            \"creationDateTime\": \"2020-09-29T22:35:33.1594516Z\",\n            \"startDateTime\": \"2020-09-29T22:35:31.389759Z\",\n            \"endDateTime\": \"2020-09-29T23:35:31.389759Z\",\n            \"expiryDateTime\": \"2025-04-12T23:57:47.6388574Z\",\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 962
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 967,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 3: Retrieve an online meeting by joinWebUrl\n...\n#### Response\n...\n            \"joinWebUrl\": \"https://teams.microsoft.com/l/meetup-join/19%3ameeting_MGQ4MDQyNTEtNTQ2NS00YjQxLTlkMYzMmY2%40thread.v2/0?context=%7b%22Tid%22%3a%22909c6581-5130-43e9-882cde37%22%2c%22Oid%22%3a%22dc17674c-81d9-4adb-bfb2-8f6a442e4622%22%7d\",\n            \"subject\": null,\n            \"isEntryExitAnnounced\": true,\n            \"allowedPresenters\": \"everyone\",\n            \"videoTeleconferenceId\": \"(redacted)\",\n            \"participants\": {\n                \"organizer\": {\n                    \"upn\": \"(redacted)\",\n                    \"role\": \"presenter\",\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 967
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 973,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 3: Retrieve an online meeting by joinWebUrl\n...\n#### Response\n...\n                    \"identity\": {\n                        \"user\": {\n                            \"id\": \"dc17674c-81d9-4adb-bf442e4622\",\n                            \"displayName\": null,\n                            \"tenantId\": \"909c6581-5130-43e93582cde38\",\n                            \"identityProvider\": \"AAD\"\n                        }\n                    }\n                },\n                \"attendees\": [],\n                \"producers\": [],\n                \"contributors\": []\n            },\n            \"sensitivityLabelAssignment\": {\n              \"sensitivityLabelId\": \"c7f2d7a7-6a36-4a41-9a6b-0d2761a9f4f0\"\n            },\n            \"meetingOptionsWebUrl\": \"https://teams.microsoft.com/meetingOptions/?meetingId=abc123\",\n            \"meetingSpokenLanguageTag\": \"en-US\",\n            \"lobbyBypassSettings\": {\n                \"scope\": \"organization\",\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 973
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 960,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 3: Retrieve an online meeting by joinWebUrl\n...\n#### Response\n...\n                \"isDialInBypassEnabled\": false\n            },\n            \"joinMeetingIdSettings\": {\n                \"isPasscodeRequired\": false,\n                \"joinMeetingId\": \"1234567890\",\n                \"passcode\": null\n            }\n        }\n    ]\n}\n\n```\n Section titled: Example 4: Retrieve an online meeting by joinMeetingId\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 960
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 954,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 3: Retrieve an online meeting by joinWebUrl\n\n\nYou can retrieve meeting information via JoinWebUrl by using either a user or\napplication token. This option is available to support use cases where the meeting\nID isn't known but the JoinWebUrl is, such as when a user creates a meeting\n(for example, in the Microsoft Teams client), and a separate application needs to\nretrieve meeting details as a follow-up action.\n\n Section titled: Request\n#### Request\n...\n#### Response\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 954
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 975,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 4: Retrieve an online meeting by joinMeetingId\n...\n#### Request\n\n\nThe following example shows a request that uses a user (delegated) token.\n\n HTTPC#GoJavaJavaScriptPHPPowerShellPython msgraphCopyTry It\n```\nGET https://graph.microsoft.com/v1.0/me/onlineMeetings?$filter=joinMeetingIdSettings/joinMeetingId%20eq%20'1234567890'\n\n```\n\nThe following request uses an app token.\n\n HTTPCopy\n```\nGET https://graph.microsoft.com/v1.0/users/dc17674c-81d9-4adb-bfb2-8f6a442e4622/onlineMeetings?$filter=joinMeetingIdSettings/joinMeetingId%20eq%20'1234567890'\n\n```\n Section titled: Response\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 975
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 941,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 4: Retrieve an online meeting by joinMeetingId\n...\n#### Response\n\n\nThe following example shows the response.\n\n> \n\n\nNote: The response object shown here might be shortened for readability.\n\n HTTPCopy\n```\nHTTP/1.1 200 OK\nContent-Type: application/json\n\n{\n    \"value\": [\n        {\n            \"id\": \"dc17674c-81d9-4adb-bfb2-8f6a442e4622_19:meeting_MGQ4MDQyNtZWVkODYxODYzMmY2@thread.v2\",\n            \"creationDateTime\": \"2020-09-29T22:35:33.1594516Z\",\n            \"startDateTime\": \"2020-09-29T22:35:31.389759Z\",\n            \"endDateTime\": \"2020-09-29T23:35:31.389759Z\",\n            \"expiryDateTime\": \"2025-04-12T23:57:47.6388574Z\",\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 941
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 961,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 4: Retrieve an online meeting by joinMeetingId\n...\n#### Response\n...\n            \"joinWebUrl\": \"https://teams.microsoft.com/l/meetup-join/19%3ameeting_MGQ4MDQyNTEtNZWVkODYxODYzMmY2%40thread.v2/0?context=%7b%22Tid%22%3a%22909c6581-5130-43e9-88cb3582cde37%22%2c%22Oid%22%3a%22dc17674c-81d9-4adb-bfb2-8f6a442e4622%22%7d\",\n            \"subject\": null,\n            \"autoAdmittedUsers\": \"EveryoneInCompany\",\n            \"isEntryExitAnnounced\": true,\n            \"allowedPresenters\": \"everyone\",\n            \"allowMeetingChat\": \"enabled\",\n            \"allowTeamworkReactions\": true,\n            \"videoTeleconferenceId\": \"(redacted)\",\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 961
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 966,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 4: Retrieve an online meeting by joinMeetingId\n...\n#### Response\n...\n            \"participants\": {\n                \"organizer\": {\n                    \"upn\": \"(redacted)\",\n                    \"role\": \"presenter\",\n                    \"identity\": {\n                        \"user\": {\n                            \"id\": \"dc174c-81db-bfb2-8f6622\",\n                            \"displayName\": null,\n                            \"tenantId\": \"9091-5130-48f3-fce38\",\n                            \"identityProvider\": \"AAD\"\n                        }\n                    }\n                },\n                \"attendees\": [],\n                \"producers\": [],\n                \"contributors\": []\n            },\n            \"sensitivityLabelAssignment\": {\n              \"sensitivityLabelId\": \"c7f2d7a7-6a36-4a41-9a6b-0d2761a9f4f0\"\n            },\n            \"meetingOptionsWebUrl\": \"https://teams.microsoft.com/meetingOptions/?meetingId=abc123\",\n            \"meetingSpokenLanguageTag\": \"en-US\",\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 966
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 955,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 4: Retrieve an online meeting by joinMeetingId\n...\n#### Response\n...\n            \"lobbyBypassSettings\": {\n                \"scope\": \"organization\",\n                \"isDialInBypassEnabled\": false\n            },\n            \"joinMeetingIdSettings\": {\n                \"isPasscodeRequired\": false,\n                \"joinMeetingId\": \"1234567890\",\n                \"passcode\": null\n            }\n        }\n    ]\n}\n\n```\n Section titled: Example 5: Fetch attendee report of a Teams live event\n(deprecated)\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 955
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 948,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 4: Retrieve an online meeting by joinMeetingId\n\n\nYou can retrieve meeting information via the joinMeetingId by using either a user (delegated) or an application token.\n\n Section titled: Request\n#### Request\n...\n#### Response\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 948
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 995,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 5: Fetch attendee report of a Teams live event (deprecated)\n...\n#### Request\n\n\nThe following request uses a user (delegated) token.\n\n HTTPC#GoJavaJavaScriptPHPPowerShellPython msgraphCopyTry It\n```\nGET https://graph.microsoft.com/v1.0/me/onlineMeetings/MSpkYzE3Njc0Yy04MWQ5LTRhZGItYmZiMi04ZdFpHRTNaR1F6WGhyZWFkLnYy/attendeeReport\n\n```\n\nThe following request uses application permission.\n\n HTTPCopy\n```\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 995
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 983,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 5: Fetch attendee report of a Teams live event (deprecated)\n...\n#### Request\n...\nGET https://graph.microsoft.com/v1.0/users/dc74d9bb-6afe-433d-8eaa-e39d80d3a647/onlineMeetings/MSpkYzE3Njc0Yy04MWQ5LTRhZGItYmZiMi04ZdFpHRTNaR1F6WGhyZWFkLnYy/attendeeReport\n\n```\n Section titled: Response\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 983
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 981,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 5: Fetch attendee report of a Teams live event (deprecated)\n...\n#### Response\n\n\nThe following example shows the response.\n\n HTTPCopy\n```\nHTTP/1.1 302 Found\nLocation: https://01-a-noam.dog.attend.teams.microsoft.com/broadcast/909c6581-5130-43e9-88f3-fcb3582cde37/dc17674c-81d9-4adb-bfb2-8f6a442e4622/19%3Ameeting_ZWE0YzQwMzItYjEyNi00NjJjLWE4MjYtOTUxYjE1NmFjYWIw%40thread.v2/0/resource/attendeeReport\n\n```\n Section titled: Example 6: Fetch the recording of a Teams live event\n(deprecated)\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 981
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 952,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 5: Fetch attendee report of a Teams live event (deprecated)\n\n\nThe following example shows a request to download an attendee report.\n\n Section titled: Request\n#### Request\n...\n#### Response\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 952
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 998,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 6: Fetch the recording of a Teams live event (deprecated)\n...\n#### Request\n\n\nThe following request uses delegated permission.\n\n HTTPC#GoJavaJavaScriptPHPPowerShellPython msgraphCopyTry It\n```\nGET https://graph.microsoft.com/v1.0/me/onlineMeetings/MSpkYzE3Njc0Yy04MWQ5LTRhZGItYmZiMi04ZdFpHRTNaR1F6WGhyZWFkLnYy/recording\n\n```\n\nThe following request uses application permission.\n\n msgraphCopyTry It\n```\nGET https://graph.microsoft.com/v1.0/users/dc74d9bb-6afe-433d-8eaa-e39d80d3a647/onlineMeetings/MSpkYzE3Njc0Yy04MWQ5LTRhZGItYmZiMi04ZdFpHRTNaR1F6WGhyZWFkLnYy/recording\n\n```\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 998
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 986,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 6: Fetch the recording of a Teams live event (deprecated)\n...\n#### Request\n...\n Section titled: Response\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 986
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 990,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 6: Fetch the recording of a Teams live event (deprecated)\n...\n#### Response\n\n\nThe following example shows the response.\n\n HTTPCopy\n```\nHTTP/1.1 302 Found\nLocation: https://01-a-noam.dog.attend.teams.microsoft.com/broadcast/909c6581-5130-43e9-88f3-fcb3582cde37/dc17674c-81d9-4adb-bfb2-8f6a442e4622/19%3Ameeting_ZWE0YzQwMzItYjEyNi00NjJjLWE4MjYtOTUxYjE1NmFjYWIw%40thread.v2/0/resource/recording\n\n```\n  \n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 990
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 988,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n...\n### Example 6: Fetch the recording of a Teams live event (deprecated)\n\n\nThe following example shows a request to download a recording.\n\n Section titled: Request\n#### Request\n...\n#### Response\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 988
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 971,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Examples\n\n \nNote\n\n\nThe response objects of the following examples have been shortened for\nreadability. All the properties will be returned from an actual call.\n\n Section titled: Example 1: Retrieve an online meeting by videoTeleconferenceId\n### Example 1: Retrieve an online meeting by videoTeleconferenceId\n...\n### Example 2: Retrieve an online meeting by meeting ID\n...\n### Example 3: Retrieve an online meeting by joinWebUrl\n...\n### Example 4: Retrieve an online meeting by joinMeetingId\n...\n### Example 5: Fetch attendee report of a Teams live event (deprecated)\n...\n### Example 6: Fetch the recording of a Teams live event (deprecated)\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 971
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 947,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Feedback\n\n\nWas this page helpful?\n\nYesNo \n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 947
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 965,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Additional resources\n\n Events[AI Apps & Agents Dev Days](https://aka.ms/AIAppsandAgentsLearn)\nJan 20, 10 AM - Jan 20, 10 AM\n\n\nExperiment with what's next in AI-driven apps and agent design\n\n[Register now](https://aka.ms/AIAppsandAgentsLearn) \nLast updated on 07/23/2025\n\n[Content language selector. Currently set to English (United States).](https://learn.microsoft.com/en-us/locale?target=https%3A%2F%2Flearn.microsoft.com%2Fen-us%2Fgraph%2Fapi%2Fonlinemeeting-get%3Fview%3Dgraph-rest-1.0) [Your Privacy Choices](https://aka.ms/yourcaliforniaprivacychoices) Theme\nManage cookies\n[AI Disclaimer](https://learn.microsoft.com/en-us/principles-for-ai-generated-content)\n[Previous Versions](https://learn.microsoft.com/en-us/previous-versions/)\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 965
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 953,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Additional resources\n...\n[Blog](https://techcommunity.microsoft.com/t5/microsoft-learn-blog/bg-p/MicrosoftLearnBlog)\n[Contribute](https://learn.microsoft.com/en-us/contribute)\n[Privacy](https://go.microsoft.com/fwlink/?LinkId=521839)\n[Terms of Use](https://learn.microsoft.com/en-us/legal/termsofuse)\n[Trademarks](https://www.microsoft.com/legal/intellectualproperty/Trademarks/)\n© Microsoft 2026\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 953
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 976,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Additional Links\n- [Guides](https://learn.microsoft.com/en-us/graph/overview)\n- [API Reference](https://learn.microsoft.com/en-us/graph/api/overview?view=graph-rest-1.0)\n- [Learn](https://learn.microsoft.com/en-us/?view=graph-rest-1.0)\n- [Microsoft Graph](https://learn.microsoft.com/en-us/graph/?view=graph-rest-1.0)\n- [Permissions](https://learn.microsoft.com/en-us/graph/api/onlinemeeting-get?view=graph-rest-1.0&tabs=http#permissions)\n- [HTTP request](https://learn.microsoft.com/en-us/graph/api/onlinemeeting-get?view=graph-rest-1.0&tabs=http#http-request)\n- [Optional query parameters](https://learn.microsoft.com/en-us/graph/api/onlinemeeting-get?view=graph-rest-1.0&tabs=http#optional-query-parameters)\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 976
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 963,
+                                          "text": "...\n# Get onlineMeeting\n...\n## Additional Links\n...\n- [Request headers](https://learn.microsoft.com/en-us/graph/api/onlinemeeting-get?view=graph-rest-1.0&tabs=http#request-headers)",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 963
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 994,
+                                          "text": "...\n# Get onlineMeeting\n\n \nNamespace: microsoft.graph\n\n\nRetrieve the properties and relationships of an [onlineMeeting](https://learn.microsoft.com/en-us/graph/api/resources/onlinemeeting?view=graph-rest-1.0) object.\n\n\nFor example, you can:\n\n\n• Get details of an online meeting using videoTeleconferenceId, meeting ID, joinWebURL, or joinMeetingId.\n• Use the `/attendeeReport` path to get the attendee report of a [Microsoft Teams live event](https://learn.microsoft.com/en-us/microsoftteams/teams-live-events/what-are-teams-live-events) in the form of a download link, as shown in example 5. (deprecated)\n• Use the `/recording` and `/alternativeRecording` paths to get the recordings of a [Teams live event](https://learn.microsoft.com/en-us/microsoftteams/teams-live-events/what-are-teams-live-events) in the form of a download link, as shown in example 6. (deprecated)\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 994
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 993,
+                                          "text": "...\n# Get onlineMeeting\n...\nTeams live event attendee report (deprecated) and Teams live event recordings (deprecated) are online meeting artifacts. For more information, see [Online meeting artifacts and permissions](https://learn.microsoft.com/en-us/graph/cloud-communications-online-meeting-artifacts).\n\n \nCaution\n\n\nTeams live events was not removed on September 30, 2024, as previously\nannounced. You can continue to use Teams live events; however, to get the latest new\nfeatures and experiences, we recommend that you use [Teams town halls](https://support.microsoft.com/en-us/office/switch-from-microsoft-teams-live-events-to-town-halls-c71bf6e2-ece1-4809-900e-51271f39ac72) and the [Microsoft Graph virtual event townhall APIs](https://learn.microsoft.com/en-us/graph/api/resources/virtualeventtownhall?view=graph-rest-1.0) instead.\n\n\nThis API is available in the following [national cloud deployments](https://learn.microsoft.com/en-us/graph/deployments).\n\nExpand table\n|  |\n|  |\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 993
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 979,
+                                          "text": "...\n# Get onlineMeeting\n...\n| ✅ | ✅ | ✅ | ❌ |\n\n Section titled: Permissions\n## Permissions\n...\n## HTTP request\n...\n## Optional query parameters\n...\n## Request headers\n...\n## Request body\n...\n## Response\n...\n## Examples\n...\n## Feedback\n...\n## Additional resources\n...\n## Additional Links\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 979
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 982,
+                                          "text": " Skip to main contentSkip to Ask Learn chat experience [Image: Image]\n\n\nWe use optional cookies to improve your experience on our websites, such as\nthrough social media connections, and to display personalized advertising based on\nyour online activity. If you reject optional cookies, only cookies necessary to\nprovide you the services will be used. You may change your selection by clicking\n“Manage Cookies” at the bottom of the page. [Privacy Statement](https://go.microsoft.com/fwlink/?LinkId=521839) [Third-Party Cookies](https://aka.ms/3rdpartycookies)\n\n AcceptRejectManage cookies [Microsoft](https://www.microsoft.com/)[Learn](https://learn.microsoft.com/en-us/)  Sign in  [Microsoft Graph](https://learn.microsoft.com/en-us/graph/)[Download SDKs](https://learn.microsoft.com/graph/sdks/sdks-overview)[Open Graph Explorer](https://developer.microsoft.com/en-us/graph/graph-explorer)       Ask Learn\n# Get onlineMeeting\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 982
+                                      },
+                                      "references": []
+                                    }
+                                  ],
+                                  "props": {
+                                    "passPriority": true
+                                  },
+                                  "references": [],
+                                  "keepWithId": 55,
+                                  "flags": 4
+                                }
+                              ],
+                              "props": {
+                                "passPriority": true
+                              },
+                              "references": [],
+                              "flags": 6
+                            }
+                          ],
+                          "props": {
+                            "passPriority": true
+                          },
+                          "references": [],
+                          "flags": 4
+                        },
+                        {
+                          "type": 1,
+                          "ctor": 2,
+                          "ctorName": "n",
+                          "children": [
+                            {
+                              "type": 1,
+                              "ctor": 2,
+                              "ctorName": "f$e",
+                              "children": [
+                                {
+                                  "type": 1,
+                                  "ctor": 2,
+                                  "ctorName": "",
+                                  "children": [
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 9007199254740991,
+                                          "text": "Here is some relevant context from the web page https://learn.microsoft.com/en-us/graph/api/resources/callrecording?view%3Dgraph-rest-1.0:",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {},
+                                      "references": []
+                                    }
+                                  ],
+                                  "props": {},
+                                  "references": [],
+                                  "keepWithId": 56
+                                },
+                                {
+                                  "type": 1,
+                                  "ctor": 2,
+                                  "ctorName": "",
+                                  "children": [
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 997,
+                                          "text": "...\n# callRecording resource type\n...\n## Methods\n\nExpand table\n|  |\n|  |\n| List | callRecording collection | Get the list of callRecording objects associated with a scheduled onlineMeeting. |\n| Get | callRecording | Get a callRecording object associated with a scheduled onlineMeeting. |\n| Get | callRecording | Get a callRecording object associated with a meeting and an ad hoc call after the instance has ended. |\n| Get delta by organizer | callRecording collection | Get a set of callRecording resources that were added for onlineMeeting instances organized by the specified user. |\n| List recordings by organizer | callRecording collection | Get the callRecording objects for all the onlineMeeting instances organized by the specified user. |\n\n Section titled: Properties\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 997
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 992,
+                                          "text": "...\n# callRecording resource type\n...\n## Properties\n\nExpand table\n|  |\n|  |\n| callId | String | The unique identifier for the call that is related to this recording. Read-only. |\n| content | Stream | The content of the recording. Read-only. |\n| contentCorrelationId | String | The unique identifier that links the transcript with its corresponding recording. Read-only. |\n| createdDateTime | DateTimeOffset | Date and time at which the recording was created. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. Read-only. |\n| endDateTime | DateTimeOffset | Date and time at which the recording ends. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. Read-only. |\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 992
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 1000,
+                                          "text": "...\n# callRecording resource type\n...\n## Properties\n...\n| id | String | The unique identifier for the recording. Read-only. Inherited from entity. |\n| meetingId | String | The unique identifier of the onlineMeeting related to this recording. Read-only. |\n| meetingOrganizer | identitySet | The identity information of the organizer of the onlineMeeting related to this recording. Read-only. |\n| recordingContentUrl | String | The URL that can be used to access the content of the recording. Read-only. |\n\n Section titled: Relationships\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 1000
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 998,
+                                          "text": "...\n# callRecording resource type\n...\n## Relationships\n\n\nNone.\n\n Section titled: JSON representation\n## JSON representation\n\n\nThe following JSON representation shows the resource type.\n\n JSONCopy\n```\n{\n  \"callId\": \"String\",\n  \"content\": \"Stream\",\n  \"contentCorrelationId\": \"String\",\n  \"createdDateTime\": \"String (timestamp)\",\n  \"endDateTime\": \"String (timestamp)\",\n  \"id\": \"String (identifier)\",\n  \"meetingId\": \"String\",\n  \"meetingOrganizer\": {\"@odata.type\": \"microsoft.graph.identitySet\"},\n  \"recordingContentUrl\": \"String\"\n}\n\n```\n  \n## Feedback\n\n\nWas this page helpful?\n\nYesNo \n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 998
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 996,
+                                          "text": "...\n# callRecording resource type\n...\n## Additional resources\n\n Events[AI Apps & Agents Dev Days](https://aka.ms/AIAppsandAgentsLearn)\nJan 20, 10 AM - Jan 20, 10 AM\n\n\nExperiment with what's next in AI-driven apps and agent design\n\n[Register now](https://aka.ms/AIAppsandAgentsLearn) \nLast updated on 12/10/2025\n\n[Content language selector. Currently set to English (United States).](https://learn.microsoft.com/en-us/locale?target=https%3A%2F%2Flearn.microsoft.com%2Fen-us%2Fgraph%2Fapi%2Fresources%2Fcallrecording%3Fview%3Dgraph-rest-1.0) [Your Privacy Choices](https://aka.ms/yourcaliforniaprivacychoices) Theme\nManage cookies\n[AI Disclaimer](https://learn.microsoft.com/en-us/principles-for-ai-generated-content)\n[Previous Versions](https://learn.microsoft.com/en-us/previous-versions/)\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 996
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 993,
+                                          "text": "...\n# callRecording resource type\n...\n## Additional resources\n...\n[Blog](https://techcommunity.microsoft.com/t5/microsoft-learn-blog/bg-p/MicrosoftLearnBlog)\n[Contribute](https://learn.microsoft.com/en-us/contribute)\n[Privacy](https://go.microsoft.com/fwlink/?LinkId=521839)\n[Terms of Use](https://learn.microsoft.com/en-us/legal/termsofuse)\n[Trademarks](https://www.microsoft.com/legal/intellectualproperty/Trademarks/)\n© Microsoft 2026\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 993
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 994,
+                                          "text": "...\n# callRecording resource type\n...\n## Additional Links\n- [Guides](https://learn.microsoft.com/en-us/graph/overview)\n- [API Reference](https://learn.microsoft.com/en-us/graph/api/overview?view=graph-rest-1.0)\n- [Learn](https://learn.microsoft.com/en-us/?view=graph-rest-1.0)\n- [Microsoft Graph](https://learn.microsoft.com/en-us/graph/?view=graph-rest-1.0)\n- [Methods](https://learn.microsoft.com/en-us/graph/api/resources/callrecording?view=graph-rest-1.0#methods)\n- [Properties](https://learn.microsoft.com/en-us/graph/api/resources/callrecording?view=graph-rest-1.0#properties)\n- [Relationships](https://learn.microsoft.com/en-us/graph/api/resources/callrecording?view=graph-rest-1.0#relationships)\n- [JSON representation](https://learn.microsoft.com/en-us/graph/api/resources/callrecording?view=graph-rest-1.0#json-representation)",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 994
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 995,
+                                          "text": "...\n# callRecording resource type\n\n \nNamespace: microsoft.graph\n\n\nRepresents a recording associated with an [online meeting](https://learn.microsoft.com/en-us/graph/api/resources/onlinemeeting?view=graph-rest-1.0) or an [ad hoc call](https://learn.microsoft.com/en-us/graph/api/resources/adhoccall?view=graph-rest-1.0).\n\n Section titled: Methods\n## Methods\n...\n## Properties\n...\n## Relationships\n...\n## JSON representation\n...\n## Feedback\n...\n## Additional resources\n...\n## Additional Links\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 995
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 999,
+                                          "text": " Skip to main contentSkip to Ask Learn chat experience [Image: Image]\n\n\nWe use optional cookies to improve your experience on our websites, such as\nthrough social media connections, and to display personalized advertising based on\nyour online activity. If you reject optional cookies, only cookies necessary to\nprovide you the services will be used. You may change your selection by clicking\n“Manage Cookies” at the bottom of the page. [Privacy Statement](https://go.microsoft.com/fwlink/?LinkId=521839) [Third-Party Cookies](https://aka.ms/3rdpartycookies)\n\n AcceptRejectManage cookies [Microsoft](https://www.microsoft.com/)[Learn](https://learn.microsoft.com/en-us/)  Sign in  [Microsoft Graph](https://learn.microsoft.com/en-us/graph/)[Download SDKs](https://learn.microsoft.com/graph/sdks/sdks-overview)[Open Graph Explorer](https://developer.microsoft.com/en-us/graph/graph-explorer)       Ask Learn\n# callRecording resource type\n...",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 999
+                                      },
+                                      "references": []
+                                    }
+                                  ],
+                                  "props": {
+                                    "passPriority": true
+                                  },
+                                  "references": [],
+                                  "keepWithId": 56,
+                                  "flags": 4
+                                }
+                              ],
+                              "props": {
+                                "passPriority": true
+                              },
+                              "references": [],
+                              "flags": 6
+                            }
+                          ],
+                          "props": {
+                            "passPriority": true
+                          },
+                          "references": [],
+                          "flags": 4
+                        },
+                        {
+                          "type": 1,
+                          "ctor": 2,
+                          "ctorName": "n",
+                          "children": [
+                            {
+                              "type": 1,
+                              "ctor": 2,
+                              "ctorName": "f$e",
+                              "children": [
+                                {
+                                  "type": 1,
+                                  "ctor": 2,
+                                  "ctorName": "",
+                                  "children": [
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 9007199254740991,
+                                          "text": "Here is some relevant context from the web page https://learn.microsoft.com/en-us/graph/cloud-communications-online-meeting-application-access-policy:",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {},
+                                      "references": []
+                                    }
+                                  ],
+                                  "props": {},
+                                  "references": [],
+                                  "keepWithId": 57
+                                },
+                                {
+                                  "type": 1,
+                                  "ctor": 2,
+                                  "ctorName": "",
+                                  "children": [
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "sCe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 1000,
+                                          "text": "An error occurred retrieving the fetch result: HTTP error 404",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 1000
+                                      },
+                                      "references": []
+                                    }
+                                  ],
+                                  "props": {
+                                    "passPriority": true
+                                  },
+                                  "references": [],
+                                  "keepWithId": 57,
+                                  "flags": 4
+                                }
+                              ],
+                              "props": {
+                                "passPriority": true
+                              },
+                              "references": [],
+                              "flags": 6
+                            }
+                          ],
+                          "props": {
+                            "passPriority": true
+                          },
+                          "references": [],
+                          "flags": 4
+                        }
+                      ],
+                      "props": {},
+                      "references": []
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "modelMessageId": "7043ab4f-ef2a-479f-aad4-71d1363b41bf",
+          "responseId": "ec32e3ee-b913-4eec-9250-2fdff095410a",
+          "sessionId": "1a7fa43c-78fd-4c08-9847-dbf91b6986c7",
+          "agentId": "github.copilot.editsAgent"
+        },
+        "details": "Claude Opus 4.5 • 3x"
+      },
+      "responseMarkdownInfo": [
+        {
+          "suggestionId": "sgt-ffa9628c-df31-4494-8ee6-ecedb968c1d4"
+        },
+        {
+          "suggestionId": "sgt-c9897677-3592-4e67-a86a-64df57d55a88"
+        },
+        {
+          "suggestionId": "sgt-161e604e-ff0e-4784-8559-f2c6b3613551"
+        }
+      ],
+      "followups": [],
+      "modelState": {
+        "value": 1,
+        "completedAt": 1768900901640
+      },
+      "contentReferences": [
+        {
+          "kind": "reference",
+          "reference": {
+            "$mid": 1,
+            "fsPath": "c:\\dev\\yorizon\\.github\\copilot-instructions.md",
+            "_sep": 1,
+            "external": "file:///c%3A/dev/yorizon/.github/copilot-instructions.md",
+            "path": "/c:/dev/yorizon/.github/copilot-instructions.md",
+            "scheme": "file"
+          }
+        }
+      ],
+      "codeCitations": [],
+      "timeSpentWaiting": 0
+    }
+  ]
+}

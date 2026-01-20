@@ -13,6 +13,8 @@
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
     "token": "node src/token-helper.js",
+    "token:login": "node src/token-helper.js login",
+    "token:logout": "node src/token-helper.js logout",
     "token:status": "node src/token-helper.js status",
     "token:refresh": "node src/token-helper.js refresh"
   },

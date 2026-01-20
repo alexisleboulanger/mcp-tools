@@ -15,6 +15,9 @@ const ENDPOINT_PERMISSIONS = {
   '/sites': ['Sites.Read.All', 'Sites.ReadWrite.All'],
   '/teams': ['Team.ReadBasic.All', 'TeamSettings.Read.All'],
   '/search/query': ['Files.Read.All', 'Mail.Read', 'Calendars.Read'],
+  '/onlineMeetings': ['OnlineMeetings.Read', 'OnlineMeetings.ReadWrite', 'OnlineMeetings.Read.All'],
+  '/recordings': ['OnlineMeetingArtifact.Read.All'],
+  '/transcripts': ['OnlineMeetingTranscript.Read.All'],
 };
 
 export class GraphClient {
@@ -146,6 +149,7 @@ export class GraphClient {
       sites: false,
       teams: false,
       search: false,
+      recordings: false,
     };
 
     // Always try user first (most basic permission)
@@ -476,6 +480,119 @@ export class GraphClient {
       `/teams/${teamId}/channels/${channelId}/messages?$top=50`,
       maxResults
     );
+  }
+
+  // ============================================
+  // Online Meetings & Recordings API
+  // ============================================
+
+  /**
+   * List online meetings for a user
+   * @param {string} userId - User ID (or 'me' for current user)
+   */
+  async getOnlineMeetings(userId = 'me', maxResults = 50) {
+    const endpoint = userId === 'me' 
+      ? '/me/onlineMeetings' 
+      : `/users/${userId}/onlineMeetings`;
+    return this.getAllPages(`${endpoint}?$top=50`, maxResults, true); // beta API
+  }
+
+  /**
+   * Get a specific online meeting by ID
+   * @param {string} meetingId - The meeting ID
+   * @param {string} userId - User ID (defaults to 'me')
+   */
+  async getOnlineMeeting(meetingId, userId = 'me') {
+    const endpoint = userId === 'me'
+      ? `/me/onlineMeetings/${meetingId}`
+      : `/users/${userId}/onlineMeetings/${meetingId}`;
+    return this.get(endpoint, true); // beta API
+  }
+
+  /**
+   * List all recordings for a user's online meetings
+   * Requires OnlineMeetingArtifact.Read.All permission
+   * @param {string} userId - User ID (defaults to 'me')
+   */
+  async getAllRecordings(userId = 'me', maxResults = 50) {
+    const endpoint = userId === 'me'
+      ? '/me/onlineMeetings/getAllRecordings'
+      : `/users/${userId}/onlineMeetings/getAllRecordings`;
+    return this.getAllPages(`${endpoint}?$top=20`, maxResults, true); // beta API
+  }
+
+  /**
+   * List recordings for a specific meeting
+   * @param {string} meetingId - The meeting ID
+   * @param {string} userId - User ID (defaults to 'me')
+   */
+  async getMeetingRecordings(meetingId, userId = 'me') {
+    const endpoint = userId === 'me'
+      ? `/me/onlineMeetings/${meetingId}/recordings`
+      : `/users/${userId}/onlineMeetings/${meetingId}/recordings`;
+    return this.get(endpoint, true); // beta API
+  }
+
+  /**
+   * Get recording content (download URL)
+   * @param {string} meetingId - The meeting ID
+   * @param {string} recordingId - The recording ID
+   * @param {string} userId - User ID (defaults to 'me')
+   */
+  async getRecordingContent(meetingId, recordingId, userId = 'me') {
+    const endpoint = userId === 'me'
+      ? `/me/onlineMeetings/${meetingId}/recordings/${recordingId}/content`
+      : `/users/${userId}/onlineMeetings/${meetingId}/recordings/${recordingId}/content`;
+    
+    // This returns a redirect to the actual content, we return metadata
+    const token = await this.authProvider.getAccessToken();
+    const response = await fetch(`${this.betaUrl}${endpoint}`, {
+      method: 'GET',
+      headers: { 'Authorization': `Bearer ${token}` },
+      redirect: 'manual',
+    });
+
+    if (response.status === 302 || response.status === 301) {
+      return { downloadUrl: response.headers.get('Location') };
+    }
+    
+    throw new Error(`Failed to get recording content: ${response.status}`);
+  }
+
+  /**
+   * List transcripts for a meeting
+   * Requires OnlineMeetingTranscript.Read.All permission
+   */
+  async getMeetingTranscripts(meetingId, userId = 'me') {
+    const endpoint = userId === 'me'
+      ? `/me/onlineMeetings/${meetingId}/transcripts`
+      : `/users/${userId}/onlineMeetings/${meetingId}/transcripts`;
+    return this.get(endpoint, true); // beta API
+  }
+
+  /**
+   * Get transcript content
+   * @param {string} format - 'text/vtt' or 'application/json' (docx not supported)
+   */
+  async getTranscriptContent(meetingId, transcriptId, userId = 'me', format = 'text/vtt') {
+    const endpoint = userId === 'me'
+      ? `/me/onlineMeetings/${meetingId}/transcripts/${transcriptId}/content`
+      : `/users/${userId}/onlineMeetings/${meetingId}/transcripts/${transcriptId}/content`;
+    
+    const token = await this.authProvider.getAccessToken();
+    const response = await fetch(`${this.betaUrl}${endpoint}?$format=${encodeURIComponent(format)}`, {
+      method: 'GET',
+      headers: { 
+        'Authorization': `Bearer ${token}`,
+        'Accept': format,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to get transcript: ${response.status}`);
+    }
+
+    return response.text();
   }
 
   // ============================================
