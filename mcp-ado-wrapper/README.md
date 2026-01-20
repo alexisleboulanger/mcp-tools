@@ -1,69 +1,172 @@
-# ADO MCP Wrapper
+# MCP-ADO-Wrapper: Azure DevOps Integration for AI Assistants
 
-## Reference
+> **Model Context Protocol (MCP) wrapper** for the official `@azure-devops/mcp` server.
+> Adds preflight validation, PAT resolution, and environment configuration.
 
-[VSCode MCP integration](https://code.visualstudio.com/docs/copilot/customization/mcp-servers)  
-[Github MCP registry](https://github.com/mcp?utm_source=vscode-website&utm_campaign=mcp-registry-server-launch-2025)  
-[azure-devops-mcp](https://github.com/microsoft/azure-devops-mcp)  
+[![MCP Version](https://img.shields.io/badge/MCP-1.0-blue)](https://modelcontextprotocol.io)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Node.js](https://img.shields.io/badge/Node.js->=18-brightgreen)](https://nodejs.org)
 
-## Intro
+## Overview
 
-Wrapper around the upstream `@azure-devops/mcp` server that:
+This wrapper enhances the upstream [@azure-devops/mcp](https://github.com/microsoft/azure-devops-mcp) server with:
 
-* Resolves a PAT from common env variable names (AZURE_DEVOPS_PAT, ADO_PAT, AZURE_DEVOPS_EXT_PAT, SYSTEM_ACCESSTOKEN) and `.env.local`.
-* Performs a preflight REST call to verify the PAT can list projects (can be skipped with `--no-preflight`).
-* Spawns the upstream MCP server via `npx` while standard I/O remains protocol-pure.
+| Feature | Description |
+|---------|-------------|
+| **PAT Resolution** | Resolves PAT from multiple env variable names |
+| **Preflight Validation** | Verifies PAT can list projects before spawning |
+| **Environment Loading** | Automatic `.env` file support |
+| **Protocol-Pure I/O** | Keeps stdio clean for MCP protocol |
 
-## Usage
+## Quick Start
 
 ```bash
-node mcp-ado-wrapper/wrapper.js [domains...] [--no-preflight]
+# Install dependencies
+npm install
+
+# Configure environment
+cp .env.example .env
+# Edit .env with your PAT and org URL
+
+# Test wrapper
+node wrapper.js --no-preflight
 ```
 
-The organization URL and PAT are taken from `.env` next to `wrapper.js`.
-If no domains are supplied, all upstream domains are enabled.
+## Configuration
 
-## Environment Variables
+### Environment Variables
 
-The wrapper now expects configuration via `.env` next to `wrapper.js`:
+Create a `.env` file next to `wrapper.js`:
 
-* `AZURE_DEVOPS_PAT` – PAT with access to your organization
-* `AZURE_DEVOPS_ORG_URL` – e.g. `https://dev.azure.com/yourorg`
+```env
+# Required
+AZURE_DEVOPS_PAT=your-personal-access-token
+AZURE_DEVOPS_ORG_URL=https://dev.azure.com/yourorg
 
-Other legacy variables (`ADO_PAT`, `AZURE_DEVOPS_EXT_PAT`, `SYSTEM_ACCESSTOKEN`) are still honored if present, but are no longer required.
+# Optional: Project scope (if not specified, all projects accessible)
+AZURE_DEVOPS_PROJECT=your-project-name
+```
 
-## .env Support
+**PAT Resolution Order:**
+1. `AZURE_DEVOPS_PAT`
+2. `ADO_PAT`
+3. `AZURE_DEVOPS_EXT_PAT`
+4. `SYSTEM_ACCESSTOKEN`
 
-If a `.env` file exists alongside `wrapper.js`, its variables are loaded on startup (without overriding already-present variables).
+### VS Code Integration
 
-## Integration
-
-Add to `.vscode/mcp.json` (already added as `ado-wrapped`). Use that server instead of the plain `ado` entry to obtain preflight validation with virtually zero overhead.
-
-Minimal working configuration:
+Add to `.vscode/mcp.json`:
 
 ```jsonc
-"ado-wrapped": {
-  "type": "stdio",
-  "command": "node",
-  "args": [
-    "C:\\dev\\mcp\\mcp-ado-wrapper\\wrapper.js"
-  ]
+{
+  "servers": {
+    "ado-wrapped": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["C:\\dev\\mcp\\mcp-ado-wrapper\\wrapper.js"]
+    }
+  }
 }
 ```
 
-### Legacy configuration example
+## Tool Reference
 
-For reference, the previous direct configuration for the upstream server looked like this:
+This wrapper exposes all tools from `@azure-devops/mcp`. Tools are organized by domain:
 
-```jsonc
-// "ado": {
-//    "type": "stdio",
-//    "command": "npx",
-//    "args": ["-y", "@azure-devops/mcp", "${input:ado_org}", "-d", "core", "work-items", "wiki"],
-//    "env": {
-//       "AZURE_DEVOPS_EXT_PAT": "${env:ADO_PAT}",
-//       "AZURE_DEVOPS_ORG_URL": "https://dev.azure.com/${input:ado_org}"
-//    }
-// },
+### Core Domain
+
+| Tool | Description |
+|------|-------------|
+| `get_projects` | List all accessible projects |
+| `get_teams` | List teams in a project |
+
+### Work Items Domain
+
+| Tool | Description |
+|------|-------------|
+| `create_work_item` | Create a new work item (Bug, Task, User Story, etc.) |
+| `update_work_item` | Update fields on an existing work item |
+| `get_work_item` | Get details of a specific work item |
+| `search_work_items` | Search work items by query |
+| `link_work_items` | Create links between work items |
+
+### Pipelines Domain
+
+| Tool | Description |
+|------|-------------|
+| `run_pipeline` | Trigger a pipeline run |
+| `get_build` | Get build details and status |
+| `get_build_logs` | Retrieve build logs |
+
+### Wiki Domain
+
+| Tool | Description |
+|------|-------------|
+| `get_wiki_page` | Get wiki page content |
+| `create_wiki_page` | Create or update a wiki page |
+| `list_wiki_pages` | List pages in a wiki |
+
+### Test Plans Domain
+
+| Tool | Description |
+|------|-------------|
+| `create_test_case` | Create a new test case |
+| `get_test_plans` | List test plans |
+| `update_test_case_steps` | Update test case steps |
+
+## Usage Examples
+
+### Select Specific Domains
+
+```bash
+# Only enable work-items and wiki
+node wrapper.js work-items wiki
 ```
+
+### Skip Preflight Check
+
+```bash
+# Faster startup, skip PAT validation
+node wrapper.js --no-preflight
+```
+
+## MCP Tool Design Principles
+
+This wrapper follows MCP best practices:
+
+1. **Clear error messages** - Preflight validation reports issues before protocol starts
+2. **Environment flexibility** - Multiple PAT resolution paths for different CI/CD contexts
+3. **Domain selection** - Enable only the domains you need
+4. **Protocol purity** - Debug output goes to stderr, keeping stdout for MCP protocol
+
+## Troubleshooting
+
+### "PAT not found"
+
+Ensure one of these is set:
+- `AZURE_DEVOPS_PAT` in `.env`
+- Or any of the fallback variables
+
+### "Preflight failed"
+
+The PAT cannot list projects. Check:
+1. PAT has correct scopes (read access to projects)
+2. Organization URL is correct
+3. PAT is not expired
+
+### Verify PAT manually
+
+```bash
+./scripts/verify_azure_devops_pat.sh
+```
+
+## References
+
+- [VS Code MCP Integration](https://code.visualstudio.com/docs/copilot/customization/mcp-servers)
+- [GitHub MCP Registry](https://github.com/mcp)
+- [Azure DevOps MCP (Upstream)](https://github.com/microsoft/azure-devops-mcp)
+- [Azure DevOps REST API](https://learn.microsoft.com/en-us/rest/api/azure/devops/)
+
+## License
+
+MIT
