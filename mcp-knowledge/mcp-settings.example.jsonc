@@ -1,0 +1,15 @@
+{
+  // Example VS Code MCP configuration for mcp-knowledge server
+  // Copy this to your .vscode/mcp.json
+  "mcpServers": {
+    "knowledge": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["${workspaceFolder}/mcp-knowledge/server.js"],
+      "env": {
+        // Path to .knowledge folder - defaults to .knowledge in workspace root
+        "KNOWLEDGE_PATH": "${workspaceFolder}/.knowledge"
+      }
+    }
+  }
+}
