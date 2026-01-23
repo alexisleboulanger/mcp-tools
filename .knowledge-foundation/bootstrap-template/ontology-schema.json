@@ -1,0 +1,235 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Knowledge Foundation Ontology Schema",
+  "description": "Defines all entity types and relation types for knowledge graphs",
+  "version": "1.0.0",
+  "layers": {
+    "strategy": {
+      "description": "Why? - Strategic context and objectives",
+      "entityTypes": ["Pillar", "Objective", "Metric"]
+    },
+    "delivery": {
+      "description": "What? - Capabilities, decisions, and processes",
+      "entityTypes": ["CapabilityL1", "CapabilityL2", "Gap", "Recommendation", "ADR", "Process"]
+    },
+    "solution": {
+      "description": "How? - Implementation details, services, APIs, concepts, patterns",
+      "entityTypes": ["Service", "SystemAPI", "Event", "Concept", "Pattern", "Practice", "Term"]
+    }
+  },
+  "entityTypes": [
+    {
+      "name": "Pillar",
+      "layer": "strategy",
+      "description": "Strategic pillar or business domain",
+      "requiredFields": ["name", "observations"],
+      "namingConvention": "PascalCase, descriptive (e.g., 'ExternalServicesIntegration')"
+    },
+    {
+      "name": "Objective",
+      "layer": "strategy",
+      "description": "Strategic objective or measurable goal",
+      "requiredFields": ["name", "observations"],
+      "namingConvention": "PascalCase, goal-oriented (e.g., 'UnifiedMCPInterface')"
+    },
+    {
+      "name": "Metric",
+      "layer": "strategy",
+      "description": "Success metric for objectives",
+      "requiredFields": ["name", "observations"],
+      "namingConvention": "PascalCase with metric (e.g., 'ToolAdoptionRate')"
+    },
+    {
+      "name": "CapabilityL1",
+      "layer": "delivery",
+      "description": "Level 1 capability (high-level)",
+      "requiredFields": ["name", "observations"],
+      "namingConvention": "PascalCase, capability domain (e.g., 'DataIntegration')"
+    },
+    {
+      "name": "CapabilityL2",
+      "layer": "delivery",
+      "description": "Level 2 capability (specific)",
+      "requiredFields": ["name", "observations"],
+      "namingConvention": "PascalCase, specific capability (e.g., 'OAuth2Authentication')"
+    },
+    {
+      "name": "Gap",
+      "layer": "delivery",
+      "description": "Capability gap or missing functionality",
+      "requiredFields": ["name", "observations"],
+      "namingConvention": "Descriptive (e.g., 'MissingRealTimeSync')"
+    },
+    {
+      "name": "Recommendation",
+      "layer": "delivery",
+      "description": "Improvement recommendation",
+      "requiredFields": ["name", "observations"],
+      "namingConvention": "Action-oriented (e.g., 'ImplementWebSocketSupport')"
+    },
+    {
+      "name": "ADR",
+      "layer": "delivery",
+      "description": "Architecture Decision Record",
+      "requiredFields": ["name", "observations"],
+      "namingConvention": "ADR-NNNN-kebab-case (e.g., 'ADR-0001-transport-strategy')"
+    },
+    {
+      "name": "Process",
+      "layer": "delivery",
+      "description": "Operational process or workflow",
+      "requiredFields": ["name", "observations"],
+      "namingConvention": "PascalCase, process name (e.g., 'MCPServerLifecycle')"
+    },
+    {
+      "name": "Service",
+      "layer": "solution",
+      "description": "Software service or component",
+      "requiredFields": ["name", "observations"],
+      "namingConvention": "PascalCase or kebab-case (e.g., 'MCP365' or 'mcp-ado-wrapper')"
+    },
+    {
+      "name": "SystemAPI",
+      "layer": "solution",
+      "description": "External API integration",
+      "requiredFields": ["name", "observations"],
+      "namingConvention": "PascalCase, API name (e.g., 'MicrosoftGraphAPI')"
+    },
+    {
+      "name": "Event",
+      "layer": "solution",
+      "description": "System event or message",
+      "requiredFields": ["name", "observations"],
+      "namingConvention": "PascalCase, event name (e.g., 'ChatSessionStarted')"
+    },
+    {
+      "name": "Concept",
+      "layer": "solution",
+      "description": "Core concept abstracted from services (e.g., protocols, mechanisms)",
+      "requiredFields": ["name", "observations"],
+      "namingConvention": "PascalCase (e.g., 'ModelContextProtocol')"
+    },
+    {
+      "name": "Pattern",
+      "layer": "solution",
+      "description": "Design pattern derived from service implementations",
+      "requiredFields": ["name", "observations"],
+      "namingConvention": "PascalCase with 'Pattern' suffix (e.g., 'APIWrapperPattern')"
+    },
+    {
+      "name": "Practice",
+      "layer": "solution",
+      "description": "Best practice or standard approach",
+      "requiredFields": ["name", "observations"],
+      "namingConvention": "PascalCase or sentence (e.g., 'DocumentServiceArchitecture')"
+    },
+    {
+      "name": "Term",
+      "layer": "solution",
+      "description": "Glossary term or definition",
+      "requiredFields": ["name", "observations"],
+      "namingConvention": "PascalCase or phrase (e.g., 'TransportMechanism')"
+    }
+  ],
+  "relationTypes": [
+    {
+      "name": "supports_objective",
+      "from": "Pillar",
+      "to": "Objective",
+      "description": "Pillar supports strategic objective"
+    },
+    {
+      "name": "measures",
+      "from": "Metric",
+      "to": "Objective",
+      "description": "Metric measures objective success"
+    },
+    {
+      "name": "enables",
+      "from": "CapabilityL1",
+      "to": "Objective",
+      "description": "Capability enables objective achievement"
+    },
+    {
+      "name": "implements",
+      "from": "CapabilityL2",
+      "to": "CapabilityL1",
+      "description": "L2 capability implements L1 capability"
+    },
+    {
+      "name": "identifies",
+      "from": "Gap",
+      "to": "CapabilityL2",
+      "description": "Gap identified in capability"
+    },
+    {
+      "name": "addresses",
+      "from": "Recommendation",
+      "to": "Gap",
+      "description": "Recommendation addresses gap"
+    },
+    {
+      "name": "decides",
+      "from": "ADR",
+      "to": "Recommendation",
+      "description": "ADR decides on recommendation"
+    },
+    {
+      "name": "implements_decision",
+      "from": "Service",
+      "to": "ADR",
+      "description": "Service implements decision"
+    },
+    {
+      "name": "provides",
+      "from": "Service",
+      "to": "CapabilityL2",
+      "description": "Service provides capability"
+    },
+    {
+      "name": "uses_api",
+      "from": "Service",
+      "to": "SystemAPI",
+      "description": "Service uses external API"
+    },
+    {
+      "name": "emits",
+      "from": "Service",
+      "to": "Event",
+      "description": "Service emits event"
+    },
+    {
+      "name": "follows_pattern",
+      "from": "Service",
+      "to": "Pattern",
+      "description": "Service follows design pattern"
+    },
+    {
+      "name": "applies_practice",
+      "from": "Service",
+      "to": "Practice",
+      "description": "Service applies best practice"
+    },
+    {
+      "name": "defines",
+      "from": "Concept",
+      "to": "Pattern",
+      "description": "Concept defines pattern foundation"
+    },
+    {
+      "name": "relates_to",
+      "from": "*",
+      "to": "*",
+      "description": "Generic relation (use specific relations when possible)"
+    }
+  ],
+  "validation": {
+    "rules": [
+      "Each entity must have at least one relation",
+      "Entity names must follow layer-specific naming conventions",
+      "Observations must be non-empty",
+      "Relations must use defined relation types",
+      "Cross-layer relations must follow ontology hierarchy"
+    ]
+  }
+}
