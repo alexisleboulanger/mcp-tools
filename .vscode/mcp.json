@@ -13,7 +13,7 @@
          "command": "node",
          "args": ["C:\\dev\\mcp\\mcp-chat-backup\\server.js"],
          "env": {
-            "CHAT_BACKUP_PATH": "C:\\dev\\mcp\\.knowledge\\chat-backups"
+            "CHAT_BACKUP_PATH": "C:\\dev\\mcp\\.knowledge\\solution\\services\\chat-backups"
          }
       },
       "ado-wrapped": {
@@ -29,7 +29,10 @@
          "command": "npx",
          "args": [
          "-y",
-         "@modelcontextprotocol/server-memory"]
+         "@modelcontextprotocol/server-memory"],
+         "env": {
+            "MEMORY_STORAGE_PATH": "C:\\dev\\mcp\\.knowledge\\.memory"
+         }
       },
       "sequential-thinking": {
          "command": "npx",
@@ -43,6 +46,16 @@
          "args": [
             "C:\\dev\\mcp\\mcp-serp-wrapper\\serp-wrapper.js"
          ]
+      },
+      "knowledge": {
+         "type": "stdio",
+         "command": "node",
+         "args": [
+            "C:\\dev\\mcp\\mcp-knowledge\\server.js"
+         ],
+         "env": {
+            "KNOWLEDGE_PATH": "C:\\dev\\mcp\\.knowledge"
+         }
       }
    }
 }
