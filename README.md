@@ -14,17 +14,17 @@ This repository contains custom MCP servers that enable AI assistants (GitHub Co
 │  AI Assistant (VS Code Copilot / Claude Desktop)                │
 └───────────────────────────┬─────────────────────────────────────┘
                             │ MCP Protocol
-        ┌───────────────────┼───────────────────┐
-        ▼                   ▼                   ▼
-┌───────────────┐   ┌───────────────┐   ┌───────────────┐
-│  mcp-365      │   │  mcp-ado      │   │  mcp-miro     │
-│  M365/Graph   │   │  Azure DevOps │   │  Miro Boards  │
-└───────────────┘   └───────────────┘   └───────────────┘
-        ▼                   ▼                   ▼
-┌───────────────┐   ┌───────────────┐   ┌───────────────┐
-│  mcp-serp     │   │  mcp-chat     │   │  mcp-memory   │
-│  Web Search   │   │  Backup       │   │  Knowledge    │
-└───────────────┘   └───────────────┘   └───────────────┘
+        ┌───────────────────┼───────────────────┬─────────────┐
+        ▼                   ▼                   ▼             ▼
+┌───────────────┐   ┌───────────────┐   ┌───────────────┐   ┌──────────────┐
+│  mcp-365      │   │  mcp-ado      │   │  mcp-miro     │   │  mcp-serp    │
+│  M365/Graph   │   │  Azure DevOps │   │  Miro Boards  │   │  Web Search  │
+└───────────────┘   └───────────────┘   └───────────────┘   └──────────────┘
+        ▼                   ▼
+┌───────────────┐   ┌───────────────┐
+│  mcp-chat     │   │  mcp-knowledge│
+│  Backup       │   │  Docs Manager │
+└───────────────┘   └───────────────┘
 ```
 
 ## Available Servers
@@ -36,6 +36,7 @@ This repository contains custom MCP servers that enable AI assistants (GitHub Co
 | [**mcp-server-miro**](mcp-server-miro/) | Miro Boards | SSE | 30+ |
 | [**mcp-serp-wrapper**](mcp-serp-wrapper/) | Web Search (SerpAPI) | stdio | 15+ |
 | [**mcp-chat-backup**](mcp-chat-backup/) | Chat Persistence | stdio | 6 |
+| [**mcp-knowledge**](mcp-knowledge/) | Documentation Manager | stdio | 7 |
 
 ## Quick Start
 
@@ -51,6 +52,7 @@ cd mcp-ado-wrapper && npm install && cd ..
 cd mcp-server-miro && npm install && cd ..
 cd mcp-serp-wrapper && npm install && cd ..
 cd mcp-chat-backup && npm install && cd ..
+cd mcp-knowledge && npm install && cd ..
 ```
 
 ### 2. Configure VS Code
@@ -94,6 +96,16 @@ Create `.vscode/mcp.json` in your workspace:
       "args": ["C:/dev/mcp/mcp-chat-backup/server.js"],
       "env": {
         "CHAT_BACKUP_PATH": "C:/dev/mcp/.knowledge/chat-backups"
+      }
+    },
+    
+    // Knowledge Manager - Documentation management
+    "knowledge": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["C:/dev/mcp/mcp-knowledge/server.js"],
+      "env": {
+        "KNOWLEDGE_PATH": "${workspaceFolder}/.knowledge"
       }
     }
   }

@@ -1,0 +1,641 @@
+{
+  "metadata": {
+    "backup_date": "2026-01-19",
+    "source": "Global MCP Memory",
+    "total_entities": 27,
+    "total_relations": 38,
+    "workspaces": {
+      "yorizon": {
+        "path": "C:\\dev\\yorizon",
+        "entities": [
+          "YorizonKnowledgeBaseStructure",
+          "YorizonKnowledgeGraphSchema",
+          "FusionAIAgenticArchitecture",
+          "MCPDynamicToolIntegration",
+          "AgentProcessingPipeline",
+          "M365CopilotIntegrationStrategy",
+          "MCPGraphToolPattern"
+        ]
+      },
+      "mcp": {
+        "path": "C:\\dev\\mcp",
+        "entities": [
+          "MCP365Service",
+          "MCP365Authentication",
+          "MCP365CapabilityDetection",
+          "MCP365TokenHelper",
+          "MCPADOWrapper",
+          "MCPSerpWrapper",
+          "MCPServerMiro",
+          "MCPToolsRepository",
+          "MCP-365",
+          "MCP-ToolDocumentation",
+          "MCP-ADO-Wrapper",
+          "MCP-ChatBackup",
+          "MCP-SERP-Wrapper",
+          "MCP-Server-Miro",
+          "ExternalServicesIntegration",
+          "AIAgentEnhancement",
+          "UnifiedMCPInterface",
+          "ModelContextProtocol",
+          "APIWrapperPattern",
+          "MCPKnowledgeService"
+        ]
+      }
+    }
+  },
+  "entities": [
+    {
+      "name": "YorizonKnowledgeBaseStructure",
+      "entityType": "Concept",
+      "workspace": "yorizon",
+      "observations": [
+        "Describes the structured separation between prompts, program strategy, and domain/business context docs in the Yorizon repo, including governance and duplication guardrails.",
+        "Captures how program-strategy.md is the single source of truth for Vision, Mission, Pillars, Principles, Objectives, Metrics, Risk Themes, and KG seeds, referenced but not redefined elsewhere.",
+        "ADR collection discovered in Yorizon Nexus.wiki folder separate from .knowledge folder.",
+        "Wiki contains 30+ ADRs organized by domain: DevOps, Fusion-AI, Global, Network-Infrastructure, Portal, System-API.",
+        "This represents significant architectural documentation not yet migrated to .knowledge/delivery/decisions/adr/ structure.",
+        "2026-01-15: Restructured .knowledge folder with new .ontology/ directory containing knowledge-ontology.md (formal schema), knowledge-model.md (current state: 37 entities, 44 relations), and yorizon-kg-overview.md (conceptual guide)",
+        "2026-01-15: Updated all .knowledge references to reflect ontology separation: knowledge-ontology.md defines what CAN exist, knowledge-model.md shows what DOES exist",
+        "2026-01-15: Enhanced MAINTENANCE.md with ontology compliance checks and MCP Memory sync requirements",
+        "2026-01-15: Updated INDEX.md to include .ontology section with all three ontology files",
+        "2026-01-15: Refactored README.md to reference .ontology folder for schema definitions and current state visualization",
+        "2026-01-15: Created decision-index.md as single registry for all 11 ADRs across the program",
+        "2026-01-15: Registry maintains references to wiki source locations (single source of truth) while providing discoverability in .knowledge folder",
+        "2026-01-15: Cross-references all 10 MCP ADR entities with their wiki locations, related capabilities, services, and patterns",
+        "2026-01-15: Organized by domain: Global/Platform (3), FusionAI (3), SystemAPI (3), Portal (1)",
+        "2026-01-15: Addresses sequential thinking recommendation for 'Create architect navigation aids' with decision catalog",
+        "2026-01-16: Restructured knowledge model to treat all Yorizon services consistently with detailed architecture sections",
+        "2026-01-16: Added FusionAI as Service entity (previously only Concept) with full architecture details from yorizon-fusion-ai/ARCHITECTURE.md",
+        "2026-01-16: Expanded Portal, SystemAPI, ApplicationPlatform with architectural component entities (patterns, practices, capabilities)",
+        "2026-01-16: Portal architecture: PortalUIModules (micro-frontends), BFFPattern (backend-for-frontend), PortalAuthorizationIntegration (OpenFGA)",
+        "2026-01-16: SystemAPI architecture: SystemAPICQRSImplementation, SystemAPIOrchestration (saga), SystemAPIIntegrationLayer (adapters)",
+        "2026-01-16: ApplicationPlatform architecture: ApplicationPlatformObservabilityStack (Prometheus/Grafana), ApplicationPlatformMessaging (RabbitMQ), ApplicationPlatformCaching (Redis)",
+        "2026-01-16: Updated knowledge graph to 63 entities (+10) and 123 relations (+44) for consistent service documentation",
+        "2026-01-16: Knowledge model now shows all core services (Portal, SystemAPI, FusionAI, ApplicationPlatform) with equivalent depth of architectural detail",
+        "2026-01-16: Restructured .knowledge/solution folder to align with service-oriented architecture and pattern library approach",
+        "2026-01-16: Created solution/architecture/services/ for service-specific domain documentation and integration guides (accounting, billing-and-accounting, example-domain)",
+        "2026-01-16: Created solution/architecture/patterns/ for cross-cutting architectural patterns (partitionning placeholder for future data segmentation pattern)",
+        "2026-01-16: Moved solution/domains/ files to solution/architecture/services/ to consolidate service documentation in single location",
+        "2026-01-16: Removed solution/taxonomy/ folder - glossary.md previously migrated to .ontology/ folder",
+        "2026-01-16: accounting/ folder contains ACCOUNTING-SERVICE-INTEGRATION.md documenting SystemAPI component for SCS Cloud Platform usage data extraction and financial posting integration",
+        "2026-01-16: partitionning/ is placeholder for future pattern addressing customer usage segmentation across SystemAPI and FusionAI data (not yet implemented)",
+        "2026-01-16: Updated INDEX.md and README.md to reflect new solution/architecture/services and solution/architecture/patterns structure",
+        "2026-01-16: Ownership categorization added to reflect delivery tower responsibilities: Amdaris (Portal, SystemAPI, FusionAI, ApplicationPlatform, DevOps tooling), UhuruTec (CCLM, UView, UAccounting - deployed by Amdaris), ArtCodix (Keycloak, OpenStack, OpenBao, Artcodix Model API), External providers (HubSpot, GridScale, DealHub, MailTrap, Impartner deprecated)",
+        "2026-01-16: Service documentation restructured with ownership-based subfolders: services/amdaris/, services/uhurutec/, services/artcodix/, services/external/",
+        "2026-01-16: Amdaris owns application development, CI/CD pipeline, observability platform, and deployment of all services including UhuruTec components",
+        "2026-01-16: ArtCodix owns infrastructure platform layer (OpenStack SCS Cloud), identity management (Keycloak), secrets management (OpenBao), AI model inference (Artcodix Model API)",
+        "2026-01-16: UhuruTec services (CCLM, UView, UAccounting) deployed and operated by Amdaris following UhuruTec specifications and contracts",
+        "2026-01-16: External integrations include CRM (HubSpot), infrastructure provider (GridScale), CPQ/billing (DealHub), email delivery (MailTrap), deprecated PRM (Impartner)",
+        "2026-01-16: INDEX.md updated with ownership-based service catalog structure: 18 services organized by delivery towers (Amdaris/UhuruTec/ArtCodix/External)",
+        "2026-01-16: Service catalog in INDEX.md includes: Amdaris (5 services: SystemAPI, Portal, FusionAI, ApplicationPlatform, DevOps), UhuruTec (3: CCLM, UView, UAccounting), ArtCodix (5: OpenStack, Keycloak, OpenBao, OpenFGA, ArtcodixModelAPI), External (5: HubSpot, GridScale, DealHub, MailTrap, Impartner deprecated)",
+        "2026-01-16: INDEX.md reflects complete service catalog expansion from 14 to 18 services with comprehensive technical documentation per delivery tower",
+        "2026-01-16: Merged global-architecture.md and global-architecture-overview.md into single comprehensive document at solution/architecture/global-architecture.md",
+        "2026-01-16: Merged document combines layered architecture blueprint (7 layers), service catalog (18 services by ownership), detailed integration diagrams (high-level + detailed Mermaid), and governance model",
+        "2026-01-16: Single source of truth for Yorizon platform architecture: ownership model (4 delivery towers), service integration patterns, architectural layers, governance cadences, cross-layer concerns",
+        "2026-01-16: Document includes both strategic layer view (Strategy/Capability/Platform/Delivery/Operations/Financial/Ecosystem) and tactical service catalog with ownership boundaries",
+        "2026-01-16: INDEX.md updated to reference consolidated global-architecture.md (removed global-architecture-overview.md reference)",
+        "2026-01-16: Wiki scan completed - extracted 8 new entities (SAP, HaloITSM, YorizonDataArchitecture, YorizonEnvironments, 4 ADRs)",
+        "2026-01-16: ADR catalog expanded from wiki: ADRDealHubBillingRelocation, ADREmailDeliveryService, ADRDevOpsPlatformVision, ADRRabbitMQMessageBroker",
+        "2026-01-16: Wiki ADR inventory: Global (6 ADRs), Fusion-AI (5 ADRs), System-API (11 ADRs), DevOps (4 ADRs), Portal (1 ADR), Network-Infrastructure (TBD)",
+        "2026-01-16: Wiki confirms Grafana observability stack: Mimir, Alloy, Tempo, AlertManager, Grafana - documented in Yorizon-Global-Architecture/Architecture-Areas/Application-Architecture/Application-Components/Alloy.md",
+        "2026-01-16: External services expanded to 7 active services (added SAP, HaloITSM documentation)",
+        "Architecture diagrams updated: global-architecture.md includes SAP and HaloITSM in all service integration diagrams",
+        "2026-01-19: Major .knowledge folder restructuring detected - strategy/ folder moved to delivery/discovery/strategy/, prompts moved to .tools/prompts/, services reorganized with owner-based subfolders (amdaris/, artcodix/, uhurutec/, external/)",
+        "2026-01-19: INDEX.md and knowledge-index.json require updates to reflect new paths - outdated references to strategy/*, delivery/prompts/*, taxonomy/*",
+        "2026-01-19: Missing documentation files identified: openfga.md (artcodix), uaccounting.md (uhurutec), daktela.md (external)",
+        "2026-01-19: Duplicate file found: integration-architecture-weekly.md exists in both delivery/discovery/strategy/ and delivery/governance/",
+        "2026-01-19: knowledge-index.json updated to v2.0.0 with corrected paths for all 24 entries - reflects folder restructuring",
+        "2026-01-19: INDEX.md fully rewritten with correct paths, added Action Required section flagging missing files and duplicates",
+        "2026-01-19: README.md updated with new folder structure, Quick Start section, and maintenance workflow documentation",
+        "2026-01-19: .tools/update-knowledge-index-checksums.js paths fixed - ROOT now correctly points to .knowledge parent folder",
+        "2026-01-19: Tool successfully generates: knowledge-index.json (versioned), INDEX.md (human-navigable), integrity-report.md (validation)"
+      ]
+    },
+    {
+      "name": "YorizonKnowledgeGraphSchema",
+      "entityType": "Concept",
+      "workspace": "yorizon",
+      "observations": [
+        "Represents the node and relation types, identifier conventions, and quality rules used to turn Yorizon strategy and architecture docs into a machine-readable knowledge graph.",
+        "Includes node types like Pillar, Principle, Objective, CapabilityL1/L2, Metric, SustainabilityMetric, RiskTheme, Gap, Recommendation, Process, Role, Service, SystemAPI, and more, plus relation types like supports_objective, measures, mitigates, belongs_to_pillar, advances_capability, etc.",
+        "2026-01-15: Formalized as knowledge-ontology.md with comprehensive entity type hierarchy (39 types), relation taxonomy (25+ types), naming constraints, and enforcement protocols",
+        "2026-01-15: Created exhaustive Mermaid diagram showing all entity types organized by Strategy/Delivery/Solution layers with cross-layer relations",
+        "2026-01-15: Documented dual representation model: MCP Memory entities (runtime graph) and .knowledge files (persistent documentation) with bidirectional sync rules",
+        "2026-01-19: Schema definition at .ontology/knowledge-ontology.md, current state visualization at .ontology/knowledge-model.md"
+      ]
+    },
+    {
+      "name": "FusionAIAgenticArchitecture",
+      "entityType": "Concept",
+      "workspace": "yorizon",
+      "observations": [
+        "FusionAI implements autonomous agentic capabilities through SmolAgents framework, supporting both tool-calling and code-execution agents with multi-step reasoning.",
+        "Agents can dynamically discover and use tools from three sources: built-in Tool Registry (web search, Wikipedia, RAG), MCP servers (dynamic external tools), and code execution environment.",
+        "Processing pipeline implements Chain of Responsibility with 7 stages: input validation, load memory, MCP tools discovery, agent execution, MCP cleanup, store memory, output validation with LLM Guard.",
+        "Supports both provider-based agents (OpenAI API) and transformer-based agents (local CPU/GPU models) for flexibility and cost optimization.",
+        "Real-time updates to Portal implemented via adr-signalr-and-sticky-sessions.md with supporting ADRs on WebSocket alternatives, load balancing, scaling, and security."
+      ]
+    },
+    {
+      "name": "MCPDynamicToolIntegration",
+      "entityType": "Practice",
+      "workspace": "yorizon",
+      "observations": [
+        "Model Context Protocol (MCP) enables zero-code agent extension by connecting to external MCP servers via SSE transport to discover tools at runtime.",
+        "MCPToolsProcessor in pipeline connects to MCP server using mcp_server_params from request, retrieves tool schemas, and merges them with Tool Registry tools.",
+        "MCPCleanupProcessor ensures proper disconnect after pipeline execution to avoid resource leaks and stale connections.",
+        "Supports authenticated MCP servers via mcp_auth_token with Bearer token header injection, enabling secure enterprise integration.",
+        "Tools discovered from MCP are treated identically to built-in tools, maintaining uniform agent execution regardless of tool source.",
+        "2026-01-19: MCP365Service extends this practice for Microsoft 365 content access",
+        "Same MCP protocol used by FusionAI agents can now access SharePoint, mail, calendar, files via m365_* tools",
+        "2026-01-19: MCP tool repository expanded to 4 servers: MCP365Service (Microsoft 365), MCPADOWrapper (Azure DevOps), MCPSerpWrapper (Web Search), MCPServerMiro (Miro boards)",
+        "MCP servers provide domain-specific tool categories that can be activated dynamically by AI agents",
+        "Common pattern: Wrappers provide authentication handling, preflight validation, and protocol compliance for upstream MCP servers",
+        "All MCP servers support stdio or SSE transport for integration with VS Code GitHub Copilot and other MCP clients"
+      ]
+    },
+    {
+      "name": "AgentProcessingPipeline",
+      "entityType": "Pattern",
+      "workspace": "yorizon",
+      "observations": [
+        "Seven-stage pipeline: InputValidationProcessor, LoadAgentMemoryProcessor, MCPToolsProcessor, AgentExecutionProcessor, MCPCleanupProcessor, StoreAgentMemoryProcessor, OutputValidationProcessor.",
+        "Each processor implements execute(request, context) returning bool to continue/stop pipeline, enabling fail-fast on validation errors.",
+        "Context dictionary passes data between stages: agent, mcp_tools, mcp_client, result, token_usage, error.",
+        "Memory processors integrate with Redis via HistoryManagerFactory supporting pluggable backends (Redis, in-memory cache).",
+        "Agent execution processor combines Tool Registry tools with MCP tools, runs agent with custom_instructions (system_prompt), and tracks token usage via monitor."
+      ]
+    },
+    {
+      "name": "M365CopilotIntegrationStrategy",
+      "entityType": "Concept",
+      "workspace": "yorizon",
+      "observations": [
+        "Architectural guidance for integrating Microsoft 365 Copilot context with external agents like GitHub Copilot in VS Code",
+        "Key insight: Cannot export M365 Copilot's internal context (Semantic Index/grounding) directly - must provide access to same underlying data sources (SharePoint/Microsoft Graph)",
+        "Four integration paths identified: 1) Extend M365 Copilot with agents/connectors (Microsoft-native), 2) Build GitHub Copilot Extension/MCP tool querying Graph (practical for dev teams), 3) Index/sync SharePoint to repos (operationally easy but risky), 4) BYOK for LLM choice (not for data access)",
+        "Path 2 (MCP tool for Graph) most aligned with Yorizon FusionAI agentic architecture - leverages existing MCPDynamicToolIntegration patterns",
+        "M365 Copilot extensibility uses: agents, Copilot connectors (ingest external data into Graph), plugins/actions - requires Copilot Studio",
+        "Warning: Connectors/agents may trigger cost and IT/InfoSec review depending on data consumed",
+        "2026-01-19: Path 2 (MCP tool for Graph) implemented as MCP365Service",
+        "Key learning: Enterprise tenants often require admin consent for ALL unverified apps, making Graph Explorer token the practical workaround",
+        "Azure CLI cannot request arbitrary Graph scopes - fixed scope set excludes Mail.Read, Files.Read, Calendars.Read by Microsoft design (GraphExplorerFirstPartyPrivilege concept)"
+      ]
+    },
+    {
+      "name": "MCPGraphToolPattern",
+      "entityType": "Pattern",
+      "workspace": "yorizon",
+      "observations": [
+        "Pattern for GitHub Copilot Extension/MCP tool that queries Microsoft Graph/SharePoint on-demand",
+        "Architecture: VS Code/GitHub Copilot Chat -> MCP server/Copilot Extension -> Microsoft Graph/SharePoint (permission-trimmed) -> short excerpts + links -> Copilot uses as context",
+        "Implementation requirements: Entra ID authentication, permission trimming (user sees only what they're allowed), content shaping (short, relevant, attributable excerpts)",
+        "This approach shares DATA not M365 Copilot's internal semantic index - effectively a 'Graph-powered retrieval tool'",
+        "MCP explicitly intended for 'integrating with other systems' per GitHub documentation",
+        "Aligns with FusionAI MCPDynamicToolIntegration practice - tools discovered at runtime via SSE transport",
+        "2026-01-19: Concrete implementation created as MCP365Service in c:/dev/mcp/mcp-365/",
+        "Implementation includes 19 tools covering: search, SharePoint, OneDrive files, mail, calendar, Teams",
+        "Graceful degradation via MCP365CapabilityDetection pattern - probes permissions at runtime and provides helpful errors",
+        "Token management via MCP365TokenHelper for Graph Explorer token refresh workflow"
+      ]
+    },
+    {
+      "name": "MCP365Service",
+      "entityType": "Service",
+      "workspace": "mcp",
+      "observations": [
+        "MCP server enabling GitHub Copilot to query Microsoft 365 content via Graph API",
+        "Location: c:/dev/mcp/mcp-365/",
+        "Features: Unified search, SharePoint browsing, OneDrive file access, Outlook mail/calendar, Teams channels",
+        "19 tools implemented: m365_status, m365_search*, m365_sharepoint_*, m365_files_*, m365_mail_*, m365_calendar_*, m365_teams_*",
+        "Architecture: Node.js ES modules, MCP SDK (@modelcontextprotocol/sdk), MSAL authentication",
+        "Graceful degradation: Automatically detects available permissions and provides helpful errors when features unavailable",
+        "Token helper: Interactive CLI tool for Graph Explorer token management (npm run token:status/refresh)",
+        "2026-01-19: Part of MCP tool repository alongside MCPADOWrapper, MCPSerpWrapper, and MCPServerMiro",
+        "19 tools total: m365_status, m365_search*, m365_sharepoint_*, m365_files_*, m365_mail_*, m365_calendar_*, m365_teams_*",
+        "Token Helper CLI for Graph Explorer token management: npm run token:status, npm run token:refresh"
+      ]
+    },
+    {
+      "name": "MCP365Authentication",
+      "entityType": "Practice",
+      "workspace": "mcp",
+      "observations": [
+        "Multi-strategy authentication supporting 4 methods prioritized by availability",
+        "Option 1: Graph Explorer Token (RECOMMENDED) - Full M365 permissions, 1-hour expiry, requires manual refresh",
+        "Option 2: Azure CLI - Automatic refresh but LIMITED scopes (User, Groups, Sites listing only - NO Mail/Calendar/Files)",
+        "Option 3: Custom App with Admin Consent - Full access, permanent, requires IT approval",
+        "Option 4: Client Credentials - App-only access for service accounts, requires admin consent",
+        "Enterprise tenant constraint: Many tenants require admin consent for ALL unverified (non-Microsoft-published) apps",
+        "Graph Explorer special: Pre-authorized by Microsoft as first-party app, enables user consent without admin approval",
+        "Azure CLI limitation: Fixed scope set for Azure infrastructure management, intentionally excludes personal data APIs (Mail.Read, Files.Read, Calendars.Read)"
+      ]
+    },
+    {
+      "name": "MCP365CapabilityDetection",
+      "entityType": "Pattern",
+      "workspace": "mcp",
+      "observations": [
+        "GraphClient.checkCapabilities() probes available permissions at runtime",
+        "Tracks failed endpoints (403/401) in failedEndpoints Set to avoid repeated failures",
+        "PermissionError class provides helpful context: required permissions, affected endpoint, resolution guidance",
+        "m365_status tool exposes capability detection to users via MCP",
+        "safeRequest() method returns null instead of throwing for optional data that can gracefully degrade",
+        "ENDPOINT_PERMISSIONS mapping defines required scopes per API pattern (/me/messages -> Mail.Read, etc.)"
+      ]
+    },
+    {
+      "name": "MCP365TokenHelper",
+      "entityType": "Concept",
+      "workspace": "mcp",
+      "observations": [
+        "Interactive CLI tool at src/token-helper.js for Graph Explorer token management",
+        "Commands: npm run token:status (check validity/expiry), npm run token:refresh (prompt for new token)",
+        "JWT decoding to extract: user (upn), expiry (exp), scopes (scp), app (app_displayname)",
+        "Auto-saves token to .env file after validation",
+        "5-minute buffer before expiry to warn users proactively",
+        "Displays scope availability for important permissions: Mail.Read, Files.Read, Sites.Read, Calendars.Read, User.Read"
+      ]
+    },
+    {
+      "name": "MCPADOWrapper",
+      "entityType": "Service",
+      "workspace": "mcp",
+      "observations": [
+        "Wrapper around upstream @azure-devops/mcp server providing preflight PAT validation",
+        "Location: c:/dev/mcp/mcp-ado-wrapper/",
+        "Features: Resolves PAT from common env variables (AZURE_DEVOPS_PAT, ADO_PAT, AZURE_DEVOPS_EXT_PAT, SYSTEM_ACCESSTOKEN)",
+        "Performs preflight REST call to verify PAT can list projects before spawning upstream server",
+        "Spawns upstream MCP server via npx while keeping stdio protocol-pure",
+        "Configuration: AZURE_DEVOPS_PAT and AZURE_DEVOPS_ORG_URL in .env file",
+        "Supports domain filtering: core, work-items, wiki, pipelines, etc.",
+        "Tool categories exposed: Advanced Security alerts, Azure DevOps search, Project/Pipeline management, Repository branch management, Pull request management, Work item management, Test plan/case management, Wiki management",
+        "Integration: Add to .vscode/mcp.json as 'ado-wrapped' server entry"
+      ]
+    },
+    {
+      "name": "MCPSerpWrapper",
+      "entityType": "Service",
+      "workspace": "mcp",
+      "observations": [
+        "Wrapper launcher for SerpAPI MCP server with debug logging",
+        "Location: c:/dev/mcp/mcp-serp-wrapper/",
+        "Wraps mcp-serpapi package (v0.0.5) for VS Code MCP integration",
+        "Features: Debug logging visibility, JSON-RPC frame logging, graceful shutdown passthrough",
+        "Authentication: SERPAPI_API_KEY environment variable required",
+        "Injects missing initialize fields (capabilities, clientInfo, protocolVersion) for MCP compliance",
+        "Provides web search capabilities: Google, Bing, Baidu, DuckDuckGo searches",
+        "Additional tools: Google Maps directions, Google Maps reviews, Bing images search",
+        "Tool activation: activate_web_search_and_discovery_tools exposes full search suite"
+      ]
+    },
+    {
+      "name": "MCPServerMiro",
+      "entityType": "Service",
+      "workspace": "mcp",
+      "observations": [
+        "MCP server for interacting with Miro API and Miro boards",
+        "Location: c:/dev/mcp/mcp-server-miro/",
+        "Technology: TypeScript, Node.js, FastMCP server, SSE transport",
+        "Authentication: MIRO_API_TOKEN (personal access token from Miro profile)",
+        "Transport: SSE endpoint at http://localhost:8899/sse (configurable PORT)",
+        "Board management: get_specific_board, update_board, summarize_board, get_active_board, set_active_board",
+        "Frame/Diagram operations: fetch_frame_items, frame_to_mermaid, frame_to_erd",
+        "Item operations: create/get/update/delete for sticky notes, text, shapes, cards, connectors, documents, embeds, images, app cards",
+        "Diagram extraction: Converts Miro frames to Mermaid flowcharts and ERD diagrams",
+        "Supports runtime board switching without server restart",
+        "Docker support: docker-compose.yml provided for containerized deployment"
+      ]
+    },
+    {
+      "name": "MCPToolsRepository",
+      "entityType": "Concept",
+      "workspace": "mcp",
+      "observations": [
+        "Central repository containing 4 MCP servers for AI agent tool integration",
+        "Location: c:/dev/mcp/",
+        "Servers: MCP365Service (Microsoft 365), MCPADOWrapper (Azure DevOps), MCPSerpWrapper (Web Search), MCPServerMiro (Miro boards)",
+        "Documentation: .knowledge/ folder contains README and per-server documentation",
+        "Common patterns: Wrapper pattern for upstream servers, preflight validation, protocol compliance, graceful degradation",
+        "Integration: VS Code MCP integration via .vscode/mcp.json configuration",
+        "2026-01-19: Repository documented with comprehensive .knowledge structure"
+      ]
+    },
+    {
+      "name": "MCP-365",
+      "entityType": "Service",
+      "workspace": "mcp",
+      "observations": [
+        "MCP server providing read-only access to Microsoft 365 via Graph API",
+        "Exposes 25 tools across domains: Search, SharePoint, OneDrive, Mail, Calendar, Teams, Recordings, Transcripts",
+        "Uses manual Graph Explorer token authentication due to tenant admin consent restrictions",
+        "Recordings accessible via Files.Read.All - no OnlineMeetingArtifact permission needed",
+        "Microsoft Search API enables org-wide recording/transcript discovery (found 7,277 recordings)",
+        "VTT transcript parsing extracts speaker names from WebVTT format"
+      ]
+    },
+    {
+      "name": "MCP-ToolDocumentation",
+      "entityType": "Pattern",
+      "workspace": "mcp",
+      "observations": [
+        "Tool names follow m365_<domain>_<action> convention",
+        "Descriptions include: What it does, When to use it, Dependencies, Permissions, Next steps",
+        "Input schemas have detailed property descriptions with examples and defaults",
+        "All output is formatted as human-readable Markdown",
+        "Error messages include remediation guidance",
+        "Tools are read-only by design for security"
+      ]
+    },
+    {
+      "name": "MCP-ADO-Wrapper",
+      "entityType": "Service",
+      "workspace": "mcp",
+      "observations": [
+        "Wrapper for @azure-devops/mcp server adding preflight validation and PAT resolution",
+        "Resolves PAT from multiple env variables: AZURE_DEVOPS_PAT, ADO_PAT, AZURE_DEVOPS_EXT_PAT, SYSTEM_ACCESSTOKEN",
+        "Performs preflight REST call to verify PAT can list projects (can skip with --no-preflight)",
+        "Keeps stdio protocol-pure by sending debug output to stderr",
+        "Supports domain selection: core, work-items, wiki, pipelines, test-plans"
+      ]
+    },
+    {
+      "name": "MCP-ChatBackup",
+      "entityType": "Service",
+      "workspace": "mcp",
+      "observations": [
+        "MCP server for backing up and restoring VS Code Copilot chat sessions",
+        "Natural language triggers: 'mcp chat backup', 'mcp chat import', 'mcp chat search'",
+        "Reads VS Code internal chat session storage directly",
+        "Exports in VS Code-compatible JSON format for re-import",
+        "Stores backups in .knowledge/chat-backups/ with timestamped filenames"
+      ]
+    },
+    {
+      "name": "MCP-SERP-Wrapper",
+      "entityType": "Service",
+      "workspace": "mcp",
+      "observations": [
+        "Wrapper for mcp-serpapi server enabling web search via SerpAPI",
+        "Adds debug logging and protocol injection for MCP compatibility",
+        "Supports Google, Bing, DuckDuckGo, Baidu, and specialized searches",
+        "Injects missing initialize fields for client compatibility",
+        "Requires SERPAPI_API_KEY in .env file"
+      ]
+    },
+    {
+      "name": "MCP-Server-Miro",
+      "entityType": "Service",
+      "workspace": "mcp",
+      "observations": [
+        "MCP server for Miro board integration using FastMCP framework",
+        "Uses SSE transport instead of stdio for real-time communication",
+        "Supports all Miro item types: sticky notes, shapes, text, cards, connectors",
+        "Unique feature: frame_to_mermaid and frame_to_erd extract diagrams as code",
+        "Runtime board switching via set_active_board tool without restart",
+        "TypeScript-based with Docker deployment option"
+      ]
+    },
+    {
+      "name": "ExternalServicesIntegration",
+      "entityType": "Pillar",
+      "workspace": "mcp",
+      "observations": [
+        "Enable AI agents to access external services via MCP",
+        "Strategic pillar for MCP repository"
+      ]
+    },
+    {
+      "name": "AIAgentEnhancement",
+      "entityType": "Pillar",
+      "workspace": "mcp",
+      "observations": [
+        "Enhance AI agents (Copilot, Claude) with tool access",
+        "Enable agents to interact with external APIs"
+      ]
+    },
+    {
+      "name": "UnifiedMCPInterface",
+      "entityType": "Objective",
+      "workspace": "mcp",
+      "observations": [
+        "Provide standardized MCP interface to diverse APIs",
+        "Simplify integration complexity"
+      ]
+    },
+    {
+      "name": "ModelContextProtocol",
+      "entityType": "Concept",
+      "workspace": "mcp",
+      "observations": [
+        "Standard protocol for AI agent tool integration",
+        "Enables language models to call tools",
+        "Supports stdio and SSE transports"
+      ]
+    },
+    {
+      "name": "APIWrapperPattern",
+      "entityType": "Pattern",
+      "workspace": "mcp",
+      "observations": [
+        "Wrap third-party APIs with MCP tool interface",
+        "Standardize tool schema and responses",
+        "Examples: MCP-ADO, MCP-SERP"
+      ]
+    },
+    {
+      "name": "MCPKnowledgeService",
+      "entityType": "Service",
+      "workspace": "mcp",
+      "observations": [
+        "Domain knowledge graph management",
+        "3-layer ontology (Strategy, Delivery, Solution)",
+        "Location: mcp-knowledge/",
+        "Transport: stdio"
+      ]
+    }
+  ],
+  "relations": [
+    {
+      "from": "YorizonKnowledgeBaseStructure",
+      "to": "YorizonKnowledgeGraphSchema",
+      "relationType": "implements"
+    },
+    {
+      "from": "MCPDynamicToolIntegration",
+      "to": "FusionAIAgenticArchitecture",
+      "relationType": "implements"
+    },
+    {
+      "from": "AgentProcessingPipeline",
+      "to": "FusionAIAgenticArchitecture",
+      "relationType": "implements"
+    },
+    {
+      "from": "AgentProcessingPipeline",
+      "to": "MCPDynamicToolIntegration",
+      "relationType": "depends-on"
+    },
+    {
+      "from": "M365CopilotIntegrationStrategy",
+      "to": "MCPDynamicToolIntegration",
+      "relationType": "refines"
+    },
+    {
+      "from": "MCPGraphToolPattern",
+      "to": "M365CopilotIntegrationStrategy",
+      "relationType": "implements"
+    },
+    {
+      "from": "MCPGraphToolPattern",
+      "to": "FusionAIAgenticArchitecture",
+      "relationType": "extends"
+    },
+    {
+      "from": "MCP365Service",
+      "to": "MCPGraphToolPattern",
+      "relationType": "implements"
+    },
+    {
+      "from": "MCP365Service",
+      "to": "M365CopilotIntegrationStrategy",
+      "relationType": "implements"
+    },
+    {
+      "from": "MCP365Authentication",
+      "to": "MCP365Service",
+      "relationType": "refines"
+    },
+    {
+      "from": "MCP365CapabilityDetection",
+      "to": "MCP365Service",
+      "relationType": "refines"
+    },
+    {
+      "from": "MCP365CapabilityDetection",
+      "to": "MCP365Authentication",
+      "relationType": "depends-on"
+    },
+    {
+      "from": "MCP365TokenHelper",
+      "to": "MCP365Authentication",
+      "relationType": "supports"
+    },
+    {
+      "from": "MCP365Service",
+      "to": "MCPDynamicToolIntegration",
+      "relationType": "extends"
+    },
+    {
+      "from": "MCP365Service",
+      "to": "FusionAIAgenticArchitecture",
+      "relationType": "extends"
+    },
+    {
+      "from": "MCPADOWrapper",
+      "to": "MCPDynamicToolIntegration",
+      "relationType": "implements"
+    },
+    {
+      "from": "MCPSerpWrapper",
+      "to": "MCPDynamicToolIntegration",
+      "relationType": "implements"
+    },
+    {
+      "from": "MCPServerMiro",
+      "to": "MCPDynamicToolIntegration",
+      "relationType": "implements"
+    },
+    {
+      "from": "MCPADOWrapper",
+      "to": "MCP365Service",
+      "relationType": "complements"
+    },
+    {
+      "from": "MCPSerpWrapper",
+      "to": "MCP365Service",
+      "relationType": "complements"
+    },
+    {
+      "from": "MCPServerMiro",
+      "to": "MCP365Service",
+      "relationType": "complements"
+    },
+    {
+      "from": "MCP365Service",
+      "to": "FusionAIAgenticArchitecture",
+      "relationType": "supports"
+    },
+    {
+      "from": "MCPToolsRepository",
+      "to": "MCP365Service",
+      "relationType": "contains"
+    },
+    {
+      "from": "MCPToolsRepository",
+      "to": "MCPADOWrapper",
+      "relationType": "contains"
+    },
+    {
+      "from": "MCPToolsRepository",
+      "to": "MCPSerpWrapper",
+      "relationType": "contains"
+    },
+    {
+      "from": "MCPToolsRepository",
+      "to": "MCPServerMiro",
+      "relationType": "contains"
+    },
+    {
+      "from": "MCPToolsRepository",
+      "to": "MCPDynamicToolIntegration",
+      "relationType": "implements"
+    },
+    {
+      "from": "MCP-365",
+      "to": "MCP-ToolDocumentation",
+      "relationType": "implements"
+    },
+    {
+      "from": "MCP-ADO-Wrapper",
+      "to": "MCP-ToolDocumentation",
+      "relationType": "implements"
+    },
+    {
+      "from": "MCP-ChatBackup",
+      "to": "MCP-ToolDocumentation",
+      "relationType": "implements"
+    },
+    {
+      "from": "MCP-SERP-Wrapper",
+      "to": "MCP-ToolDocumentation",
+      "relationType": "implements"
+    },
+    {
+      "from": "MCP-Server-Miro",
+      "to": "MCP-ToolDocumentation",
+      "relationType": "implements"
+    },
+    {
+      "from": "ExternalServicesIntegration",
+      "to": "UnifiedMCPInterface",
+      "relationType": "supports_objective"
+    },
+    {
+      "from": "AIAgentEnhancement",
+      "to": "UnifiedMCPInterface",
+      "relationType": "supports_objective"
+    },
+    {
+      "from": "MCPKnowledgeService",
+      "to": "APIWrapperPattern",
+      "relationType": "follows_pattern"
+    },
+    {
+      "from": "APIWrapperPattern",
+      "to": "ModelContextProtocol",
+      "relationType": "relates_to"
+    }
+  ]
+}

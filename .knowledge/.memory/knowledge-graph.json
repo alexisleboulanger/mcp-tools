@@ -1,0 +1,505 @@
+{
+  "version": "1.0.0",
+  "created": "2026-01-22T10:28:58.518Z",
+  "lastUpdated": "2026-01-22T10:28:58.518Z",
+  "entities": {
+    "ExternalServicesIntegration": {
+      "id": "10000000-0000-0000-0000-000000000001",
+      "name": "ExternalServicesIntegration",
+      "type": "Pillar",
+      "created": "2026-01-22T10:28:58.518Z",
+      "observations": [
+        "Enable AI agents to access external services via MCP",
+        "Strategic pillar for MCP repository"
+      ]
+    },
+    "AIAgentEnhancement": {
+      "id": "10000000-0000-0000-0000-000000000002",
+      "name": "AIAgentEnhancement",
+      "type": "Pillar",
+      "created": "2026-01-22T10:28:58.518Z",
+      "observations": [
+        "Enhance AI agents (Copilot, Claude) with tool access",
+        "Enable agents to interact with external APIs"
+      ]
+    },
+    "UnifiedMCPInterface": {
+      "id": "10000000-0000-0000-0000-000000000003",
+      "name": "UnifiedMCPInterface",
+      "type": "Objective",
+      "created": "2026-01-22T10:28:58.518Z",
+      "observations": [
+        "Provide standardized MCP interface to diverse APIs",
+        "Simplify integration complexity"
+      ]
+    },
+    "CopilotIntegration": {
+      "id": "10000000-0000-0000-0000-000000000004",
+      "name": "CopilotIntegration",
+      "type": "Objective",
+      "created": "2026-01-22T10:28:58.519Z",
+      "observations": [
+        "Enable GitHub Copilot integration in VS Code",
+        "Support .vscode/mcp.json configuration"
+      ]
+    },
+    "DataIntegrationCapability": {
+      "id": "20000000-0000-0000-0000-000000000001",
+      "name": "DataIntegrationCapability",
+      "type": "CapabilityL1",
+      "created": "2026-01-22T10:28:58.519Z",
+      "observations": [
+        "Integrate with Microsoft 365 and Azure DevOps",
+        "Provide access to cloud data sources"
+      ]
+    },
+    "SearchDiscoveryCapability": {
+      "id": "20000000-0000-0000-0000-000000000002",
+      "name": "SearchDiscoveryCapability",
+      "type": "CapabilityL1",
+      "created": "2026-01-22T10:28:58.519Z",
+      "observations": [
+        "Enable web search and discovery via SerpAPI",
+        "Support multi-engine search"
+      ]
+    },
+    "VisualCollaborationCapability": {
+      "id": "20000000-0000-0000-0000-000000000003",
+      "name": "VisualCollaborationCapability",
+      "type": "CapabilityL1",
+      "created": "2026-01-22T10:28:58.519Z",
+      "observations": [
+        "Integrate with Miro visual collaboration platform",
+        "Real-time board access"
+      ]
+    },
+    "OAuth2Authentication": {
+      "id": "20000000-0000-0000-0000-000000000004",
+      "name": "OAuth2Authentication",
+      "type": "CapabilityL2",
+      "created": "2026-01-22T10:28:58.519Z",
+      "observations": [
+        "Handle OAuth2 flows for secure authentication",
+        "Token refresh and credential management",
+        "Implemented in MCP-365"
+      ]
+    },
+    "APIWrappingCapability": {
+      "id": "20000000-0000-0000-0000-000000000005",
+      "name": "APIWrappingCapability",
+      "type": "CapabilityL2",
+      "created": "2026-01-22T10:28:58.519Z",
+      "observations": [
+        "Wrap third-party APIs with MCP tools",
+        "Standardize tool interface across providers",
+        "Used by MCP-ADO, MCP-SERP"
+      ]
+    },
+    "MCPServerLifecycle": {
+      "id": "20000000-0000-0000-0000-000000000006",
+      "name": "MCPServerLifecycle",
+      "type": "Process",
+      "created": "2026-01-22T10:28:58.519Z",
+      "observations": [
+        "Server startup and initialization",
+        "Request handling and tool invocation",
+        "Error handling and graceful shutdown",
+        "stdio and SSE transport modes"
+      ]
+    },
+    "SecurityVulnerabilityRisk": {
+      "id": "20000000-0000-0000-0000-000000000010",
+      "name": "SecurityVulnerabilityRisk",
+      "type": "Risk",
+      "created": "2026-01-22T10:28:58.519Z",
+      "observations": [
+        "Unencrypted API credentials in transit",
+        "OAuth2 token refresh vulnerabilities",
+        "External API dependency risks",
+        "Likelihood: Medium",
+        "Impact: High",
+        "Mitigation: TLS encryption, secure credential storage"
+      ]
+    },
+    "ServiceScalabilityRisk": {
+      "id": "20000000-0000-0000-0000-000000000011",
+      "name": "ServiceScalabilityRisk",
+      "type": "Risk",
+      "created": "2026-01-22T10:28:58.519Z",
+      "observations": [
+        "Single MCP server instance may become bottleneck",
+        "Concurrent request handling limits",
+        "Likelihood: Medium (if adoption increases)",
+        "Impact: Medium",
+        "Mitigation: Load balancing, multiple instances, horizontal scaling"
+      ]
+    },
+    "MCP365Service": {
+      "id": "30000000-0000-0000-0000-000000000001",
+      "name": "MCP365Service",
+      "type": "Service",
+      "created": "2026-01-22T10:28:58.519Z",
+      "observations": [
+        "Microsoft 365 integration service",
+        "Tools: calendar, mail, files, search, sharepoint, teams",
+        "Location: mcp-365/",
+        "Transport: stdio",
+        "Status: Production"
+      ]
+    },
+    "MCPADOService": {
+      "id": "30000000-0000-0000-0000-000000000002",
+      "name": "MCPADOService",
+      "type": "Service",
+      "created": "2026-01-22T10:28:58.519Z",
+      "observations": [
+        "Azure DevOps wrapper service",
+        "Provides 7 major tool groups",
+        "Location: mcp-ado-wrapper/",
+        "Transport: stdio",
+        "Status: Production"
+      ]
+    },
+    "MCPSERPService": {
+      "id": "30000000-0000-0000-0000-000000000003",
+      "name": "MCPSERPService",
+      "type": "Service",
+      "created": "2026-01-22T10:28:58.519Z",
+      "observations": [
+        "Web search integration service",
+        "Tools: Google, Bing, Images, Videos, Scholar, News",
+        "Location: mcp-serp-wrapper/",
+        "Transport: stdio",
+        "Status: Production"
+      ]
+    },
+    "MCPMiroService": {
+      "id": "30000000-0000-0000-0000-000000000004",
+      "name": "MCPMiroService",
+      "type": "Service",
+      "created": "2026-01-22T10:28:58.519Z",
+      "observations": [
+        "Miro board integration service",
+        "Real-time board access",
+        "Location: mcp-server-miro/",
+        "Transport: SSE",
+        "Status: Production"
+      ]
+    },
+    "MCPChatBackupService": {
+      "id": "30000000-0000-0000-0000-000000000005",
+      "name": "MCPChatBackupService",
+      "type": "Service",
+      "created": "2026-01-22T10:28:58.519Z",
+      "observations": [
+        "Chat conversation backup service",
+        "Persistence for conversation history",
+        "Location: mcp-chat-backup/",
+        "Transport: stdio",
+        "Status: Production"
+      ]
+    },
+    "MCPKnowledgeService": {
+      "id": "30000000-0000-0000-0000-000000000006",
+      "name": "MCPKnowledgeService",
+      "type": "Service",
+      "created": "2026-01-22T10:28:58.519Z",
+      "observations": [
+        "Domain knowledge graph management",
+        "3-layer ontology (Strategy, Delivery, Solution)",
+        "Location: mcp-knowledge/",
+        "Transport: stdio",
+        "Status: New"
+      ]
+    },
+    "MicrosoftGraphAPI": {
+      "id": "30000000-0000-0000-0000-000000000010",
+      "name": "MicrosoftGraphAPI",
+      "type": "SystemAPI",
+      "created": "2026-01-22T10:28:58.519Z",
+      "observations": [
+        "External: Microsoft Graph API",
+        "Used by MCP-365"
+      ]
+    },
+    "AzureDevOpsAPI": {
+      "id": "30000000-0000-0000-0000-000000000011",
+      "name": "AzureDevOpsAPI",
+      "type": "SystemAPI",
+      "created": "2026-01-22T10:28:58.519Z",
+      "observations": [
+        "External: Azure DevOps REST API",
+        "Used by MCP-ADO-Wrapper"
+      ]
+    },
+    "SerpAPI": {
+      "id": "30000000-0000-0000-0000-000000000012",
+      "name": "SerpAPI",
+      "type": "SystemAPI",
+      "created": "2026-01-22T10:28:58.519Z",
+      "observations": [
+        "External: SerpAPI search service",
+        "Used by MCP-SERP-Wrapper"
+      ]
+    },
+    "MCPTransportDecision": {
+      "id": "30000000-0000-0000-0000-000000000020",
+      "name": "MCPTransportDecision",
+      "type": "ADR",
+      "created": "2026-01-22T10:28:58.519Z",
+      "observations": [
+        "Decision: Use stdio for local services, SSE for real-time",
+        "Rationale: stdio simpler for Node.js, SSE for persistent connections",
+        "Status: Accepted",
+        "Date: 2026-01"
+      ]
+    },
+    "ModelContextProtocol": {
+      "id": "40000000-0000-0000-0000-000000000001",
+      "name": "ModelContextProtocol",
+      "type": "Concept",
+      "created": "2026-01-22T10:28:58.519Z",
+      "observations": [
+        "Standard protocol for AI agent tool integration",
+        "Enables language models to call tools",
+        "Supports stdio and SSE transports"
+      ]
+    },
+    "TransportMechanisms": {
+      "id": "40000000-0000-0000-0000-000000000002",
+      "name": "TransportMechanisms",
+      "type": "Concept",
+      "created": "2026-01-22T10:28:58.519Z",
+      "observations": [
+        "stdio: Standard input/output for local processes",
+        "SSE: Server-Sent Events for real-time connections",
+        "HTTP: Direct HTTP requests"
+      ]
+    },
+    "APIWrapperPattern": {
+      "id": "40000000-0000-0000-0000-000000000010",
+      "name": "APIWrapperPattern",
+      "type": "Pattern",
+      "created": "2026-01-22T10:28:58.519Z",
+      "observations": [
+        "Wrap third-party APIs with MCP tool interface",
+        "Standardize tool schema and responses",
+        "Examples: MCP-ADO, MCP-SERP"
+      ]
+    },
+    "AuthenticationIntegrationPattern": {
+      "id": "40000000-0000-0000-0000-000000000011",
+      "name": "AuthenticationIntegrationPattern",
+      "type": "Pattern",
+      "created": "2026-01-22T10:28:58.519Z",
+      "observations": [
+        "Integrate OAuth2 and API key authentication",
+        "Handle token refresh and expiration",
+        "Example: MCP-365 OAuth2 flow"
+      ]
+    },
+    "DocumentEachService": {
+      "id": "40000000-0000-0000-0000-000000000020",
+      "name": "DocumentEachService",
+      "type": "Practice",
+      "created": "2026-01-22T10:28:58.519Z",
+      "observations": [
+        "Each MCP server should have architecture.md",
+        "Document tools, parameters, authentication",
+        "Include examples and error handling"
+      ]
+    },
+    "APIVersioning": {
+      "id": "40000000-0000-0000-0000-000000000021",
+      "name": "APIVersioning",
+      "type": "Practice",
+      "created": "2026-01-22T10:28:58.519Z",
+      "observations": [
+        "Version external API integrations",
+        "Track breaking changes",
+        "Maintain compatibility where possible"
+      ]
+    }
+  },
+  "relations": [
+    {
+      "id": "50000000-0000-0000-0000-000000000001",
+      "from": "ExternalServicesIntegration",
+      "to": "UnifiedMCPInterface",
+      "type": "supports_objective",
+      "created": "2026-01-22T10:28:58.519Z"
+    },
+    {
+      "id": "50000000-0000-0000-0000-000000000002",
+      "from": "AIAgentEnhancement",
+      "to": "CopilotIntegration",
+      "type": "supports_objective",
+      "created": "2026-01-22T10:28:58.519Z"
+    },
+    {
+      "id": "50000000-0000-0000-0000-000000000003",
+      "from": "DataIntegrationCapability",
+      "to": "UnifiedMCPInterface",
+      "type": "enables",
+      "created": "2026-01-22T10:28:58.519Z"
+    },
+    {
+      "id": "50000000-0000-0000-0000-000000000004",
+      "from": "SearchDiscoveryCapability",
+      "to": "UnifiedMCPInterface",
+      "type": "enables",
+      "created": "2026-01-22T10:28:58.519Z"
+    },
+    {
+      "id": "50000000-0000-0000-0000-000000000005",
+      "from": "VisualCollaborationCapability",
+      "to": "UnifiedMCPInterface",
+      "type": "enables",
+      "created": "2026-01-22T10:28:58.519Z"
+    },
+    {
+      "id": "50000000-0000-0000-0000-000000000010",
+      "from": "OAuth2Authentication",
+      "to": "DataIntegrationCapability",
+      "type": "implements",
+      "created": "2026-01-22T10:28:58.519Z"
+    },
+    {
+      "id": "50000000-0000-0000-0000-000000000011",
+      "from": "APIWrappingCapability",
+      "to": "DataIntegrationCapability",
+      "type": "implements",
+      "created": "2026-01-22T10:28:58.519Z"
+    },
+    {
+      "id": "50000000-0000-0000-0000-000000000012",
+      "from": "APIWrappingCapability",
+      "to": "SearchDiscoveryCapability",
+      "type": "implements",
+      "created": "2026-01-22T10:28:58.519Z"
+    },
+    {
+      "id": "50000000-0000-0000-0000-000000000020",
+      "from": "MCP365Service",
+      "to": "OAuth2Authentication",
+      "type": "provides",
+      "created": "2026-01-22T10:28:58.519Z"
+    },
+    {
+      "id": "50000000-0000-0000-0000-000000000021",
+      "from": "MCPADOService",
+      "to": "APIWrappingCapability",
+      "type": "provides",
+      "created": "2026-01-22T10:28:58.519Z"
+    },
+    {
+      "id": "50000000-0000-0000-0000-000000000022",
+      "from": "MCPSERPService",
+      "to": "APIWrappingCapability",
+      "type": "provides",
+      "created": "2026-01-22T10:28:58.519Z"
+    },
+    {
+      "id": "50000000-0000-0000-0000-000000000023",
+      "from": "MCPMiroService",
+      "to": "VisualCollaborationCapability",
+      "type": "provides",
+      "created": "2026-01-22T10:28:58.519Z"
+    },
+    {
+      "id": "50000000-0000-0000-0000-000000000030",
+      "from": "MCP365Service",
+      "to": "MicrosoftGraphAPI",
+      "type": "uses_api",
+      "created": "2026-01-22T10:28:58.519Z"
+    },
+    {
+      "id": "50000000-0000-0000-0000-000000000031",
+      "from": "MCPADOService",
+      "to": "AzureDevOpsAPI",
+      "type": "uses_api",
+      "created": "2026-01-22T10:28:58.519Z"
+    },
+    {
+      "id": "50000000-0000-0000-0000-000000000032",
+      "from": "MCPSERPService",
+      "to": "SerpAPI",
+      "type": "uses_api",
+      "created": "2026-01-22T10:28:58.519Z"
+    },
+    {
+      "id": "50000000-0000-0000-0000-000000000040",
+      "from": "MCPTransportDecision",
+      "to": "TransportMechanisms",
+      "type": "relates_to",
+      "created": "2026-01-22T10:28:58.519Z"
+    },
+    {
+      "id": "50000000-0000-0000-0000-000000000041",
+      "from": "MCPADOService",
+      "to": "APIWrapperPattern",
+      "type": "follows_pattern",
+      "created": "2026-01-22T10:28:58.519Z"
+    },
+    {
+      "id": "50000000-0000-0000-0000-000000000042",
+      "from": "MCPSERPService",
+      "to": "APIWrapperPattern",
+      "type": "follows_pattern",
+      "created": "2026-01-22T10:28:58.519Z"
+    },
+    {
+      "id": "50000000-0000-0000-0000-000000000043",
+      "from": "MCP365Service",
+      "to": "AuthenticationIntegrationPattern",
+      "type": "follows_pattern",
+      "created": "2026-01-22T10:28:58.519Z"
+    },
+    {
+      "id": "50000000-0000-0000-0000-000000000044",
+      "from": "MCP365Service",
+      "to": "DocumentEachService",
+      "type": "applies_practice",
+      "created": "2026-01-22T10:28:58.519Z"
+    },
+    {
+      "id": "50000000-0000-0000-0000-000000000045",
+      "from": "MCPADOService",
+      "to": "DocumentEachService",
+      "type": "applies_practice",
+      "created": "2026-01-22T10:28:58.519Z"
+    },
+    {
+      "id": "50000000-0000-0000-0000-000000000046",
+      "from": "MCPTransportDecision",
+      "to": "SecurityVulnerabilityRisk",
+      "type": "mitigates",
+      "created": "2026-01-22T10:28:58.519Z"
+    },
+    {
+      "id": "50000000-0000-0000-0000-000000000047",
+      "from": "DataIntegrationCapability",
+      "to": "ServiceScalabilityRisk",
+      "type": "relates_to",
+      "created": "2026-01-22T10:28:58.519Z"
+    }
+  ],
+  "metadata": {
+    "totalEntities": 30,
+    "totalRelations": 25,
+    "categories": {
+      "Pillar": 2,
+      "Objective": 2,
+      "CapabilityL1": 3,
+      "CapabilityL2": 2,
+      "Process": 1,
+      "Risk": 2,
+      "Service": 6,
+      "SystemAPI": 3,
+      "ADR": 1,
+      "Concept": 2,
+      "Pattern": 2,
+      "Practice": 2
+    }
+  }
+}

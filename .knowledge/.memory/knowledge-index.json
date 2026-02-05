@@ -1,0 +1,928 @@
+{
+  "version": "2.0.1",
+  "generated": "2026-01-19",
+  "schema": {
+    "entry": {
+      "slug": "string",
+      "path": "string",
+      "title": "string",
+      "category": "string",
+      "type": "guide|prompt|template|reference|process",
+      "status": "active|draft|deprecated",
+      "owner": "string",
+      "tags": [
+        "string"
+      ],
+      "lastUpdated": "YYYY-MM-DD",
+      "version": "semver",
+      "related": [
+        "string"
+      ],
+      "audience": [
+        "string"
+      ],
+      "scope": "string",
+      "reviewBy": "YYYY-MM-DD",
+      "checksum": "sha256"
+    }
+  },
+  "entries": [
+    {
+      "slug": "glossary",
+      "path": ".ontology/knowledge-ontology.md",
+      "title": "Knowledge Ontology",
+      "category": ".ontology",
+      "type": "reference",
+      "status": "active",
+      "owner": "team-architecture",
+      "tags": [
+        "glossary",
+        "taxonomy"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "1.0.2",
+      "related": [
+        "meta-model.md"
+      ],
+      "audience": [
+        "all"
+      ],
+      "scope": "Central controlled vocabulary for consistent terminology across all documents.",
+      "reviewBy": "2025-12-15",
+      "checksum": "93269432b789579dab74dbdaeb62916f8c78db211b83c6511ceb364275a35032",
+      "entityType": "Concept",
+      "relations": [
+        "defines: knowledge-model"
+      ]
+    },
+    {
+      "slug": "program-strategy",
+      "path": "delivery/discovery/strategy/program-strategy.md",
+      "title": "Program Strategy",
+      "category": "strategy",
+      "type": "guide",
+      "status": "active",
+      "owner": "team-strategy",
+      "tags": [
+        "strategy",
+        "pillars",
+        "metrics"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "1.0.1",
+      "related": [
+        "capability-map.md",
+        "sustainability-metrics.md",
+        "business-model-canvas.md"
+      ],
+      "audience": [
+        "executives",
+        "architects",
+        "product"
+      ],
+      "scope": "Defines strategic pillars, objectives, and decision alignment criteria.",
+      "reviewBy": "2025-12-30",
+      "checksum": "9894e17773d62e75e430d6472824354cb25ffe288dac715cd7d6ca1fc215fd60",
+      "entityType": "Strategy",
+      "relations": [
+        "depends-on: capability-map",
+        "depends-on: sustainability-metrics",
+        "depends-on: business-model-canvas"
+      ]
+    },
+    {
+      "slug": "capability-map",
+      "path": "delivery/discovery/strategy/capability-map.md",
+      "title": "Capability Map",
+      "category": "strategy",
+      "type": "reference",
+      "status": "active",
+      "owner": "team-architecture",
+      "tags": [
+        "capabilities",
+        "mapping"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "1.0.1",
+      "related": [
+        "program-strategy.md",
+        "meta-model.md"
+      ],
+      "audience": [
+        "architects",
+        "strategy"
+      ],
+      "scope": "Visual and hierarchical representation of business & technical capabilities.",
+      "reviewBy": "2025-12-30",
+      "checksum": "d1c3cc42f9729654bf0a194ce3a8095e1e5baf1e98ab8166c8fd5acd4b9814d0",
+      "entityType": "Concept",
+      "relations": [
+        "refines: knowledge-model",
+        "supports: program-strategy"
+      ]
+    },
+    {
+      "slug": "business-model-canvas",
+      "path": "delivery/discovery/strategy/business-model-canvas.md",
+      "title": "Business Model Canvas",
+      "category": "strategy",
+      "type": "guide",
+      "status": "active",
+      "owner": "team-strategy",
+      "tags": [
+        "strategy",
+        "canvas"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "1.0.1",
+      "related": [
+        "program-strategy.md",
+        "capability-map.md"
+      ],
+      "audience": [
+        "executives",
+        "product"
+      ],
+      "scope": "Documents value proposition & model elements informing strategic prioritisation.",
+      "reviewBy": "2025-12-30",
+      "checksum": "b3b8ab8f7d2d5f0d6af828f5b42d70f3caceed5bbe0a67c47c3c5701a02ef749",
+      "entityType": "Concept",
+      "relations": [
+        "depends-on: program-strategy",
+        "depends-on: capability-map"
+      ]
+    },
+    {
+      "slug": "sustainability-metrics",
+      "path": "delivery/discovery/strategy/sustainability-metrics.md",
+      "title": "Sustainability Metrics",
+      "category": "strategy",
+      "type": "reference",
+      "status": "active",
+      "owner": "sustainability-officer",
+      "tags": [
+        "sustainability",
+        "metrics"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "1.1.0",
+      "related": [
+        "program-strategy.md",
+        "billing-and-accounting.md"
+      ],
+      "audience": [
+        "sustainability",
+        "executives",
+        "architecture"
+      ],
+      "scope": "Defines measurement framework & key sustainability KPIs.",
+      "reviewBy": "2025-12-30",
+      "checksum": "be4e06bf806e1f11040831faca48931f0f71d3434ff4192814da720b19f5ef6f",
+      "entityType": "MetricFramework",
+      "relations": [
+        "supports: program-strategy",
+        "depends-on: billing-and-accounting"
+      ]
+    },
+    {
+      "slug": "billing-and-accounting",
+      "path": "solution/architecture/services/amdaris/systemapi/accounting/billing-and-accounting.md",
+      "title": "Billing & Accounting Domain",
+      "category": "solution",
+      "type": "guide",
+      "status": "active",
+      "owner": "team-finance",
+      "tags": [
+        "billing",
+        "accounting",
+        "finance",
+        "business-value",
+        "reclassified-from-operations"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "1.0.2",
+      "related": [
+        "program-strategy.md",
+        "sustainability-metrics.md"
+      ],
+      "audience": [
+        "finance",
+        "product",
+        "architecture"
+      ],
+      "scope": "Domain guide linking monetisation flows to strategic pillars and sustainability targets.",
+      "reviewBy": "2025-12-15",
+      "checksum": "2e4edf091a3dd99e48f3fe580d7f6d94861d37ec83c4f423fae1b18f45007ca7",
+      "entityType": "DomainGuide",
+      "relations": [
+        "depends-on: program-strategy",
+        "supports: sustainability-metrics"
+      ]
+    },
+    {
+      "slug": "requirements-and-security-lifecycle",
+      "path": "delivery/processes/requirements-and-security-lifecycle.md",
+      "title": "Requirements & Security Lifecycle",
+      "category": "processes",
+      "type": "guide",
+      "status": "active",
+      "owner": "team-security",
+      "tags": [
+        "requirements",
+        "security",
+        "traceability",
+        "lifecycle",
+        "reclassified-from-operations"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "1.0.4",
+      "related": [
+        "integration-architecture-weekly.md",
+        "sustainability-metrics.md"
+      ],
+      "audience": [
+        "security",
+        "product",
+        "architecture"
+      ],
+      "scope": "Unified lifecycle integrating requirements, security controls, verification and sustainability impact.",
+      "reviewBy": "2025-12-30",
+      "checksum": "e0e85e967c75cc3d2b2c8f30f3c27e6c03f5523db2a1f757c96db881375c0f0f",
+      "entityType": "Practice",
+      "relations": [
+        "depends-on: integration-architecture-weekly",
+        "supports: sustainability-metrics",
+        "supports: program-strategy"
+      ]
+    },
+    {
+      "slug": "global-architecture",
+      "path": "solution/architecture/global-architecture.md",
+      "title": "Global Architecture",
+      "category": "solution",
+      "type": "guide",
+      "status": "active",
+      "owner": "team-architecture",
+      "tags": [
+        "architecture",
+        "layers"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "1.0.1",
+      "related": [
+        "integration-architecture-weekly.md",
+        "sustainability-metrics.md",
+        "racif-matrix.md"
+      ],
+      "audience": [
+        "architects",
+        "engineers"
+      ],
+      "scope": "High-level layered architecture model & guiding principles.",
+      "reviewBy": "2025-12-30",
+      "checksum": "8c574ee11d093f47bd156c608e6e8e4b9c9b34c019045878373c935a336c600f",
+      "entityType": "Concept",
+      "relations": [
+        "depends-on: program-strategy",
+        "depends-on: capability-map",
+        "depends-on: sustainability-metrics"
+      ]
+    },
+    {
+      "slug": "integration-architecture-weekly",
+      "path": "delivery/governance/integration-architecture-weekly.md",
+      "title": "Integration Architecture Weekly",
+      "category": "delivery",
+      "type": "process",
+      "status": "active",
+      "owner": "team-architecture",
+      "tags": [
+        "integration",
+        "governance"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "1.0.1",
+      "related": [
+        "global-architecture.md",
+        "racif-matrix.md"
+      ],
+      "audience": [
+        "architects",
+        "security",
+        "sre"
+      ],
+      "scope": "Weekly governance cadence for integration changes & architectural impacts.",
+      "reviewBy": "2025-12-15",
+      "checksum": "30685564e5202b7ef02dc18cae1aa73a3bb1a0e34b586750ff1b49af6e90655a",
+      "entityType": "Practice",
+      "relations": [
+        "supports: global-architecture",
+        "depends-on: racif-matrix",
+        "implements: program-strategy"
+      ]
+    },
+    {
+      "slug": "miro-architecture-governance",
+      "path": "delivery/discovery/architecture/miro-architecture-governance.md",
+      "title": "MIRO Architecture & Governance Initialisation Prompt",
+      "category": "delivery",
+      "type": "prompt",
+      "status": "active",
+      "owner": "team-architecture",
+      "tags": [
+        "miro",
+        "governance",
+        "architecture"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "1.0.1",
+      "related": [
+        "global-architecture.md",
+        "program-strategy.md"
+      ],
+      "audience": [
+        "architects",
+        "product"
+      ],
+      "scope": "Prompt for initialising MIRO governance and architecture board coverage.",
+      "reviewBy": "2025-12-30",
+      "checksum": "b0a7b7e16a635f0e1455fce44ac4cac80de085b84b9d7e3f954b5867098059ec",
+      "entityType": "Prompt",
+      "relations": [
+        "supports: global-architecture",
+        "supports: integration-architecture-weekly",
+        "implements: program-strategy"
+      ]
+    },
+    {
+      "slug": "copilot-introspection-prompt",
+      "path": ".tools/prompts/copilot-introspection-prompt.md",
+      "title": "Copilot Architecture Introspection Prompt",
+      "category": ".tools",
+      "type": "prompt",
+      "status": "active",
+      "owner": "team-architecture",
+      "tags": [
+        "copilot",
+        "introspection"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "1.0.1",
+      "related": [
+        "program-strategy.md",
+        "glossary.md"
+      ],
+      "audience": [
+        "architects",
+        "engineers"
+      ],
+      "scope": "Structured evaluation of architecture prompts for coverage & alignment.",
+      "reviewBy": "2025-12-30",
+      "checksum": "953af2a3fb430f38867b02335da13e5e1b66be147b8fc8a8ac71fd0f82efa71f",
+      "entityType": "Prompt",
+      "relations": [
+        "depends-on: program-strategy",
+        "depends-on: glossary"
+      ]
+    },
+    {
+      "slug": "copilot-prompt-library",
+      "path": ".tools/prompts/copilot-prompt-library.md",
+      "title": "Architecture Copilot Prompt Library",
+      "category": ".tools",
+      "type": "reference",
+      "status": "active",
+      "owner": "team-architecture",
+      "tags": [
+        "prompts",
+        "architecture",
+        "catalog"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "1.0.3",
+      "related": [
+        "general-architecture-prompt.md",
+        "glossary.md"
+      ],
+      "audience": [
+        "architects",
+        "engineers"
+      ],
+      "scope": "Central catalog of reusable architecture prompt patterns.",
+      "reviewBy": "2025-12-30",
+      "checksum": "2091d1d99c9b4dd2c8e43f0141d58943f2890a80557c813ba60b1b2c607885f6",
+      "entityType": "PromptCatalog",
+      "relations": [
+        "depends-on: general-architecture-prompt",
+        "depends-on: glossary",
+        "supports: program-strategy"
+      ]
+    },
+    {
+      "slug": "general-architecture-prompt",
+      "path": ".tools/prompts/general-architecture-prompt.md",
+      "title": "Architecture Introspection Super Prompt",
+      "category": ".tools",
+      "type": "prompt",
+      "status": "active",
+      "owner": "team-architecture",
+      "tags": [
+        "architecture",
+        "introspection",
+        "workspace"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "1.1.2",
+      "related": [
+        "copilot-prompt-library.md",
+        "program-strategy.md"
+      ],
+      "audience": [
+        "architects",
+        "engineers"
+      ],
+      "scope": "Comprehensive introspection driver for architecture workspace analysis.",
+      "reviewBy": "2025-12-30",
+      "checksum": "d3fdf3a0161e916e6c50d75f722397a9b8a3cabd84e7837e4aec0875ea5f488a",
+      "entityType": "Prompt",
+      "relations": [
+        "depends-on: program-strategy",
+        "depends-on: copilot-prompt-library"
+      ]
+    },
+    {
+      "slug": "knowledge-graph-schema",
+      "path": ".ontology/knowledge-model.md",
+      "title": "Knowledge Graph Model",
+      "category": ".ontology",
+      "type": "reference",
+      "status": "active",
+      "owner": "team-architecture",
+      "tags": [
+        "knowledge-graph",
+        "schema"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "1.0.1",
+      "related": [
+        "meta-model.md",
+        "capability-map.md"
+      ],
+      "audience": [
+        "architects",
+        "data"
+      ],
+      "scope": "Defines nodes & relationships for knowledge graph representation.",
+      "reviewBy": "2025-12-30",
+      "checksum": "117d23822b26b025a9b977a703fa6f7a3ede5eba08f18228c0e50151943ddf9c",
+      "entityType": "Concept",
+      "relations": [
+        "instance-of: knowledge-ontology",
+        "supports: capability-map",
+        "supports: program-strategy"
+      ]
+    },
+    {
+      "slug": "meta-model",
+      "path": ".ontology/knowledge-ontology.md",
+      "title": "Knowledge Ontology",
+      "category": ".ontology",
+      "type": "reference",
+      "status": "active",
+      "owner": "team-architecture",
+      "tags": [
+        "meta-model",
+        "taxonomy"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "1.0.1",
+      "related": [
+        "capability-map.md",
+        "knowledge-graph-schema.md"
+      ],
+      "audience": [
+        "architects",
+        "strategy"
+      ],
+      "scope": "Abstract model defining entities & relationships underpinning taxonomy.",
+      "reviewBy": "2025-12-30",
+      "checksum": "346b7783c0b79e92ad3204998a155c0651c45ac49d35f89ce5a6bc6715e43639",
+      "entityType": "Concept",
+      "relations": [
+        "defines: knowledge-model"
+      ]
+    },
+    {
+      "slug": "racif-matrix",
+      "path": "delivery/governance/racif-matrix.md",
+      "title": "RACIF Matrix",
+      "category": "delivery",
+      "type": "reference",
+      "status": "active",
+      "owner": "team-architecture",
+      "tags": [
+        "racif",
+        "governance"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "1.0.0",
+      "related": [
+        "integration-architecture-weekly.md"
+      ],
+      "audience": [
+        "architects",
+        "governance"
+      ],
+      "scope": "Clarifies roles & responsibilities for decision & review processes.",
+      "reviewBy": "2025-12-30",
+      "checksum": "aec3959e6c25637fb63a77f78ea833e740d2036373742a49a5508da28ddc2533",
+      "entityType": "Policy",
+      "relations": [
+        "depends-on: program-strategy",
+        "depends-on: global-architecture"
+      ]
+    },
+    {
+      "slug": "prompt-folder-usage-recommendations",
+      "path": ".tools/prompts/prompt-folder-usage-recommendations.md",
+      "title": "Prompt Folder Usage Recommendations",
+      "category": ".tools",
+      "type": "guide",
+      "status": "active",
+      "owner": "team-architecture",
+      "tags": [
+        "workflow",
+        "prompts"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "1.0.1",
+      "related": [
+        "program-strategy.md"
+      ],
+      "audience": [
+        "architects",
+        "contributors"
+      ],
+      "scope": "Guidelines for organizing, authoring, and maintaining prompt files.",
+      "reviewBy": "2025-12-15",
+      "checksum": "97f33b2d235495336bd68491c07a5fbab13beb28264ad3338bde41bc312401b4",
+      "entityType": "Practice",
+      "relations": [
+        "depends-on: program-strategy"
+      ]
+    },
+    {
+      "slug": "program-strategic-introspection-prompt",
+      "path": ".tools/prompts/program-strategic-introspection-prompt.md",
+      "title": "Program Strategic Introspection Prompt",
+      "category": "strategy",
+      "type": "prompt",
+      "status": "active",
+      "owner": "team-strategy",
+      "tags": [
+        "strategy",
+        "introspection",
+        "pillars"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "1.0.0",
+      "related": [
+        "program-strategy.md",
+        "capability-map.md",
+        "business-model-canvas.md"
+      ],
+      "audience": [
+        "executives",
+        "architects"
+      ],
+      "scope": "Prompt supporting strategic reflection & alignment checks.",
+      "reviewBy": "2025-12-30",
+      "checksum": "0ac879dd694302da58fa2ff2acad6cf189146c4c8e9e08140e712bff64985a6b",
+      "entityType": "Prompt",
+      "relations": [
+        "depends-on: program-strategy",
+        "depends-on: capability-map",
+        "depends-on: business-model-canvas"
+      ]
+    },
+    {
+      "slug": "miro-board-coverage-checklist",
+      "path": "delivery/governance/miro-board-coverage-checklist.md",
+      "title": "Miro Board Coverage Checklist",
+      "category": "delivery",
+      "type": "reference",
+      "status": "active",
+      "owner": "team-architecture",
+      "tags": [
+        "miro",
+        "coverage",
+        "checklist",
+        "knowledge-alignment",
+        "reclassified-from-operations"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "1.0.1",
+      "related": [
+        "program-strategy.md",
+        "capability-map.md"
+      ],
+      "audience": [
+        "architects",
+        "contributors"
+      ],
+      "scope": "Checklist ensuring strategic Miro board alignment across taxonomy and governance concepts.",
+      "reviewBy": "2025-12-30",
+      "checksum": "f290e76d5dc7a762e32737fd13f89f15d6791fc6f215b43e30b832c4b88d6830",
+      "entityType": "Checklist",
+      "relations": [
+        "depends-on: prompt-folder-usage-recommendations",
+        "supports: program-strategy"
+      ]
+    },
+    {
+      "slug": "adr-template",
+      "path": "solution/templates/adr-template.md",
+      "title": "ADR Template",
+      "category": "solution",
+      "type": "template",
+      "status": "active",
+      "owner": "team-architecture",
+      "tags": [
+        "adr",
+        "template",
+        "decision"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "1.0.0",
+      "related": [
+        "racif-matrix.md",
+        "global-architecture.md"
+      ],
+      "audience": [
+        "architects",
+        "tech-leads"
+      ],
+      "scope": "Standard layout for capturing architecture decisions & evaluations.",
+      "reviewBy": "2025-12-15",
+      "checksum": "7c3c065822db8c38a122d48b4d90738e43fe4a504d320b189b965d85ac4a8bf1",
+      "entityType": "Template",
+      "relations": [
+        "depends-on: program-strategy",
+        "depends-on: glossary"
+      ]
+    },
+    {
+      "slug": "example-domain",
+      "path": "solution/templates/example-domain.md",
+      "title": "Example Domain Overview",
+      "category": "solution",
+      "type": "guide",
+      "status": "draft",
+      "owner": "team-example",
+      "tags": [
+        "example",
+        "domain"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "0.1.0",
+      "related": [
+        "program-strategy.md",
+        "capability-map.md"
+      ],
+      "audience": [
+        "newcomers",
+        "architects"
+      ],
+      "scope": "Illustrative domain boundaries, capabilities, and linking patterns.",
+      "reviewBy": "2025-11-30",
+      "checksum": "bb38dad4a6174d28511e553795540bb948c311f063fc66980220b7c1b51f98c3",
+      "entityType": "DomainGuide",
+      "relations": [
+        "depends-on: program-strategy",
+        "depends-on: capability-map"
+      ]
+    },
+    {
+      "slug": "release-management",
+      "path": "delivery/processes/release-management.md",
+      "title": "Release Management Process",
+      "category": "processes",
+      "type": "guide",
+      "status": "draft",
+      "owner": "team-devops",
+      "tags": [
+        "release",
+        "process",
+        "devops"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "0.1.0",
+      "related": [
+        "requirements-and-security.md",
+        "integration-architecture-weekly.md"
+      ],
+      "audience": [
+        "devops",
+        "sre",
+        "architects"
+      ],
+      "scope": "Lifecycle and checklist for controlled, observable, and sustainable releases.",
+      "reviewBy": "2025-11-30",
+      "checksum": "39a90c0f9e6ef6c9421eb05debe32cd4e2d94085442ce889d3c8c562a79b5bf2",
+      "entityType": "Practice",
+      "relations": [
+        "depends-on: racif-matrix",
+        "depends-on: requirements-and-security",
+        "depends-on: integration-architecture-weekly"
+      ]
+    },
+    {
+      "slug": "miro-extract-portal-notification-discovery",
+      "path": "delivery/discovery/portal/miro-extract-portal-notification-discovery.md",
+      "title": "Yorizon Portal – Discovery – Notification System (Miro Extract)",
+      "category": "discovery",
+      "type": "reference",
+      "status": "active",
+      "owner": "team-architecture",
+      "tags": [
+        "miro",
+        "portal",
+        "discovery",
+        "notifications",
+        "board-extract"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "1.0.0",
+      "related": [
+        "miro-board-coverage-checklist.md",
+        "program-strategy.md",
+        "capability-map.md"
+      ],
+      "audience": [
+        "architects",
+        "product",
+        "contributors"
+      ],
+      "scope": "Structured snapshot of discovery board content for notifications system aligning discovery artefacts with strategy & capability references.",
+      "reviewBy": "2025-12-30",
+      "checksum": "93ba8c9c089274cbdc83148601eb93adf42c0ceb34bdeac373a1c0a624fd752b",
+      "entityType": "Artifact",
+      "relations": [
+        "depends-on: miro-board-coverage-checklist",
+        "supports: program-strategy"
+      ]
+    },
+    {
+      "slug": "miro-extract-architecture-governance-board",
+      "path": "delivery/discovery/architecture/miro-extract-architecture-governance-board.md",
+      "title": "Architecture Governance Board (Miro Extract)",
+      "category": "discovery",
+      "type": "reference",
+      "status": "draft",
+      "owner": "team-architecture",
+      "tags": [
+        "miro",
+        "architecture",
+        "governance",
+        "board-extract",
+        "discovery"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "1.1.0",
+      "related": [
+        "global-architecture.md",
+        "miro-board-coverage-checklist.md",
+        "capability-map.md"
+      ],
+      "audience": [
+        "architects",
+        "contributors"
+      ],
+      "scope": "Second-pass governance board extract: strategic, customer/value, operational, integration & vendor themes with inferred roles, decision workflow and prioritized gap backlog.",
+      "reviewBy": "2025-11-15",
+      "checksum": "401ddfecb16db5a8ce07268c4412ffc7045ac79d6e8788913b0c221da7959836",
+      "entityType": "Artifact",
+      "relations": [
+        "refines global-architecture",
+        "depends-on capability-map",
+        "relates-to miro-board-coverage-checklist"
+      ]
+    },
+    {
+      "slug": "miro-extract-portal-roles-permissions-discovery",
+      "path": "delivery/discovery/portal/miro-extract-portal-roles-permissions-discovery.md",
+      "title": "Portal Roles & Permissions (Miro Extract)",
+      "category": "discovery",
+      "type": "reference",
+      "status": "draft",
+      "owner": "team-architecture",
+      "tags": [
+        "miro",
+        "portal",
+        "roles",
+        "permissions",
+        "access-control",
+        "discovery",
+        "board-extract"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "1.0.1",
+      "related": [
+        "requirements-and-security-lifecycle.md",
+        "capability-map.md",
+        "global-architecture.md"
+      ],
+      "audience": [
+        "architects",
+        "security",
+        "product"
+      ],
+      "scope": "Roles & permissions discovery: inferred roles, draft permission domains, gaps & backlog seeds for RBAC and governance artifacts (empty stickies indicate pending ideation).",
+      "reviewBy": "2025-11-20",
+      "checksum": "7fccf9439c52c54e893c6f8ac7364f2a45d098339f99dfb62f25651e80e4af06",
+      "entityType": "Artifact",
+      "relations": [
+        "depends-on capability-map",
+        "informs requirements-and-security-lifecycle",
+        "refines global-architecture"
+      ]
+    },
+    {
+      "slug": "testing-environments-discovery",
+      "path": "delivery/discovery/miro-extract-testing-environments-discovery.md",
+      "title": "Testing & Environments (Miro Extract)",
+      "category": "discovery",
+      "type": "reference",
+      "status": "draft",
+      "owner": "team-architecture",
+      "tags": [
+        "miro",
+        "testing",
+        "environments",
+        "quality",
+        "release"
+      ],
+      "lastUpdated": "2025-10-28",
+      "version": "1.1.0",
+      "related": [
+        "release-management-process.md",
+        "requirements-and-security-lifecycle.md",
+        "capability-map.md"
+      ],
+      "audience": [
+        "architecture",
+        "qa",
+        "devops",
+        "security"
+      ],
+      "scope": "Environment & testing extract with real counts (Dev & QA observed) plus inferred lifecycle, target test taxonomy, tooling validation plan, and gap/risk list pending enrichment.",
+      "reviewBy": "2025-11-15",
+      "checksum": "665e11026add785280246f04d43191fb725bc057453e4d1ef0e72d6367f67aa4",
+      "entityType": "Artifact",
+      "relations": [
+        "depends-on: capability-map",
+        "depends-on: requirements-and-security-lifecycle",
+        "refines: release-management-process"
+      ]
+    },
+    {
+      "slug": "fusion-ai-touchpoints",
+      "path": "delivery/discovery/Fusion AI Touchpoints/README.md",
+      "title": "Fusion AI – Yorizon Touchpoint Summary",
+      "category": "delivery",
+      "type": "guide",
+      "status": "active",
+      "owner": "team-architecture",
+      "tags": [
+        "fusion-ai",
+        "ai-factory",
+        "observability",
+        "pre-training",
+        "benchmarking",
+        "discovery"
+      ],
+      "lastUpdated": "2025-12-04",
+      "version": "1.0.0",
+      "related": [
+        "global-architecture.md",
+        "capability-map.md",
+        "program-strategy.md"
+      ],
+      "audience": [
+        "architects",
+        "product",
+        "data",
+        "engineering"
+      ],
+      "scope": "Summary of Fusion AI touchpoint with Yorizon, covering AI Factory as a Service positioning, integration into the Yorizon landscape, observability strategy, and expectations for customer-specific pre-training and benchmarking.",
+      "reviewBy": "2026-03-31",
+      "checksum": "TODO",
+      "entityType": "Concept",
+      "relations": [
+        "refines: global-architecture",
+        "supports: program-strategy",
+        "depends-on: capability-map"
+      ]
+    }
+  ]
+}
