@@ -1370,7 +1370,6 @@ Use \`knowledge_graph_add_entity\` to start building your knowledge graph.
           
           // 4. Auto-update knowledge index with checksums and version
           const crypto = require('crypto');
-          const indexPath = path.join(MEMORY_DIR, 'knowledge-index.json');
           let indexUpdate = { updated: false, message: 'Index not found or skipped' };
           
           if (fs.existsSync(indexPath)) {
