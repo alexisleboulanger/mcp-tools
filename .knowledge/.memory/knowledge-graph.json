@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "created": "2026-01-22T10:28:58.518Z",
-  "lastUpdated": "2026-01-22T10:28:58.518Z",
+  "lastUpdated": "2026-02-27T11:27:30.462Z",
   "entities": {
     "ExternalServicesIntegration": {
       "id": "10000000-0000-0000-0000-000000000001",
@@ -319,6 +319,65 @@
         "Track breaking changes",
         "Maintain compatibility where possible"
       ]
+    },
+    "AvailabilityNFRWorkItem10473": {
+      "id": "41435017-6a0a-4aed-9ebf-7cbdb4246d54",
+      "name": "AvailabilityNFRWorkItem10473",
+      "type": "Concept",
+      "created": "2026-02-23T15:48:54.059Z",
+      "observations": [
+        "Derived from Azure DevOps work item 10473 ([NFRs] P0 - Availability)",
+        "Availability definition: system operational time; customer value is high; quantify allowable downtime and define RTO/RPO",
+        "Availability analysis areas: SLA (customer-facing) vs SLO/KPIs (internal); RTO/RPO relationship; data durability & integrity checks; automated backup/restore to meet RTO; redundancy & failover to remove single points of failure",
+        "Risk-level guidance based on RTO windows: 0–8h High, 8–24h Moderate, >24h Low",
+        "Availability-related work items list exported to .knowledge/reports/ado/related-to-10473-availability-2026-02-23.csv"
+      ],
+      "relations": [
+        "AvailabilityNFRWorkItem10473--relates_to--MCPADOService"
+      ]
+    },
+    "ReleaseOverlayExtension": {
+      "id": "1ff6ce0e-5f8a-48ce-b98c-3c3aa5163e34",
+      "name": "ReleaseOverlayExtension",
+      "type": "Recommendation",
+      "created": "2026-02-27T11:27:11.377Z",
+      "observations": [
+        "Recommendation to extend ontology with a thin 'Release Overlay' — not a redesign but minimal additions for release scoping, workstreams, work items, PR validations, release notes, and CMDB/BOM traceability",
+        "Current ontology already strong for strategy→delivery→solution alignment. What is under-modeled: release as a timeboxed container, backlog/work items, PR validation reports, release notes, BOM/CMDB snapshots/deltas, meetings/minutes as inputs to scope",
+        "Proposed new entity types (Delivery layer): Release (timeboxed, e.g. R2026.04), Workstream (cross-team thread), WorkItem (ADO Epic/Feature/PBI/Bug/Task), Artifact (scope brief, validation report, release notes, minutes, BOM delta)",
+        "Proposed new entity types (Solution layer, optional): Component (for CMDB/BOM items distinct from Service), BOMSnapshot/CMDBSnapshot (can start as Artifact instead)",
+        "Ultra-minimal start: Release + WorkItem + Artifact + Workstream only. Represent meeting minutes as Artifact with artifact_kind: minutes metadata",
+        "Proposed new relation types: scopes (Release→WorkItem/CapabilityL2/ADR), delivers (Workstream→CapabilityL2/WorkItem), tracks (WorkItem→Gap/Risk/Recommendation), produces (Release→Artifact), documents (Artifact→ADR/Service/Process), validates (Artifact→WorkItem/Service/Release), impacts (WorkItem→Service/Component), depends_on (WorkItem→WorkItem or Service→Service)",
+        "Contract-first approach: use Artifact subtype via frontmatter (artifact_kind: release_scope_brief, pr_validation_report, minutes, bom_delta, etc.) instead of creating separate entity types",
+        "Canonical relation 'Service provides CapabilityL2' enables automatic roll-up: which capabilities impacted → which services involved → which risks/patterns/practices apply → which ADRs constrain the release",
+        "3 recommended release skills: scope_release_from_ADO (produces scope brief), workstreams_builder (produces workstreams plan), bom_cmdb_delta_generator (produces BOM delta)",
+        "3-agent orchestration model: Release Planner Agent (reads release+ADO), Architect Synthesizer Agent (writes scope brief+workstreams+diagrams), Gatekeeper Agent (checks risks/NFR gates/missing ADRs)",
+        "Release Scope Pack output convention: .architect/artifacts/release/R2026.04/ with 00-scope-brief.md through 06-release-notes-draft.md",
+        "Key decision needed: WorkItem placement — Delivery Layer recommended (execution context)",
+        "Key decision needed: BOM/CMDB modeling — (A) Artifacts only (simplest) vs (B) First-class graph nodes with Component/has_version/deployed_in_env (more powerful impact analysis)",
+        "Anti-drift rules: Use specific relations over generic relates_to, don't add 20 entity types at once, encode 'kind' as metadata first and promote to entity type only if needed",
+        "DECISION 1 (2026-02-27): WorkItem confirmed as Delivery Layer entity type — aligns with execution/delivery context alongside CapabilityL1/L2, Gap, Recommendation, ADR, Process",
+        "DECISION 2 (2026-02-27): BOM/CMDB modeling chosen as Option B — First-class graph nodes (Component, has_version, deployed_in_env) for more powerful impact analysis, not just Artifacts",
+        "Status: Both decisions made, ready for ontology extension implementation",
+        "IMPLEMENTED (2026-02-27): Ontology v2.0.0 patch applied to ontology-schema.json and server.js embedded standard ontology"
+      ],
+      "relations": [
+        "ReleaseOverlayExtension--addresses--MissingReleaseScopingModel",
+        "ReleaseOverlayExtension--relates_to--MCPKnowledgeService"
+      ]
+    },
+    "MissingReleaseScopingModel": {
+      "id": "c01a2cc3-0c45-4a3d-8e55-603a4ae0d6b5",
+      "name": "MissingReleaseScopingModel",
+      "type": "Gap",
+      "created": "2026-02-27T11:27:26.042Z",
+      "observations": [
+        "Current ontology lacks support for release scoping as first-class concept",
+        "Under-modeled artifacts: release containers, backlog/work items, PR validation reports, release notes, BOM/CMDB snapshots, meeting minutes as scope inputs",
+        "No way to represent timeboxed delivery cycles or trace work items to capabilities/services",
+        "Cannot generate release scope packs, workstream plans, or CMDB deltas from knowledge graph"
+      ],
+      "relations": []
     }
   },
   "relations": [
@@ -482,11 +541,32 @@
       "to": "ServiceScalabilityRisk",
       "type": "relates_to",
       "created": "2026-01-22T10:28:58.519Z"
+    },
+    {
+      "id": "AvailabilityNFRWorkItem10473--relates_to--MCPADOService",
+      "from": "AvailabilityNFRWorkItem10473",
+      "to": "MCPADOService",
+      "type": "relates_to",
+      "created": "2026-02-23T15:48:56.624Z"
+    },
+    {
+      "id": "ReleaseOverlayExtension--addresses--MissingReleaseScopingModel",
+      "from": "ReleaseOverlayExtension",
+      "to": "MissingReleaseScopingModel",
+      "type": "addresses",
+      "created": "2026-02-27T11:27:30.443Z"
+    },
+    {
+      "id": "ReleaseOverlayExtension--relates_to--MCPKnowledgeService",
+      "from": "ReleaseOverlayExtension",
+      "to": "MCPKnowledgeService",
+      "type": "relates_to",
+      "created": "2026-02-27T11:27:30.462Z"
     }
   ],
   "metadata": {
-    "totalEntities": 30,
-    "totalRelations": 25,
+    "totalEntities": 31,
+    "totalRelations": 26,
     "categories": {
       "Pillar": 2,
       "Objective": 2,
@@ -497,9 +577,165 @@
       "Service": 6,
       "SystemAPI": 3,
       "ADR": 1,
-      "Concept": 2,
+      "Concept": 3,
       "Pattern": 2,
-      "Practice": 2
+      "Practice": 2,
+      "Recommendation": 1,
+      "Gap": 1
     }
+  },
+  "ontology": {
+    "name": "standard",
+    "version": "1.0.0",
+    "description": "Standard 3-layer ontology: Strategy, Delivery, Solution",
+    "entityTypes": [
+      {
+        "name": "Pillar",
+        "layer": "strategy",
+        "description": "Strategic pillar or business domain"
+      },
+      {
+        "name": "Objective",
+        "layer": "strategy",
+        "description": "Strategic objective or measurable goal"
+      },
+      {
+        "name": "Metric",
+        "layer": "strategy",
+        "description": "Success metric for objectives"
+      },
+      {
+        "name": "CapabilityL1",
+        "layer": "delivery",
+        "description": "Level 1 capability (high-level)"
+      },
+      {
+        "name": "CapabilityL2",
+        "layer": "delivery",
+        "description": "Level 2 capability (specific)"
+      },
+      {
+        "name": "Gap",
+        "layer": "delivery",
+        "description": "Capability gap or missing functionality"
+      },
+      {
+        "name": "Recommendation",
+        "layer": "delivery",
+        "description": "Improvement recommendation"
+      },
+      {
+        "name": "Process",
+        "layer": "delivery",
+        "description": "Operational process or workflow"
+      },
+      {
+        "name": "Risk",
+        "layer": "delivery",
+        "description": "Identified risk or threat"
+      },
+      {
+        "name": "ADR",
+        "layer": "solution",
+        "description": "Architecture Decision Record"
+      },
+      {
+        "name": "Service",
+        "layer": "solution",
+        "description": "Software service or component"
+      },
+      {
+        "name": "SystemAPI",
+        "layer": "solution",
+        "description": "External API integration"
+      },
+      {
+        "name": "Event",
+        "layer": "solution",
+        "description": "System event or message"
+      },
+      {
+        "name": "Concept",
+        "layer": "solution",
+        "description": "Core concept abstracted from services"
+      },
+      {
+        "name": "Pattern",
+        "layer": "solution",
+        "description": "Design pattern derived from implementations"
+      },
+      {
+        "name": "Practice",
+        "layer": "solution",
+        "description": "Best practice or standard approach"
+      },
+      {
+        "name": "Term",
+        "layer": "solution",
+        "description": "Glossary term or definition"
+      }
+    ],
+    "relationTypes": [
+      {
+        "name": "supports_objective",
+        "description": "Pillar supports strategic objective"
+      },
+      {
+        "name": "measures",
+        "description": "Metric measures objective success"
+      },
+      {
+        "name": "enables",
+        "description": "Capability enables objective achievement"
+      },
+      {
+        "name": "implements",
+        "description": "L2 capability implements L1 capability"
+      },
+      {
+        "name": "identifies",
+        "description": "Gap identified in capability"
+      },
+      {
+        "name": "addresses",
+        "description": "Recommendation addresses gap"
+      },
+      {
+        "name": "decides",
+        "description": "ADR decides on recommendation"
+      },
+      {
+        "name": "implements_decision",
+        "description": "Service implements decision"
+      },
+      {
+        "name": "provides",
+        "description": "Service provides capability"
+      },
+      {
+        "name": "uses_api",
+        "description": "Service uses external API"
+      },
+      {
+        "name": "emits",
+        "description": "Service emits event"
+      },
+      {
+        "name": "follows_pattern",
+        "description": "Service follows design pattern"
+      },
+      {
+        "name": "applies_practice",
+        "description": "Service applies best practice"
+      },
+      {
+        "name": "defines",
+        "description": "Concept defines pattern foundation"
+      },
+      {
+        "name": "relates_to",
+        "description": "Generic relation (use specific relations when possible)"
+      }
+    ]
   }
 }

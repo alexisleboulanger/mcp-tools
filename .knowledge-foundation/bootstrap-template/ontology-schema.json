@@ -2,19 +2,19 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Knowledge Foundation Ontology Schema",
   "description": "Defines all entity types and relation types for knowledge graphs",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "layers": {
     "strategy": {
       "description": "Why? - Strategic context and objectives",
       "entityTypes": ["Pillar", "Objective", "Metric"]
     },
     "delivery": {
-      "description": "What? - Capabilities, decisions, and processes",
-      "entityTypes": ["CapabilityL1", "CapabilityL2", "Gap", "Recommendation", "ADR", "Process"]
+      "description": "What? - Capabilities, decisions, processes, releases, and work tracking",
+      "entityTypes": ["CapabilityL1", "CapabilityL2", "Gap", "Recommendation", "ADR", "Process", "Release", "Workstream", "WorkItem", "Artifact"]
     },
     "solution": {
-      "description": "How? - Implementation details, services, APIs, concepts, patterns",
-      "entityTypes": ["Service", "SystemAPI", "Event", "Concept", "Pattern", "Practice", "Term"]
+      "description": "How? - Implementation details, services, APIs, concepts, patterns, and inventory",
+      "entityTypes": ["Service", "SystemAPI", "Event", "Concept", "Pattern", "Practice", "Term", "Component", "BOMSnapshot", "CMDBSnapshot"]
     }
   },
   "entityTypes": [
@@ -82,6 +82,34 @@
       "namingConvention": "PascalCase, process name (e.g., 'MCPServerLifecycle')"
     },
     {
+      "name": "Release",
+      "layer": "delivery",
+      "description": "Timeboxed release container (e.g., R2026.04) scoping work items, capabilities, and artifacts",
+      "requiredFields": ["name", "observations"],
+      "namingConvention": "R followed by date (e.g., 'R2026.04', 'R2026.Q2')"
+    },
+    {
+      "name": "Workstream",
+      "layer": "delivery",
+      "description": "Cross-team delivery thread grouping related work items and capabilities",
+      "requiredFields": ["name", "observations"],
+      "namingConvention": "PascalCase, domain (e.g., 'CoreAPI', 'DevOps', 'Security')"
+    },
+    {
+      "name": "WorkItem",
+      "layer": "delivery",
+      "description": "Trackable work unit (Epic/Feature/PBI/Bug/Task) linked to ADO or other ALM",
+      "requiredFields": ["name", "observations"],
+      "namingConvention": "ADO# prefix or PascalCase (e.g., 'ADO-12345', 'ImplementOAuth2Flow')"
+    },
+    {
+      "name": "Artifact",
+      "layer": "delivery",
+      "description": "Produced document with artifact_kind metadata (scope brief, validation report, release notes, minutes, BOM delta)",
+      "requiredFields": ["name", "observations"],
+      "namingConvention": "PascalCase with kind (e.g., 'R2026.04-ScopeBrief', 'PRValidation-APIGateway')"
+    },
+    {
       "name": "Service",
       "layer": "solution",
       "description": "Software service or component",
@@ -129,6 +157,27 @@
       "description": "Glossary term or definition",
       "requiredFields": ["name", "observations"],
       "namingConvention": "PascalCase or phrase (e.g., 'TransportMechanism')"
+    },
+    {
+      "name": "Component",
+      "layer": "solution",
+      "description": "CMDB/BOM inventory item distinct from Service (hardware, infra, licensed software)",
+      "requiredFields": ["name", "observations"],
+      "namingConvention": "PascalCase, component name (e.g., 'AzureAppGateway', 'PostgreSQL15')"
+    },
+    {
+      "name": "BOMSnapshot",
+      "layer": "solution",
+      "description": "Bill of Materials snapshot capturing component versions at a point in time",
+      "requiredFields": ["name", "observations"],
+      "namingConvention": "BOM-ReleaseId (e.g., 'BOM-R2026.04-Baseline', 'BOM-R2026.04-Target')"
+    },
+    {
+      "name": "CMDBSnapshot",
+      "layer": "solution",
+      "description": "Configuration Management Database snapshot capturing deployment state",
+      "requiredFields": ["name", "observations"],
+      "namingConvention": "CMDB-Environment-Date (e.g., 'CMDB-Prod-2026-04-01')"
     }
   ],
   "relationTypes": [
@@ -221,6 +270,72 @@
       "from": "*",
       "to": "*",
       "description": "Generic relation (use specific relations when possible)"
+    },
+    {
+      "name": "scopes",
+      "from": "Release",
+      "to": ["WorkItem", "CapabilityL2", "ADR"],
+      "description": "Release scopes work items, capabilities, or decisions"
+    },
+    {
+      "name": "delivers",
+      "from": "Workstream",
+      "to": ["CapabilityL2", "WorkItem"],
+      "description": "Workstream delivers capabilities or work items"
+    },
+    {
+      "name": "tracks",
+      "from": "WorkItem",
+      "to": ["Gap", "Risk", "Recommendation"],
+      "description": "Work item tracks a gap, risk, or recommendation"
+    },
+    {
+      "name": "produces",
+      "from": "Release",
+      "to": "Artifact",
+      "description": "Release produces artifacts (scope brief, release notes, BOM delta)"
+    },
+    {
+      "name": "documents",
+      "from": "Artifact",
+      "to": ["ADR", "Service", "Process"],
+      "description": "Artifact documents a decision, service, or process"
+    },
+    {
+      "name": "validates",
+      "from": "Artifact",
+      "to": ["WorkItem", "Service", "Release"],
+      "description": "Artifact validates a work item, service, or release"
+    },
+    {
+      "name": "impacts",
+      "from": "WorkItem",
+      "to": ["Service", "Component"],
+      "description": "Work item impacts a service or component"
+    },
+    {
+      "name": "depends_on",
+      "from": ["WorkItem", "Service"],
+      "to": ["WorkItem", "Service"],
+      "description": "Dependency between work items or between services"
+    },
+    {
+      "name": "has_version",
+      "from": "Component",
+      "to": "BOMSnapshot",
+      "description": "Component version captured in BOM snapshot"
+    },
+    {
+      "name": "deployed_in",
+      "from": "Component",
+      "to": "CMDBSnapshot",
+      "description": "Component deployment state in CMDB snapshot"
+    },
+    {
+      "name": "snapshots",
+      "from": ["BOMSnapshot", "CMDBSnapshot"],
+      "to": "Release",
+      "description": "Snapshot taken for a specific release (baseline or target)"
     }
   ],
   "validation": {
