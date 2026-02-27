@@ -136,7 +136,7 @@ const tools = [
         itemType:    { type: 'string', enum: ['entityType', 'relationType'], description: 'What to add' },
         name:        { type: 'string', description: 'Name of new type' },
         description: { type: 'string', description: 'Description of the type' },
-        layer:       { type: 'string', enum: ['strategy', 'delivery', 'solution', 'knowledge'], description: 'Layer (for entity types only)' },
+        layer:       { type: 'string', enum: ['strategy', 'delivery', 'solution'], description: 'Layer (for entity types only)' },
       },
       required: ['itemType', 'name', 'description'],
     },

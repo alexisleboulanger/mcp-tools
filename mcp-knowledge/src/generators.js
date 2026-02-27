@@ -84,7 +84,7 @@ function generateModelDiagram(graph) {
   mermaid += '\n    classDef strategyStyle fill:#e1f5ff,stroke:#01579b,color:#000\n';
   mermaid += '    classDef deliveryStyle fill:#fff3e0,stroke:#e65100,color:#000\n';
   mermaid += '    classDef solutionStyle fill:#f3e5f5,stroke:#4a148c,color:#000\n';
-  mermaid += '    classDef knowledgeStyle fill:#e8f5e9,stroke:#1b5e20,color:#000\n';
+
 
   return mermaid;
 }
