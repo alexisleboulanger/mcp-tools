@@ -2,6 +2,9 @@
  * Handlers — graph CRUD: read, add_entity, add_relation, export, search, stats, validate
  */
 const { loadGraph, saveGraph, addEntity, addRelation, deleteRelation, validateEntity, validateRelation } = require('../../graph');
+const { KnowledgeError } = require('../../errors');
+const { validateAddEntity, validateAddRelation, validateSearch } = require('../../validate-input');
+const { logOperation } = require('../../audit');
 
 // ─── knowledge_graph_read ───────────────────
 function handleGraphRead(args) {
@@ -18,24 +21,22 @@ function handleGraphRead(args) {
 }
 
 // ─── knowledge_graph_add_entity ─────────────
-function handleGraphAddEntity(args) {
+async function handleGraphAddEntity(args) {
+  args = validateAddEntity(args);
   const graph = loadGraph();
 
   if (!validateEntity(graph, args.type)) {
-    return {
-      content: [{
-        type: 'text',
-        text: JSON.stringify({
-          error: `Invalid entity type: ${args.type}`,
-          validTypes: graph.ontology.entityTypes.map(t => t.name),
-        }, null, 2),
-      }],
-      isError: true,
-    };
+    const validTypes = graph.ontology.entityTypes.map(t => t.name).join(', ');
+    throw new KnowledgeError(
+      'INVALID_ENTITY_TYPE',
+      `Type "${args.type}" is not in the ontology`,
+      `Valid entity types: ${validTypes}. Use knowledge_ontology_view to see the full schema.`,
+    );
   }
 
-  const entity = addEntity(graph, args.name, args.type, args.observations || []);
-  saveGraph(graph);
+  const entity = addEntity(graph, args.name, args.type, args.observations);
+  await saveGraph(graph);
+  logOperation('add_entity', args.name, { type: args.type });
 
   return {
     content: [{
@@ -50,24 +51,22 @@ function handleGraphAddEntity(args) {
 }
 
 // ─── knowledge_graph_add_relation ───────────
-function handleGraphAddRelation(args) {
+async function handleGraphAddRelation(args) {
+  args = validateAddRelation(args);
   const graph = loadGraph();
 
   if (!validateRelation(graph, args.type)) {
-    return {
-      content: [{
-        type: 'text',
-        text: JSON.stringify({
-          error: `Invalid relation type: ${args.type}`,
-          validTypes: graph.ontology.relationTypes.map(t => t.name),
-        }, null, 2),
-      }],
-      isError: true,
-    };
+    const validTypes = graph.ontology.relationTypes.map(t => t.name).join(', ');
+    throw new KnowledgeError(
+      'INVALID_RELATION_TYPE',
+      `Type "${args.type}" is not in the ontology`,
+      `Valid relation types: ${validTypes}. Use knowledge_ontology_view to see the full schema.`,
+    );
   }
 
   const relation = addRelation(graph, args.from, args.to, args.type);
-  saveGraph(graph);
+  await saveGraph(graph);
+  logOperation('add_relation', relation.id, { from: args.from, to: args.to, type: args.type });
 
   return {
     content: [{
@@ -82,7 +81,7 @@ function handleGraphAddRelation(args) {
 }
 
 // ─── knowledge_graph_delete_relation ─────────
-function handleGraphDeleteRelation(args) {
+async function handleGraphDeleteRelation(args) {
   const graph = loadGraph();
 
   // Resolve relation ID: either explicit or from/to/type match
@@ -90,21 +89,18 @@ function handleGraphDeleteRelation(args) {
 
   if (!relationId) {
     if (!args?.from || !args?.to || !args?.type) {
-      return {
-        content: [{
-          type: 'text',
-          text: JSON.stringify({
-            error: 'Provide either relationId, or all of from + to + type',
-          }, null, 2),
-        }],
-        isError: true,
-      };
+      throw new KnowledgeError(
+        'INVALID_INPUT',
+        'Provide either relationId, or all of from + to + type',
+        'Use knowledge_graph_read to list existing relations and their IDs.',
+      );
     }
     relationId = `${args.from}--${args.type}--${args.to}`;
   }
 
   const removed = deleteRelation(graph, relationId);
-  saveGraph(graph);
+  await saveGraph(graph);
+  logOperation('delete_relation', removed.id, { from: removed.from, to: removed.to, type: removed.type });
 
   return {
     content: [{
@@ -130,6 +126,7 @@ function handleGraphExport(args) {
 
 // ─── knowledge_graph_search ─────────────────
 function handleGraphSearch(args) {
+  args = validateSearch(args);
   const graph = loadGraph();
   const query = (args.query || '').toLowerCase();
   const searchType = args.searchType || 'all';

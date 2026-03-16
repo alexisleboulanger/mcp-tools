@@ -4,10 +4,11 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { DEFAULT_KNOWLEDGE_BASE, MEMORY_DIR, ONTOLOGY_MD_FILE, GRAPH_MD_FILE, GRAPH_FILE } = require('../../config');
-const { loadGraph } = require('../../graph');
+const { loadGraph, saveGraph } = require('../../graph');
 const { ensureKnowledgeBaseDirs } = require('../../knowledge-base');
 const { generateOntologyDoc, generateModelDoc } = require('../../generators');
 const { parseFrontMatter, extractObservations, sha256File, bumpPatch } = require('../../helpers');
+const { logOperation } = require('../../audit');
 
 // ─── knowledge_docs_sync ────────────────────
 
@@ -129,7 +130,7 @@ function syncToDocs(graph) {
 
 // ── from_docs ────────────────────────────────
 
-function syncFromDocs(graph) {
+async function syncFromDocs(graph) {
   const layers = dynamicLayers(graph);
   const addedEntities = [];
   const addedRelations = [];
@@ -183,7 +184,8 @@ function syncFromDocs(graph) {
   });
 
   if (addedEntities.length || addedRelations.length) {
-    fs.writeFileSync(GRAPH_FILE, JSON.stringify(graph, null, 2), 'utf8');
+    await saveGraph(graph);
+    logOperation('sync_from_docs', 'graph', { entities: addedEntities.length, relations: addedRelations.length });
   }
 
   return {

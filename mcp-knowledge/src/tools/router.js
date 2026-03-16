@@ -69,12 +69,13 @@ function registerTools(server) {
     }
 
     try {
-      return handler(args);
+      return await handler(args);
     } catch (error) {
+      if (error.toMCPResponse) return error.toMCPResponse();
       return {
         content: [{
           type: 'text',
-          text: JSON.stringify({ error: error.message, tool: name, args }, null, 2),
+          text: JSON.stringify({ error: 'INTERNAL_ERROR', message: error.message, tool: name }, null, 2),
         }],
         isError: true,
       };

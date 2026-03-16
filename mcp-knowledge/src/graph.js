@@ -6,6 +6,7 @@ const crypto = require('node:crypto');
 const { GRAPH_FILE } = require('./config');
 const { getDefaultOntology } = require('./ontologies');
 const { ensureKnowledgeBaseDirs, loadOntologyFromMemory } = require('./knowledge-base');
+const { acquireLock, releaseLock } = require('./lock');
 
 // ──────────────────────────────────────────────
 // Load / initialise
@@ -39,12 +40,17 @@ function loadGraph() {
   return initializeGraph();
 }
 
-function saveGraph(graph) {
+async function saveGraph(graph) {
   ensureKnowledgeBaseDirs();
-  graph.lastUpdated = new Date().toISOString();
-  fs.writeFileSync(GRAPH_FILE, JSON.stringify(graph, null, 2), 'utf8');
-  updateMetadata(graph);
-  return true;
+  await acquireLock();
+  try {
+    graph.lastUpdated = new Date().toISOString();
+    updateMetadata(graph);
+    fs.writeFileSync(GRAPH_FILE, JSON.stringify(graph, null, 2), 'utf8');
+    return true;
+  } finally {
+    await releaseLock();
+  }
 }
 
 // ──────────────────────────────────────────────
