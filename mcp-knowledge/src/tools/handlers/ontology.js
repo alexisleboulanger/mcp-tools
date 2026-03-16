@@ -5,8 +5,10 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { MEMORY_DIR, GRAPH_FILE } = require('../../config');
 const { loadGraph, saveGraph } = require('../../graph');
-const { ensureKnowledgeBaseDirs } = require('../../knowledge-base');
+const { ensureKnowledgeBaseDirs, saveOntologyToMemory } = require('../../knowledge-base');
 const { generateOntologyDoc } = require('../../generators');
+const { KnowledgeError } = require('../../errors');
+const { logOperation } = require('../../audit');
 
 // ─── knowledge_ontology_view ────────────────
 function handleOntologyView(args) {
@@ -19,14 +21,15 @@ function handleOntologyView(args) {
 }
 
 // ─── knowledge_ontology_extend ──────────────
-function handleOntologyExtend(args) {
+async function handleOntologyExtend(args) {
   const graph = loadGraph();
 
   if (!args.itemType || !args.name || !args.description) {
-    return {
-      content: [{ type: 'text', text: JSON.stringify({ error: 'itemType, name, and description are required' }, null, 2) }],
-      isError: true,
-    };
+    throw new KnowledgeError(
+      'INVALID_INPUT',
+      'itemType, name, and description are required',
+      'Provide itemType ("entityType" or "relationType"), name, and description.',
+    );
   }
 
   if (args.itemType === 'entityType') {
@@ -42,7 +45,9 @@ function handleOntologyExtend(args) {
     });
   }
 
-  saveGraph(graph);
+  await saveGraph(graph);
+  saveOntologyToMemory(graph.ontology);
+  logOperation('ontology_extend', args.name, { itemType: args.itemType });
 
   return {
     content: [{

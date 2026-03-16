@@ -1,0 +1,245 @@
+{
+  "version": "1.0.0",
+  "created": "2026-03-16T13:21:11.647Z",
+  "lastUpdated": "2026-03-16T13:21:11.657Z",
+  "entities": {},
+  "relations": [],
+  "ontology": {
+    "name": "standard",
+    "version": "2.0.0",
+    "description": "Standard 3-layer ontology: Strategy, Delivery, Solution",
+    "entityTypes": [
+      {
+        "name": "Pillar",
+        "layer": "strategy",
+        "description": "Strategic pillar or business domain"
+      },
+      {
+        "name": "Objective",
+        "layer": "strategy",
+        "description": "Strategic objective or measurable goal"
+      },
+      {
+        "name": "Metric",
+        "layer": "strategy",
+        "description": "Success metric for objectives"
+      },
+      {
+        "name": "CapabilityL1",
+        "layer": "delivery",
+        "description": "Level 1 capability (high-level)"
+      },
+      {
+        "name": "CapabilityL2",
+        "layer": "delivery",
+        "description": "Level 2 capability (specific)"
+      },
+      {
+        "name": "Gap",
+        "layer": "delivery",
+        "description": "Capability gap or missing functionality"
+      },
+      {
+        "name": "Recommendation",
+        "layer": "delivery",
+        "description": "Improvement recommendation"
+      },
+      {
+        "name": "Process",
+        "layer": "delivery",
+        "description": "Operational process or workflow"
+      },
+      {
+        "name": "Risk",
+        "layer": "delivery",
+        "description": "Identified risk or threat"
+      },
+      {
+        "name": "Release",
+        "layer": "delivery",
+        "description": "Timeboxed release container scoping work items, capabilities, and artifacts"
+      },
+      {
+        "name": "Workstream",
+        "layer": "delivery",
+        "description": "Cross-team delivery thread grouping related work items and capabilities"
+      },
+      {
+        "name": "WorkItem",
+        "layer": "delivery",
+        "description": "Trackable work unit (Epic/Feature/PBI/Bug/Task) linked to ALM"
+      },
+      {
+        "name": "Artifact",
+        "layer": "delivery",
+        "description": "Produced document with artifact_kind metadata (scope brief, validation report, release notes, minutes, BOM delta)"
+      },
+      {
+        "name": "ADR",
+        "layer": "solution",
+        "description": "Architecture Decision Record"
+      },
+      {
+        "name": "Service",
+        "layer": "solution",
+        "description": "Software service or component"
+      },
+      {
+        "name": "SystemAPI",
+        "layer": "solution",
+        "description": "External API integration"
+      },
+      {
+        "name": "Event",
+        "layer": "solution",
+        "description": "System event or message"
+      },
+      {
+        "name": "Concept",
+        "layer": "solution",
+        "description": "Core concept abstracted from services"
+      },
+      {
+        "name": "Pattern",
+        "layer": "solution",
+        "description": "Design pattern derived from implementations"
+      },
+      {
+        "name": "Practice",
+        "layer": "solution",
+        "description": "Best practice or standard approach"
+      },
+      {
+        "name": "Term",
+        "layer": "solution",
+        "description": "Glossary term or definition"
+      },
+      {
+        "name": "Component",
+        "layer": "solution",
+        "description": "CMDB/BOM inventory item (hardware, infra, licensed software)"
+      },
+      {
+        "name": "BOMSnapshot",
+        "layer": "solution",
+        "description": "Bill of Materials snapshot capturing component versions at a point in time"
+      },
+      {
+        "name": "CMDBSnapshot",
+        "layer": "solution",
+        "description": "Configuration Management Database snapshot capturing deployment state"
+      }
+    ],
+    "relationTypes": [
+      {
+        "name": "supports_objective",
+        "description": "Pillar supports strategic objective"
+      },
+      {
+        "name": "measures",
+        "description": "Metric measures objective success"
+      },
+      {
+        "name": "enables",
+        "description": "Capability enables objective achievement"
+      },
+      {
+        "name": "implements",
+        "description": "L2 capability implements L1 capability"
+      },
+      {
+        "name": "identifies",
+        "description": "Gap identified in capability"
+      },
+      {
+        "name": "addresses",
+        "description": "Recommendation addresses gap"
+      },
+      {
+        "name": "decides",
+        "description": "ADR decides on recommendation"
+      },
+      {
+        "name": "implements_decision",
+        "description": "Service implements decision"
+      },
+      {
+        "name": "provides",
+        "description": "Service provides capability"
+      },
+      {
+        "name": "uses_api",
+        "description": "Service uses external API"
+      },
+      {
+        "name": "emits",
+        "description": "Service emits event"
+      },
+      {
+        "name": "follows_pattern",
+        "description": "Service follows design pattern"
+      },
+      {
+        "name": "applies_practice",
+        "description": "Service applies best practice"
+      },
+      {
+        "name": "defines",
+        "description": "Concept defines pattern foundation"
+      },
+      {
+        "name": "relates_to",
+        "description": "Generic relation (use specific relations when possible)"
+      },
+      {
+        "name": "scopes",
+        "description": "Release scopes work items, capabilities, or decisions"
+      },
+      {
+        "name": "delivers",
+        "description": "Workstream delivers capabilities or work items"
+      },
+      {
+        "name": "tracks",
+        "description": "Work item tracks a gap, risk, or recommendation"
+      },
+      {
+        "name": "produces",
+        "description": "Release produces artifacts"
+      },
+      {
+        "name": "documents",
+        "description": "Artifact documents a decision, service, or process"
+      },
+      {
+        "name": "validates",
+        "description": "Artifact validates a work item, service, or release"
+      },
+      {
+        "name": "impacts",
+        "description": "Work item impacts a service or component"
+      },
+      {
+        "name": "depends_on",
+        "description": "Dependency between work items or services"
+      },
+      {
+        "name": "has_version",
+        "description": "Component version captured in BOM snapshot"
+      },
+      {
+        "name": "deployed_in",
+        "description": "Component deployment state in CMDB snapshot"
+      },
+      {
+        "name": "snapshots",
+        "description": "BOM/CMDB snapshot taken for a specific release"
+      }
+    ]
+  },
+  "metadata": {
+    "totalEntities": 0,
+    "totalRelations": 0,
+    "categories": {}
+  }
+}

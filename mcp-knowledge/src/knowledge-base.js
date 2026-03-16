@@ -68,7 +68,7 @@ function initializeKnowledgeBase(targetPath, projectName = 'Project', ontology =
   copyRecursive(templatePath, knowledgePath);
 
   // Write initial graph
-  const selectedOntology = selectOntology(ontology);
+  const selectedOntology = loadFoundationalOntology(ontology);
   const initialGraph = {
     version: '1.0.0',
     created: new Date().toISOString(),
@@ -80,9 +80,17 @@ function initializeKnowledgeBase(targetPath, projectName = 'Project', ontology =
     ontology: selectedOntology,
     metadata: { totalEntities: 0, totalRelations: 0, categories: {} },
   };
+  const memDir = path.join(knowledgePath, '.memory');
+  if (!fs.existsSync(memDir)) fs.mkdirSync(memDir, { recursive: true });
   fs.writeFileSync(
-    path.join(knowledgePath, 'knowledge-graph.json'),
+    path.join(memDir, 'knowledge-graph.json'),
     JSON.stringify(initialGraph, null, 2),
+    'utf8',
+  );
+  // Seed .memory/ontology.json so the single-source pattern is established from init
+  fs.writeFileSync(
+    path.join(memDir, 'ontology.json'),
+    JSON.stringify(selectedOntology, null, 2),
     'utf8',
   );
 
@@ -132,6 +140,8 @@ See [.knowledge-foundation](../../.knowledge-foundation/) for more details.
 
 /**
  * Load canonical ontology from .knowledge-foundation on disk.
+ * Used during knowledge_init to bootstrap from foundation templates.
+ * Falls back to the hardcoded ontology in ontologies.js if no foundation files exist.
  */
 function loadFoundationalOntology(ontologyName = 'standard') {
   const schemaPath = path.join(FOUNDATION_PATH, `${ontologyName.toLowerCase()}-ontology.json`);
@@ -151,53 +161,48 @@ function loadFoundationalOntology(ontologyName = 'standard') {
     }
   }
 
-  // Fallback to embedded
+  // Fallback to hardcoded
   return selectOntology(ontologyName);
 }
 
 /**
- * Load ontology using the priority chain:
- *   1. .memory/ontology.json (synced from Memory MCP)
- *   2. Embedded in knowledge-graph.json
- *   3. .knowledge-foundation reference schemas
- *   4. Hardcoded default
+ * Load ontology from the single canonical source: .memory/ontology.json
+ *
+ * If the file doesn't exist yet, seed it from the hardcoded default ontology
+ * so there is always exactly one source of truth going forward.
  */
 function loadOntologyFromMemory() {
-  // 1. Memory ontology file
   const memoryOntologyPath = path.join(MEMORY_DIR, 'ontology.json');
+
   if (fs.existsSync(memoryOntologyPath)) {
     try {
       const ontology = JSON.parse(fs.readFileSync(memoryOntologyPath, 'utf8'));
-      console.error(`[ONTOLOGY] Loaded from memory: ${ontology.name} v${ontology.version}`);
       return ontology;
     } catch (err) {
-      console.error('Failed to load memory ontology:', err.message);
+      console.error('[ONTOLOGY] Failed to parse ontology.json:', err.message);
     }
   }
 
-  // 2. Graph-embedded ontology
-  if (fs.existsSync(GRAPH_FILE)) {
-    try {
-      const graph = JSON.parse(fs.readFileSync(GRAPH_FILE, 'utf8'));
-      if (graph.ontology) {
-        console.error(`[ONTOLOGY] Loaded from graph.json: ${graph.ontology.name} v${graph.ontology.version}`);
-        return graph.ontology;
-      }
-      if (graph.ontologyType) {
-        console.error(`[ONTOLOGY] Graph references ontology: ${graph.ontologyType}`);
-        return loadFoundationalOntology(graph.ontologyType);
-      }
-    } catch (err) {
-      console.error('Failed to load ontology from graph:', err.message);
-    }
-  }
+  // Seed from hardcoded default on first run
+  const defaultOntology = selectOntology('standard');
+  ensureKnowledgeBaseDirs();
+  fs.writeFileSync(memoryOntologyPath, JSON.stringify(defaultOntology, null, 2), 'utf8');
+  console.error('[ONTOLOGY] Seeded .memory/ontology.json from default ontology');
+  return defaultOntology;
+}
 
-  // 3. Foundation reference
-  console.error('[ONTOLOGY] Loading from foundation reference');
-  return loadFoundationalOntology('standard');
+/**
+ * Persist the current ontology to .memory/ontology.json.
+ * Called after ontology_extend to keep the canonical file in sync.
+ */
+function saveOntologyToMemory(ontology) {
+  ensureKnowledgeBaseDirs();
+  const memoryOntologyPath = path.join(MEMORY_DIR, 'ontology.json');
+  fs.writeFileSync(memoryOntologyPath, JSON.stringify(ontology, null, 2), 'utf8');
 }
 
 module.exports = {
+  saveOntologyToMemory,
   ensureKnowledgeBaseDirs,
   copyRecursive,
   initializeKnowledgeBase,
