@@ -97,7 +97,11 @@ function normalizeForMatch(name) {
 
 function findAgentFile(agentFiles, entityName) {
   const normalized = normalizeForMatch(entityName);
-  return agentFiles.find(f => normalizeForMatch(f.agentName) === normalized);
+  // Exact match first
+  const exact = agentFiles.find(f => normalizeForMatch(f.agentName) === normalized);
+  if (exact) return exact;
+  // Fallback: entity name is a substring of the filename (handles ADOAgent → Yorizon-Nexus-ADO-Agent)
+  return agentFiles.find(f => normalizeForMatch(f.agentName).includes(normalized));
 }
 
 // ─── A2A Agent Card generation ───────────────────────────────
@@ -510,7 +514,7 @@ function handleAgentHealth(args) {
     const relations = getRelationsFor(graph, agent.name);
     const servedBy = relations.filter(r => r.from === agent.name && r.type === 'served_by');
     const delegatesTo = relations.filter(r => r.from === agent.name && r.type === 'delegates_to');
-    const agentFile = agentFiles.find(f => f.agentName.includes(agent.name.replace('Agent', '')));
+    const agentFile = findAgentFile(agentFiles, agent.name);
 
     const issues = [];
     if (!agent.observations?.length) issues.push('No observations');
@@ -559,7 +563,10 @@ function handleAgentHealth(args) {
   // Check for orphan agent files (agent files without KG entity)
   const orphanFiles = agentFiles.filter(f => {
     const normalized = normalizeForMatch(f.agentName);
-    return !agents.some(a => normalizeForMatch(a.name) === normalized);
+    return !agents.some(a => {
+      const aN = normalizeForMatch(a.name);
+      return aN === normalized || normalized.includes(aN);
+    });
   });
 
   return {
