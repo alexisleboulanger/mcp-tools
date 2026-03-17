@@ -20,11 +20,11 @@ This repository contains custom MCP servers that enable AI assistants (GitHub Co
 │  mcp-365      │   │  mcp-ado      │   │  mcp-miro     │   │  mcp-serp    │
 │  M365/Graph   │   │  Azure DevOps │   │  Miro Boards  │   │  Web Search  │
 └───────────────┘   └───────────────┘   └───────────────┘   └──────────────┘
-        ▼                   ▼
-┌───────────────┐   ┌───────────────┐
-│  mcp-chat     │   │  mcp-knowledge│
-│  Backup       │   │  Docs Manager │
-└───────────────┘   └───────────────┘
+        ▼                   ▼                   ▼
+┌───────────────┐   ┌───────────────┐   ┌─────────────────┐
+│  mcp-chat     │   │  mcp-knowledge│   │  mcp-agent      │
+│  Backup       │   │  Docs Manager │   │  Registry       │
+└───────────────┘   └───────────────┘   └─────────────────┘
 ```
 
 ## Available Servers
@@ -37,6 +37,7 @@ This repository contains custom MCP servers that enable AI assistants (GitHub Co
 | [**mcp-serp-wrapper**](mcp-serp-wrapper/) | Web Search (SerpAPI) | stdio | 15+ |
 | [**mcp-chat-backup**](mcp-chat-backup/) | Chat Persistence | stdio | 6 |
 | [**mcp-knowledge**](mcp-knowledge/) | Documentation Manager | stdio | 7 |
+| [**mcp-agent-registry**](mcp-agent-registry/) | Agent Discovery & A2A Cards | stdio | 5 |
 
 ## Quick Start
 
@@ -53,6 +54,7 @@ cd mcp-server-miro && npm install && cd ..
 cd mcp-serp-wrapper && npm install && cd ..
 cd mcp-chat-backup && npm install && cd ..
 cd mcp-knowledge && npm install && cd ..
+cd mcp-agent-registry && npm install && cd ..
 ```
 
 ### 2. Configure VS Code
@@ -107,6 +109,16 @@ Create `.vscode/mcp.json` in your workspace:
       "env": {
         "KNOWLEDGE_PATH": "${workspaceFolder}/.knowledge"
       }
+    },
+
+    // Agent Registry - Agent discovery, A2A cards, health checks
+    "agent-registry": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["C:/dev/mcp/mcp-agent-registry/server.js"],
+      "env": {
+        "KNOWLEDGE_PATH": "${workspaceFolder}/.knowledge"
+      }
     }
   }
 }
@@ -123,6 +135,7 @@ Each server has its own `.env` file. Copy `.env.example` and fill in your creden
 | mcp-server-miro | `MIRO_API_TOKEN`, `MIRO_BOARD_ID` |
 | mcp-serp-wrapper | `SERPAPI_API_KEY` |
 | mcp-chat-backup | `CHAT_BACKUP_PATH` (optional) |
+| mcp-agent-registry | `KNOWLEDGE_PATH` (path to `.knowledge` folder) |
 
 ## Server Details
 
@@ -232,6 +245,29 @@ Backup and restore AI chat conversations.
 ```
 
 [📖 Full Documentation](mcp-chat-backup/README.md)
+
+---
+
+### 🤖 MCP-Agent-Registry: Agent Discovery
+
+Discover, query, and manage AI agents registered in the knowledge graph.
+
+**Key Features:**
+- List all agents with capabilities, delegation targets, and MCP server dependencies
+- Find the best agent for a task via natural language search
+- Generate A2A Agent Card format JSON for inter-agent discovery
+- Register new agents directly into the knowledge graph
+- Health checks: detect orphan agents, missing relations, coverage gaps
+
+**Example prompts:**
+```
+"List all registered agents"
+"Which agent can help with NFR compliance?"
+"Get the A2A agent card for SecurityReviewerAgent"
+"Check agent health and report any issues"
+```
+
+[📖 Full Documentation](mcp-agent-registry/README.md)
 
 ---
 
