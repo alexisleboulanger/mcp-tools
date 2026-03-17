@@ -45,6 +45,11 @@ async function handleGraphAddEntity(args) {
         success: true,
         entity,
         message: `Added entity: ${args.name} (${args.type})`,
+        next_steps: [
+          `Connect it: knowledge_graph_add_relation (from: "${args.name}", to: "<target>", type: "<relation_type>")`,
+          `Add more facts: knowledge_graph_add_entity (same name "${args.name}" to append observations)`,
+          'See valid relation types: knowledge_ontology_view',
+        ],
       }, null, 2),
     }],
   };
@@ -75,6 +80,11 @@ async function handleGraphAddRelation(args) {
         success: true,
         relation,
         message: `Added relation: ${args.from} -[${args.type}]-> ${args.to}`,
+        next_steps: [
+          `Add more relations from ${args.from}: knowledge_graph_add_relation`,
+          'Visualize the graph: knowledge_model_visualize (type: "model")',
+          'Validate integrity: knowledge_graph_validate',
+        ],
       }, null, 2),
     }],
   };
@@ -109,6 +119,10 @@ async function handleGraphDeleteRelation(args) {
         success: true,
         deleted: removed,
         message: `Deleted relation: ${removed.from} -[${removed.type}]-> ${removed.to}`,
+        next_steps: [
+          'Validate no dangling references: knowledge_graph_validate',
+          `Check remaining relations: knowledge_graph_read (filter by entity)`,
+        ],
       }, null, 2),
     }],
   };
@@ -147,14 +161,39 @@ function handleGraphSearch(args) {
     }
 
     if (matchReasons.length) {
-      results.push({ name: entity.name, type: entity.type, matchReasons, observations: entity.observations });
+      // Relevance scoring: exact > starts-with > contains; name > type > observation
+      let relevance = 0;
+      const nameLower = entity.name.toLowerCase();
+      if (matchReasons.includes('name')) {
+        relevance += nameLower === query ? 1.0 : nameLower.startsWith(query) ? 0.8 : 0.6;
+      }
+      if (matchReasons.includes('type')) {
+        relevance += entity.type.toLowerCase() === query ? 0.5 : 0.3;
+      }
+      if (matchReasons.includes('observation')) {
+        const exactObs = entity.observations.some(o => o.toLowerCase() === query);
+        relevance += exactObs ? 0.4 : 0.2;
+      }
+      relevance = Math.round(Math.min(relevance, 1.0) * 100) / 100;
+
+      results.push({ name: entity.name, type: entity.type, relevance, matchReasons, observations: entity.observations });
     }
   });
+
+  // Sort by relevance descending
+  results.sort((a, b) => b.relevance - a.relevance);
 
   return {
     content: [{
       type: 'text',
-      text: JSON.stringify({ query: args.query, resultCount: results.length, results }, null, 2),
+      text: JSON.stringify({
+        query: args.query,
+        resultCount: results.length,
+        results,
+        next_steps: results.length
+          ? ['Inspect a specific entity: knowledge_graph_read (with filter by type)', 'Add relations: knowledge_graph_add_relation']
+          : ['Try a broader query or different searchType', 'List all entity types: knowledge_ontology_view'],
+      }, null, 2),
     }],
   };
 }

@@ -56,8 +56,9 @@ async function handleOntologyExtend(args) {
         success: true,
         message: `Added ${args.itemType}: ${args.name}`,
         ontology: graph.ontology,
-        syncStatus: 'pending_to_memory',
-        note: 'Run knowledge_sync_memory action=to_memory to persist to Memory MCP',
+        next_steps: args.itemType === 'entityType'
+          ? [`Create an entity of this type: knowledge_graph_add_entity (type: "${args.name}")`, 'View updated ontology: knowledge_ontology_view']
+          : [`Use this relation: knowledge_graph_add_relation (type: "${args.name}")`, 'View updated ontology: knowledge_ontology_view'],
       }, null, 2),
     }],
   };
