@@ -4,22 +4,27 @@ MCP server for agent discovery, registration, and A2A Agent Card generation from
 
 ## Overview
 
-This server reads Agent and MCPServer entities from the Yorizon knowledge graph and exposes them through 5 MCP tools. It also scans `.github/agents/*.agent.md` files for auto-discovery and generates A2A-compatible Agent Cards.
+This server reads Agent and MCPServer entities from the Yorizon knowledge graph and exposes them through 6 MCP tools. It also scans `.github/agents/*.agent.md` files for auto-discovery and generates A2A-compatible Agent Cards.
+
+Deprecated agents can remain in the knowledge graph for lineage, but active discovery and health checks are intended to reflect the current reference architecture.
+
+`list_agents` returns active agents by default. Set `includeDeprecated=true` when you explicitly want lineage and superseded agents included in the response.
 
 ## Tools
 
 | Tool | Description |
-|------|-------------|
-| `list_agents` | List all registered agents with capabilities, delegation targets, and MCP server dependencies |
+| ---- | ----------- |
+| `list_agents` | List active registered agents with capabilities, delegation targets, and MCP server dependencies. Use `includeDeprecated=true` to include superseded agents |
 | `find_agent` | Find the best agent for a natural language task description (ranked by relevance) |
 | `get_agent_card` | Return agent metadata in A2A Agent Card format (JSON) |
 | `register_agent` | Add or update an agent in the knowledge graph with relations |
+| `delete_agent` | Remove an agent from the knowledge graph and its relations (optionally delete .agent.md file) |
 | `agent_health` | Check agent registration completeness — orphans, missing relations, coverage |
 
 ## Environment Variables
 
 | Variable | Default | Description |
-|----------|---------|-------------|
+| --- | --- | --- |
 | `KNOWLEDGE_PATH` | `<cwd>/.knowledge` | Path to the `.knowledge` folder |
 | `AGENTS_PATH` | `<workspace>/.github/agents` | Path to agent `.agent.md` files (auto-detected from KNOWLEDGE_PATH parent) |
 
@@ -49,7 +54,7 @@ Add to `.vscode/mcp.json`:
 
 ## Architecture
 
-```
+```text
 Knowledge Graph (.memory/knowledge-graph.json)
   └─ Agent entities (type: "Agent") ──→ list_agents, find_agent, get_agent_card
   └─ MCPServer entities (type: "MCPServer") ──→ list_agents (includeServers)
@@ -65,18 +70,18 @@ Knowledge Graph (.memory/knowledge-graph.json)
 
 ```json
 {
-  "name": "NFRAuditorAgent",
-  "description": "Audits Non-Functional Requirements compliance...",
+  "name": "OwnerNFRAgent",
+  "description": "Audits non-functional requirements across architecture domains...",
   "provider": { "organization": "Yorizon" },
   "version": "1.0.0",
   "capabilities": { "streaming": false, "pushNotifications": false },
-  "skills": [{ "id": "nfr_auditor", "name": "NFRAuditorAgent", ... }],
+  "skills": [{ "id": "owner_n_f_r", "name": "OwnerNFRAgent", ... }],
   "metadata": {
     "entityId": "...",
-    "tools": ["ado-wrapped/*", "knowledge/*"],
-    "delegatesTo": ["ADOAgent"],
+    "tools": ["knowledge/knowledge_graph_read", "knowledge/knowledge_graph_search", "knowledge/knowledge_ontology_view"],
+    "delegatesTo": ["OwnerArchitectureAgent", "KGGraphAgent", "ADOWorkItemsAgent", "ADOWikiAgent", "OwnerPortalAgent", "OwnerSystemAPIAgent", "OwnerDevOpsAgent"],
     "servedBy": ["McpAdoWrapped", "McpKnowledge"],
-    "agentFile": "Yorizon-NFR-Auditor-Agent.agent.md"
+    "agentFile": "Owner-NFR.agent.md"
   }
 }
 ```

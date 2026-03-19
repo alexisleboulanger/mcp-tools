@@ -6,6 +6,18 @@ const path = require('node:path');
 const { DEFAULT_KNOWLEDGE_BASE, MEMORY_DIR } = require('../../config');
 const { sha256File, bumpPatch, parseFrontMatter } = require('../../helpers');
 
+function normalizeRelation(relation) {
+  if (typeof relation === 'string') return relation.trim();
+  if (!relation || typeof relation !== 'object') return '';
+
+  const type = typeof relation.type === 'string' ? relation.type.trim() : '';
+  const target = typeof relation.target === 'string' ? relation.target.trim() : '';
+
+  if (type && target) return `${type}: ${target}`;
+  if (type) return type;
+  return '';
+}
+
 function handleUpdateIndex(args) {
   const generateReports = args?.generateReports !== false;
 
@@ -35,8 +47,8 @@ function handleUpdateIndex(args) {
 
         if (fm.entityType && entry.entityType !== fm.entityType) { entry.entityType = fm.entityType; updated = true; }
         if (Array.isArray(fm.relations)) {
-          const rels = fm.relations.map(r => r.trim()).filter(Boolean);
-          if (rels.length && JSON.stringify(entry.relations || []) !== JSON.stringify(rels)) { entry.relations = rels; updated = true; }
+          const rels = fm.relations.map(normalizeRelation).filter(Boolean);
+          if (JSON.stringify(entry.relations || []) !== JSON.stringify(rels)) { entry.relations = rels; updated = true; }
         }
 
         const placeholders = new Set(['TBD', 'PENDING_SHA256', 'PENDING', 'UNKNOWN', 'TODO']);
