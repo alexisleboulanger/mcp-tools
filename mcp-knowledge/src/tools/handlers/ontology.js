@@ -4,7 +4,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { MEMORY_DIR, GRAPH_FILE } = require('../../config');
-const { loadGraph, saveGraph } = require('../../graph');
+const { loadGraph, mutateGraph } = require('../../graph');
 const { ensureKnowledgeBaseDirs, saveOntologyToMemory } = require('../../knowledge-base');
 const { generateOntologyDoc } = require('../../generators');
 const { KnowledgeError } = require('../../errors');
@@ -22,8 +22,6 @@ function handleOntologyView(args) {
 
 // ─── knowledge_ontology_extend ──────────────
 async function handleOntologyExtend(args) {
-  const graph = loadGraph();
-
   if (!args.itemType || !args.name || !args.description) {
     throw new KnowledgeError(
       'INVALID_INPUT',
@@ -32,20 +30,21 @@ async function handleOntologyExtend(args) {
     );
   }
 
-  if (args.itemType === 'entityType') {
-    graph.ontology.entityTypes.push({
-      name: args.name,
-      layer: args.layer || 'solution',
-      description: args.description,
-    });
-  } else if (args.itemType === 'relationType') {
-    graph.ontology.relationTypes.push({
-      name: args.name,
-      description: args.description,
-    });
-  }
+  const { graph } = await mutateGraph(current => {
+    if (args.itemType === 'entityType') {
+      current.ontology.entityTypes.push({
+        name: args.name,
+        layer: args.layer || 'solution',
+        description: args.description,
+      });
+    } else if (args.itemType === 'relationType') {
+      current.ontology.relationTypes.push({
+        name: args.name,
+        description: args.description,
+      });
+    }
+  });
 
-  await saveGraph(graph);
   saveOntologyToMemory(graph.ontology);
   logOperation('ontology_extend', args.name, { itemType: args.itemType });
 

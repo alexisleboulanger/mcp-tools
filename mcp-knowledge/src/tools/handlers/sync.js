@@ -60,27 +60,39 @@ function syncToDocs(graph) {
       .filter(r => r.from === entity.name)
       .map(r => `${r.type}: ${r.to}`);
 
-    const lines = [
+    const frontMatterLines = [
       '---',
       `entityType: ${entity.type}`,
       'relations:',
       ...relations.map(r => `  - ${r}`),
       '---',
-      '',
-      `# ${entity.name}`,
-      '',
-      `**Type:** ${entity.type}`,
-      '',
-      '## Observations',
-      '',
-      ...entity.observations.map(o => `- ${o}`),
     ];
 
-    if (relations.length) {
-      lines.push('', '## Relations', '', ...relations.map(r => `- ${r}`));
+    let body = '';
+    if (fs.existsSync(filePath)) {
+      const existingContent = fs.readFileSync(filePath, 'utf8');
+      body = stripFrontMatter(existingContent).replace(/^\s+/, '');
     }
 
-    fs.writeFileSync(filePath, lines.join('\n') + '\n', 'utf8');
+    if (!body) {
+      const generatedBodyLines = [
+        `# ${entity.name}`,
+        '',
+        `**Type:** ${entity.type}`,
+        '',
+        '## Observations',
+        '',
+        ...entity.observations.map(o => `- ${o}`),
+      ];
+
+      if (relations.length) {
+        generatedBodyLines.push('', '## Relations', '', ...relations.map(r => `- ${r}`));
+      }
+
+      body = generatedBodyLines.join('\n');
+    }
+
+    fs.writeFileSync(filePath, frontMatterLines.join('\n') + '\n\n' + body.replace(/\s+$/, '') + '\n', 'utf8');
     generatedFiles.push(relativePath);
 
     // Update index
@@ -259,6 +271,10 @@ function autoUpdateIndex(indexPath) {
   } catch (err) {
     return { updated: false, error: err.message };
   }
+}
+
+function stripFrontMatter(content) {
+  return content.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/, '');
 }
 
 // ─── knowledge_sync_memory ──────────────────

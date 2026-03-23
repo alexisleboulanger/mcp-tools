@@ -57,5 +57,10 @@
             "KNOWLEDGE_PATH": "C:\\dev\\mcp\\.knowledge"
          }
       }
+      ,"git": {
+      "type": "stdio",
+      "command": "C:\\dev\\mcp\\mcp-server-git\\.venv\\Scripts\\python.exe",
+      "args": ["-m", "mcp_server_git", "--repository", "C:\\dev\\yorizon"]  
+      }
    }
 }

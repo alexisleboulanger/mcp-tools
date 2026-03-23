@@ -40,14 +40,44 @@ function loadGraph() {
   return initializeGraph();
 }
 
+function loadGraphUnlocked() {
+  if (fs.existsSync(GRAPH_FILE)) {
+    try {
+      const graph = JSON.parse(fs.readFileSync(GRAPH_FILE, 'utf8'));
+      graph.ontology = loadOntologyFromMemory();
+      return graph;
+    } catch {
+      return initializeGraph();
+    }
+  }
+  return initializeGraph();
+}
+
 async function saveGraph(graph) {
   ensureKnowledgeBaseDirs();
   await acquireLock();
   try {
+    graph.ontology = loadOntologyFromMemory();
     graph.lastUpdated = new Date().toISOString();
     updateMetadata(graph);
     fs.writeFileSync(GRAPH_FILE, JSON.stringify(graph, null, 2), 'utf8');
     return true;
+  } finally {
+    await releaseLock();
+  }
+}
+
+async function mutateGraph(mutator) {
+  ensureKnowledgeBaseDirs();
+  await acquireLock();
+  try {
+    const graph = loadGraphUnlocked();
+    const result = await mutator(graph);
+    graph.ontology = loadOntologyFromMemory();
+    graph.lastUpdated = new Date().toISOString();
+    updateMetadata(graph);
+    fs.writeFileSync(GRAPH_FILE, JSON.stringify(graph, null, 2), 'utf8');
+    return { graph, result };
   } finally {
     await releaseLock();
   }
@@ -59,12 +89,27 @@ async function saveGraph(graph) {
 
 function addEntity(graph, name, type, observations = []) {
   if (!graph.entities) graph.entities = {};
+
+  if (graph.entities[name]) {
+    const existing = graph.entities[name];
+    const existingObs = new Set(existing.observations || []);
+    for (const obs of observations || []) {
+      if (!existingObs.has(obs)) {
+        existing.observations.push(obs);
+      }
+    }
+    existing.type = type || existing.type;
+    if (!Array.isArray(existing.relations)) existing.relations = [];
+    updateMetadata(graph);
+    return existing;
+  }
+
   graph.entities[name] = {
     id: crypto.randomUUID(),
     name,
     type,
     created: new Date().toISOString(),
-    observations,
+    observations: observations || [],
     relations: [],
   };
   updateMetadata(graph);
@@ -77,8 +122,12 @@ function addRelation(graph, fromName, toName, relationType) {
     throw new Error(`Entity not found: ${fromName} or ${toName}`);
   }
 
+  const relationId = `${fromName}--${relationType}--${toName}`;
+  const existing = graph.relations.find(r => r.id === relationId);
+  if (existing) return existing;
+
   const relation = {
-    id: `${fromName}--${relationType}--${toName}`,
+    id: relationId,
     from: fromName,
     to: toName,
     type: relationType,
@@ -87,7 +136,9 @@ function addRelation(graph, fromName, toName, relationType) {
   graph.relations.push(relation);
 
   if (!graph.entities[fromName].relations) graph.entities[fromName].relations = [];
-  graph.entities[fromName].relations.push(relation.id);
+  if (!graph.entities[fromName].relations.includes(relation.id)) {
+    graph.entities[fromName].relations.push(relation.id);
+  }
 
   updateMetadata(graph);
   return relation;
@@ -135,6 +186,7 @@ module.exports = {
   initializeGraph,
   loadGraph,
   saveGraph,
+  mutateGraph,
   addEntity,
   addRelation,
   deleteRelation,

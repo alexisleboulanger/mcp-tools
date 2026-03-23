@@ -1,7 +1,7 @@
 /**
  * Handlers — graph CRUD: read, add_entity, add_relation, export, search, stats, validate
  */
-const { loadGraph, saveGraph, addEntity, addRelation, deleteRelation, validateEntity, validateRelation } = require('../../graph');
+const { loadGraph, mutateGraph, addEntity, addRelation, deleteRelation, validateEntity, validateRelation } = require('../../graph');
 const { KnowledgeError } = require('../../errors');
 const { validateAddEntity, validateAddRelation, validateSearch } = require('../../validate-input');
 const { logOperation } = require('../../audit');
@@ -23,19 +23,19 @@ function handleGraphRead(args) {
 // ─── knowledge_graph_add_entity ─────────────
 async function handleGraphAddEntity(args) {
   args = validateAddEntity(args);
-  const graph = loadGraph();
 
-  if (!validateEntity(graph, args.type)) {
-    const validTypes = graph.ontology.entityTypes.map(t => t.name).join(', ');
-    throw new KnowledgeError(
-      'INVALID_ENTITY_TYPE',
-      `Type "${args.type}" is not in the ontology`,
-      `Valid entity types: ${validTypes}. Use knowledge_ontology_view to see the full schema.`,
-    );
-  }
+  const { result: entity } = await mutateGraph(graph => {
+    if (!validateEntity(graph, args.type)) {
+      const validTypes = graph.ontology.entityTypes.map(t => t.name).join(', ');
+      throw new KnowledgeError(
+        'INVALID_ENTITY_TYPE',
+        `Type "${args.type}" is not in the ontology`,
+        `Valid entity types: ${validTypes}. Use knowledge_ontology_view to see the full schema.`,
+      );
+    }
+    return addEntity(graph, args.name, args.type, args.observations);
+  });
 
-  const entity = addEntity(graph, args.name, args.type, args.observations);
-  await saveGraph(graph);
   logOperation('add_entity', args.name, { type: args.type });
 
   return {
@@ -58,19 +58,19 @@ async function handleGraphAddEntity(args) {
 // ─── knowledge_graph_add_relation ───────────
 async function handleGraphAddRelation(args) {
   args = validateAddRelation(args);
-  const graph = loadGraph();
 
-  if (!validateRelation(graph, args.type)) {
-    const validTypes = graph.ontology.relationTypes.map(t => t.name).join(', ');
-    throw new KnowledgeError(
-      'INVALID_RELATION_TYPE',
-      `Type "${args.type}" is not in the ontology`,
-      `Valid relation types: ${validTypes}. Use knowledge_ontology_view to see the full schema.`,
-    );
-  }
+  const { result: relation } = await mutateGraph(graph => {
+    if (!validateRelation(graph, args.type)) {
+      const validTypes = graph.ontology.relationTypes.map(t => t.name).join(', ');
+      throw new KnowledgeError(
+        'INVALID_RELATION_TYPE',
+        `Type "${args.type}" is not in the ontology`,
+        `Valid relation types: ${validTypes}. Use knowledge_ontology_view to see the full schema.`,
+      );
+    }
+    return addRelation(graph, args.from, args.to, args.type);
+  });
 
-  const relation = addRelation(graph, args.from, args.to, args.type);
-  await saveGraph(graph);
   logOperation('add_relation', relation.id, { from: args.from, to: args.to, type: args.type });
 
   return {
@@ -92,8 +92,6 @@ async function handleGraphAddRelation(args) {
 
 // ─── knowledge_graph_delete_relation ─────────
 async function handleGraphDeleteRelation(args) {
-  const graph = loadGraph();
-
   // Resolve relation ID: either explicit or from/to/type match
   let relationId = args?.relationId;
 
@@ -108,8 +106,7 @@ async function handleGraphDeleteRelation(args) {
     relationId = `${args.from}--${args.type}--${args.to}`;
   }
 
-  const removed = deleteRelation(graph, relationId);
-  await saveGraph(graph);
+  const { result: removed } = await mutateGraph(graph => deleteRelation(graph, relationId));
   logOperation('delete_relation', removed.id, { from: removed.from, to: removed.to, type: removed.type });
 
   return {
