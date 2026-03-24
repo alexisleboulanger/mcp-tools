@@ -38,10 +38,24 @@ This repository contains custom MCP servers that enable AI assistants (GitHub Co
 | [**mcp-chat-backup**](mcp-chat-backup/) | Chat Persistence | stdio | 6 |
 | [**mcp-knowledge**](mcp-knowledge/) | Documentation Manager | stdio | 7 |
 | [**mcp-agent-registry**](mcp-agent-registry/) | Agent Discovery & A2A Cards | stdio | 5 |
+| [**mcp-server-git**](mcp-server-git/) | Git operations | stdio (Python venv) | 12 |
 
 ## Quick Start
 
 ### 1. Clone & Install
+
+### 0. Daily Startup (all servers at once)
+
+Run the startup script from the workspace root to launch `mcp-agent-registry`, `mcp-knowledge`, and `mcp-server-git` in parallel — each in its own terminal window:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File C:\dev\mcp\start-mcp-servers.ps1
+```
+
+Or right-click `start-mcp-servers.ps1` → **Run with PowerShell**.
+
+> **Note:** VS Code auto-starts stdio servers listed in `.vscode/mcp.json` on demand. Use this script when you want all servers pre-warmed before opening VS Code, or when running them from the terminal directly.
+
 
 ```bash
 git clone https://github.com/yourorg/mcp.git

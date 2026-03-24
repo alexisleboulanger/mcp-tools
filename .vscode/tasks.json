@@ -68,6 +68,85 @@
       "presentation": {
         "reveal": "always"
       }
+    },
+    {
+      "label": "🟢 Start: mcp-agent-registry",
+      "type": "shell",
+      "command": "npm",
+      "args": ["start"],
+      "options": {
+        "cwd": "C:\\dev\\mcp\\mcp-agent-registry"
+      },
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "mcp-servers"
+      }
+    },
+    {
+      "label": "🟢 Start: mcp-knowledge",
+      "type": "shell",
+      "command": "npm",
+      "args": ["start"],
+      "options": {
+        "cwd": "C:\\dev\\mcp\\mcp-knowledge"
+      },
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "mcp-servers"
+      }
+    },
+    {
+      "label": "🟢 Start: mcp-agent-runtime-bridge",
+      "type": "shell",
+      "command": "npm",
+      "args": ["start"],
+      "options": {
+        "cwd": "C:\\dev\\mcp\\mcp-agent-runtime-bridge"
+      },
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "mcp-servers"
+      }
+    },
+    // {
+    //   "label": "🟢 Start: mcp-server-git",
+    //   "type": "shell",
+    //   "command": "C:\\dev\\mcp\\mcp-server-git\\.venv\\Scripts\\python.exe",
+    //   "args": ["-m", "mcp_server_git", "--repository", "C:\\dev\\yorizon\\.knowledge"],
+    //   "options": {
+    //     "cwd": "C:\\dev\\mcp\\mcp-server-git"
+    //   },
+    //   "isBackground": true,
+    //   "problemMatcher": [],
+    //   "presentation": {
+    //     "reveal": "always",
+    //     "panel": "dedicated",
+    //     "group": "mcp-servers"
+    //   }
+    // },
+    {
+      "label": "🚀 Start All MCP Servers",
+      "dependsOn": [
+        "🟢 Start: mcp-agent-registry"
+        ,"🟢 Start: mcp-knowledge"
+        ,"🟢 Start: mcp-agent-runtime-bridge"
+        // ,"🟢 Start: mcp-server-git"
+      ],
+      "dependsOrder": "parallel",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
     }
   ]
 }
