@@ -17,7 +17,11 @@ const { StdioServerTransport } = require('@modelcontextprotocol/sdk/server/stdio
 const {
   CallToolRequestSchema,
   ListToolsRequestSchema,
+  ListResourcesRequestSchema,
+  ReadResourceRequestSchema,
+  ListResourceTemplatesRequestSchema,
 } = require('@modelcontextprotocol/sdk/types.js');
+const fs = require('node:fs');
 const { execFile } = require('node:child_process');
 const path = require('node:path');
 
@@ -153,7 +157,6 @@ async function handleTool(name, args) {
         args.format ? ['--format', args.format] : []);
 
     case 'context_list': {
-      const fs = require('node:fs');
       if (!fs.existsSync(CONTEXT_DIR)) {
         return { files: [], message: 'No context directory found.' };
       }
@@ -179,13 +182,77 @@ async function handleTool(name, args) {
 // ---------- MCP server setup ----------
 
 const server = new Server(
-  { name: 'mcp-agent-context', version: '1.0.0' },
-  { capabilities: { tools: {} } }
+  { name: 'mcp-agent-context', version: '1.1.0' },
+  { capabilities: { tools: {}, resources: {} } }
 );
 
 server.setRequestHandler(ListToolsRequestSchema, async () => ({
   tools: TOOLS,
 }));
+
+// ---------- resource handlers ----------
+
+/**
+ * Scan .agent-context/ and return each *-context.md as an MCP Resource.
+ * URI scheme: agent-context://{agent-name}
+ */
+server.setRequestHandler(ListResourcesRequestSchema, async () => {
+  if (!fs.existsSync(CONTEXT_DIR)) {
+    return { resources: [] };
+  }
+  const files = fs.readdirSync(CONTEXT_DIR).filter(f => f.endsWith('-context.md'));
+  const resources = files.map(f => {
+    const agentName = f.replace(/-context\.md$/, '');
+    const stats = fs.statSync(path.join(CONTEXT_DIR, f));
+    return {
+      uri: `agent-context://${agentName}`,
+      name: `${agentName} working context`,
+      description: `Cross-session working context for the ${agentName} agent. Last updated: ${stats.mtime.toISOString()}`,
+      mimeType: 'text/markdown',
+    };
+  });
+  return { resources };
+});
+
+/**
+ * Resource templates — allow clients to request context for any agent by name.
+ */
+server.setRequestHandler(ListResourceTemplatesRequestSchema, async () => ({
+  resourceTemplates: [
+    {
+      uriTemplate: 'agent-context://{agent}',
+      name: 'Agent working context',
+      description: 'Cross-session working context (Tier 2) for a given agent',
+      mimeType: 'text/markdown',
+    },
+  ],
+}));
+
+/**
+ * Read a single agent's working context by URI.
+ */
+server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
+  const uri = request.params.uri;
+  const match = uri.match(/^agent-context:\/\/(.+)$/);
+  if (!match) {
+    throw new Error(`Invalid resource URI: ${uri}`);
+  }
+  const agentName = match[1];
+  const filePath = path.join(CONTEXT_DIR, `${agentName}-context.md`);
+  if (!fs.existsSync(filePath)) {
+    throw new Error(`No working context found for agent: ${agentName}`);
+  }
+  const content = fs.readFileSync(filePath, 'utf-8');
+  return {
+    contents: [
+      {
+        uri,
+        mimeType: 'text/markdown',
+        text: content,
+      },
+    ],
+  };
+});
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
