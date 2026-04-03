@@ -10,6 +10,9 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { mcpError } = require('../shared/mcp-error');
+const createLogger = require('../shared/mcp-logger');
+const log = createLogger('mcp-backlog');
 
 const { Server } = require('@modelcontextprotocol/sdk/server/index.js');
 const { StdioServerTransport } = require('@modelcontextprotocol/sdk/server/stdio.js');
@@ -424,7 +427,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
-
+  const start = Date.now();
   try {
     let result;
     switch (name) {
@@ -456,6 +459,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         throw new Error(`Unknown tool: ${name}`);
     }
 
+    log.toolCall(name, args, Date.now() - start);
     return {
       content: [
         {
@@ -465,10 +469,27 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       ],
     };
   } catch (error) {
-    return {
-      content: [{ type: 'text', text: `Error: ${error.message}` }],
-      isError: true,
-    };
+    const message = error instanceof Error ? error.message : String(error);
+    log.toolCall(name, args, Date.now() - start, { success: false, error: message });
+    if (message.includes('Unknown tool')) {
+      return mcpError('UNKNOWN_TOOL', message, {
+        tool: name,
+        recovery: 'The requested tool does not exist.',
+        next_steps: ['Use backlog_list_items or backlog_search to explore available items'],
+      });
+    }
+    if (message.includes('not found') || message.includes('No item')) {
+      return mcpError('NOT_FOUND', message, {
+        tool: name,
+        recovery: 'The backlog item was not found.',
+        next_steps: ['Use backlog_search to find items by keyword', 'Use backlog_list_items to see all items'],
+      });
+    }
+    return mcpError('INTERNAL_ERROR', message, {
+      tool: name,
+      recovery: 'An unexpected error occurred.',
+      next_steps: ['Retry the operation', 'Check the backlog file exists'],
+    });
   }
 });
 

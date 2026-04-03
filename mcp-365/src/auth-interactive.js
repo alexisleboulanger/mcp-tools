@@ -182,14 +182,15 @@ export class InteractiveAuthProvider {
     const result = await this.pca.acquireTokenByDeviceCode({
       scopes,
       deviceCodeCallback: (response) => {
+        const code = response.userCode || response.message?.match(/code\s+(\S+)/i)?.[1] || '???';
         console.error('╔════════════════════════════════════════════════════════════╗');
         console.error('║  To sign in, open a browser and go to:                     ║');
         console.error('║  https://microsoft.com/devicelogin                         ║');
         console.error('╠════════════════════════════════════════════════════════════╣');
-        console.error(`║  Enter code: ${response.userCode.padEnd(44)}║`);
+        console.error(`║  Enter code: ${code.padEnd(44)}║`);
         console.error('╚════════════════════════════════════════════════════════════╝');
         console.error('');
-        console.error(response.message);
+        console.error(response.message || `Use code: ${code}`);
         console.error('');
       },
     });

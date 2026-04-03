@@ -1,0 +1,6 @@
+{"time":"2026-04-03T08:56:46.169Z","level":"info","server":"mcp-agent-runtime-bridge","msg":"Starting","url":"http://localhost:8000"}
+{"time":"2026-04-03T08:57:04.715Z","level":"info","server":"mcp-agent-runtime-bridge","msg":"Connected to MCP transport"}
+{"time":"2026-04-03T12:38:53.682Z","level":"info","server":"mcp-agent-runtime-bridge","msg":"Starting","url":"http://localhost:8000"}
+{"time":"2026-04-03T12:38:59.149Z","level":"info","server":"mcp-agent-runtime-bridge","msg":"Connected to MCP transport"}
+{"time":"2026-04-03T16:21:43.812Z","level":"info","server":"mcp-agent-runtime-bridge","msg":"Starting","url":"http://localhost:8000"}
+{"time":"2026-04-03T16:21:50.060Z","level":"info","server":"mcp-agent-runtime-bridge","msg":"Connected to MCP transport"}

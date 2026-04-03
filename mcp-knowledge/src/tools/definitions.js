@@ -36,13 +36,13 @@ const tools = [
   },
   {
     name: 'knowledge_graph_add_entity',
-    description: 'Creates a new entity in the knowledge graph, or appends observations to an existing entity with the same name. Entity type must be valid per the ontology (use knowledge_ontology_view to see allowed types). Returns the created/updated entity. Use this to capture decisions, services, concepts, and other knowledge artifacts.',
+    description: 'Creates a new entity in the knowledge graph, or appends observations to an existing entity with the same name. Entity type must be valid per the ontology (use knowledge_ontology_view to see allowed types). Observations must contain substantive findings (decisions, risks, gaps, metrics, actions) and not be metadata-only. Meeting artifacts with only date/organizer/key_topics are rejected. Returns the created/updated entity.',
     inputSchema: {
       type: 'object',
       properties: {
         name:         { type: 'string', description: 'PascalCase entity name, must be unique. Examples: "AuthService", "NFRConfidentiality", "ADR001".' },
         type:         { type: 'string', description: 'Entity type from the ontology. Common types: Pillar, Objective, Metric, CapabilityL1, CapabilityL2, Service, ADR, Concept, Pattern.' },
-        observations: { type: 'array', items: { type: 'string' }, description: 'Facts or notes about the entity. Each string is one observation. Will be appended if entity already exists.' },
+        observations: { type: 'array', items: { type: 'string' }, description: 'Facts or notes about the entity. Include at least one contextual, substantive observation. Metadata fields alone are not accepted.' },
       },
       required: ['name', 'type'],
     },

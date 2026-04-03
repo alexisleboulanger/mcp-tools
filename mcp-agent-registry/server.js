@@ -556,6 +556,7 @@ function handleAgentHealth(args) {
   const agents = getAgentEntities(graph);
   const agentFiles = discoverAgentFiles();
   const mcpServers = getMCPServerEntities(graph);
+  const contextDir = path.join(WORKSPACE_ROOT, '.agent-context');
 
   const checkAgent = (agent) => {
     const relations = getRelationsFor(graph, agent.name);
@@ -563,6 +564,35 @@ function handleAgentHealth(args) {
     const delegatesTo = relations.filter(r => r.from === agent.name && r.type === 'delegates_to');
     const agentFile = findAgentFile(agentFiles, agent.name);
     const deprecated = isDeprecatedEntity(agent);
+
+    // Context staleness check
+    let contextStatus = null;
+    if (!deprecated) {
+      // Try to match KG entity name (PascalCase) to context file (kebab-case)
+      // OwnerDevOpsAgent → owner-devops, KGGraphAgent → kg-graph, etc.
+      const base = agent.name.replace(/Agent$/i, '');
+      const kebab = base.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+      const candidates = [kebab];
+      // Also try the agent file name if available
+      if (agentFile) {
+        const fromFile = agentFile.agentName.toLowerCase();
+        if (!candidates.includes(fromFile)) candidates.push(fromFile);
+      }
+      let found = false;
+      for (const name of candidates) {
+        const contextFile = path.join(contextDir, `${name}-context.md`);
+        if (fs.existsSync(contextFile)) {
+          const stat = fs.statSync(contextFile);
+          const daysSince = Math.floor((Date.now() - stat.mtimeMs) / 86400000);
+          contextStatus = { exists: true, days_since_update: daysSince, stale: daysSince > 7 };
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        contextStatus = { exists: false, days_since_update: null, stale: true };
+      }
+    }
     const declaredTools = getDeclaredTools(agentFile, agent);
 
     const issues = [];
@@ -588,6 +618,7 @@ function handleAgentHealth(args) {
       servedByCount: servedBy.length,
       delegatesToCount: delegatesTo.length,
       hasAgentFile: !!agentFile,
+      context: contextStatus,
       issues,
     };
   };
@@ -622,6 +653,11 @@ function handleAgentHealth(args) {
     });
   });
 
+  // Context health summary for active agents
+  const activeHealth = health.filter(h => h.status !== 'deprecated');
+  const withContext = activeHealth.filter(h => h.context?.exists).length;
+  const staleContext = activeHealth.filter(h => h.context?.stale).length;
+
   return {
     content: [{ type: 'text', text: JSON.stringify({
       summary: {
@@ -633,6 +669,7 @@ function handleAgentHealth(args) {
         totalMCPServers: mcpServers.length,
         totalAgentFiles: agentFiles.length,
         orphanFiles: orphanFiles.map(f => f.fileName),
+        contextCoverage: { withContext, missingContext: activeAgents - withContext, staleContext },
       },
       agents: health,
     }, null, 2) }],

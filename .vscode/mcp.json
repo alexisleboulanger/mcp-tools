@@ -16,6 +16,11 @@
             "CHAT_BACKUP_PATH": "C:\\dev\\mcp\\.knowledge\\solution\\services\\chat-backups"
          }
       },
+      "m365": {
+         "type": "stdio",
+         "command": "node",
+         "args": ["C:\\dev\\mcp\\mcp-365\\src\\index.js"]
+      },
       "ado-wrapped": {
          "type": "stdio",
          "command": "node",

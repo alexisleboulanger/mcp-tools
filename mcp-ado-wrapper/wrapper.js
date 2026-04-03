@@ -11,6 +11,7 @@ const { spawn } = require('node:child_process');
 const https = require('node:https');
 const fs = require('node:fs');
 const path = require('node:path');
+const { McpResponseFilter } = require('./response-filter');
 
 // Load local .env next to this wrapper so we rely solely on
 // AZURE_DEVOPS_PAT and AZURE_DEVOPS_ORG_URL defined there.
@@ -657,11 +658,10 @@ async function main() {
         process.exit(1);
       }
     }
-    // Forward protocol stdout directly
+    // Forward protocol stdout through response filter to strip unnecessary ADO fields.
     if (child.stdout) {
-      child.stdout.on('data', chunk => {
-        process.stdout.write(chunk);
-      });
+      const filter = new McpResponseFilter();
+      child.stdout.pipe(filter).pipe(process.stdout);
     }
     // Forward diagnostics stderr (prefix only in debugMode)
     if (child.stderr) {

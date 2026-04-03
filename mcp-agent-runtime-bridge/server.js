@@ -15,6 +15,9 @@ const { ListToolsRequestSchema, CallToolRequestSchema } = require('@modelcontext
 const { spawn } = require('node:child_process');
 const path = require('node:path');
 const fs = require('node:fs');
+const { mcpError } = require('../shared/mcp-error');
+const createLogger = require('../shared/mcp-logger');
+const log = createLogger('mcp-agent-runtime-bridge');
 
 // ─── Configuration ────────────────────────────────────────────────────────────
 
@@ -396,26 +399,54 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
+  const start = Date.now();
   try {
     const result = await handleTool(name, args || {});
+    log.toolCall(name, args, Date.now() - start);
     return {
       content: [{ type: 'text', text: JSON.stringify(result, null, 2) }],
     };
   } catch (err) {
-    return {
-      content: [{ type: 'text', text: `Error: ${err.message}` }],
-      isError: true,
-    };
+    const elapsed = Date.now() - start;
+    const message = err instanceof Error ? err.message : String(err);
+    log.toolCall(name, args, elapsed, { success: false, error: message });
+    if (message.includes('ECONNREFUSED') || message.includes('fetch failed')) {
+      return mcpError('CONNECTION_ERROR', message, {
+        tool: name,
+        recovery: 'The agent runtime is not reachable.',
+        next_steps: ['Check if the FastAPI server is running on ' + AGENT_RUNTIME_URL, 'Run: cd yorizon-agent-runtime && uvicorn yorizon_agents.server:app'],
+      });
+    }
+    if (message.includes('404')) {
+      return mcpError('NOT_FOUND', message, {
+        tool: name,
+        recovery: 'The requested agent or endpoint was not found.',
+        next_steps: ['Use agent_list_available to see available agents', 'Check agent name spelling'],
+      });
+    }
+    if (message.includes('timeout') || message.includes('504')) {
+      return mcpError('TIMEOUT', message, {
+        tool: name,
+        recovery: 'The agent operation timed out.',
+        next_steps: ['Retry with a simpler task', 'Use async_mode: true for long-running operations'],
+      });
+    }
+    return mcpError('INTERNAL_ERROR', message, {
+      tool: name,
+      recovery: 'An unexpected error occurred in the agent runtime.',
+      next_steps: ['Retry the operation', 'Check runtime logs'],
+    });
   }
 });
 
 // ─── Start ─────────────────────────────────────────────────────────────────────
 
 async function main() {
+  log.info('Starting', { url: AGENT_RUNTIME_URL });
   await ensureRuntimeReady();
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  // Intentionally no console.log — stdout is reserved for MCP JSON-RPC protocol
+  log.info('Connected to MCP transport');
 }
 
 main().catch((err) => {

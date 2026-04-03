@@ -5,6 +5,8 @@
  */
 const { ListToolsRequestSchema, CallToolRequestSchema } = require('@modelcontextprotocol/sdk/types.js');
 const toolDefinitions = require('./definitions');
+const createLogger = require('../../../shared/mcp-logger');
+const log = createLogger('mcp-knowledge');
 
 // Handler imports
 const handleInit = require('./handlers/init');
@@ -62,15 +64,20 @@ function registerTools(server) {
     const handler = handlers[name];
 
     if (!handler) {
+      log.warn('Unknown tool requested', { tool: name });
       return {
         content: [{ type: 'text', text: JSON.stringify({ error: `Unknown tool: ${name}` }, null, 2) }],
         isError: true,
       };
     }
 
+    const start = Date.now();
     try {
-      return await handler(args);
+      const result = await handler(args);
+      log.toolCall(name, args, Date.now() - start);
+      return result;
     } catch (error) {
+      log.toolCall(name, args, Date.now() - start, { success: false, error: error.message });
       if (error.toMCPResponse) return error.toMCPResponse();
       return {
         content: [{

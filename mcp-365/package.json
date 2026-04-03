@@ -16,7 +16,8 @@
     "token:login": "node src/token-helper.js login",
     "token:logout": "node src/token-helper.js logout",
     "token:status": "node src/token-helper.js status",
-    "token:refresh": "node src/token-helper.js refresh"
+    "token:refresh": "node src/token-helper.js refresh",
+    "token:quick": "node src/quick-token.js"
   },
   "dependencies": {
     "@azure/identity": "^4.2.0",
