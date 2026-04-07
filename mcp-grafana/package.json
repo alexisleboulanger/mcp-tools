@@ -1,8 +1,8 @@
 {
-  "name": "mcp-grafana",
-  "version": "0.1.0",
+  "name": "mcp-grafana-yorizon",
+  "version": "0.2.0",
   "private": true,
-  "description": "MCP server for Grafana — smart operational metrics fetching from Yorizon environments.",
+  "description": "MCP server for Yorizon K8s namespace operational intelligence. Works alongside official grafana/mcp-grafana.",
   "license": "MIT",
   "type": "commonjs",
   "main": "server.js",

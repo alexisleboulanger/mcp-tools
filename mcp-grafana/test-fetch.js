@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
  * Test script: fetch compute metrics for yorizon-system-api namespace (last 2 days).
+ * Tests the mcp-grafana-yorizon smart tools by calling the Grafana API directly.
  * Run: node test-fetch.js
  */
 const path = require('node:path');

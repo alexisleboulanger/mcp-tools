@@ -1,14 +1,20 @@
 #!/usr/bin/env node
 /**
- * MCP Grafana Server
+ * MCP Grafana Yorizon Server
  *
- * Smart operational metrics fetching from Yorizon Grafana environments.
- * Connects to Grafana's HTTP API and proxies Prometheus queries
- * with pre-built namespace-level metric templates.
+ * Smart operational metrics fetching for Yorizon Kubernetes namespaces.
+ * Wraps the official grafana/mcp-grafana (run separately for 50+ generic tools)
+ * and adds Yorizon-specific namespace health, comparison, and pre-built metric queries.
+ *
+ * Architecture:
+ *   - Official grafana/mcp-grafana → dashboards, Loki, alerting, rendering, etc.
+ *   - This server (mcp-grafana-yorizon) → K8s namespace operational intelligence
  *
  * Environment:
  *   GRAFANA_URL           — Grafana base URL
  *   GRAFANA_API_KEY       — API key or service-account token
+ *   GRAFANA_USER          — (alternative) basic auth username
+ *   GRAFANA_PASSWORD      — (alternative) basic auth password
  *   GRAFANA_DATASOURCE_UID — (optional) default Prometheus datasource UID
  *   GRAFANA_DEFAULT_NAMESPACE — (optional) default namespace filter
  */
@@ -26,7 +32,7 @@ const {
 const { GrafanaClient } = require('./src/grafana-client');
 const { NAMESPACE_QUERIES, HEALTH_OVERVIEW_METRICS } = require('./src/queries');
 const { mcpError, withErrorHandling } = require('../shared/mcp-error');
-const log = require('../shared/mcp-logger')('mcp-grafana');
+const log = require('../shared/mcp-logger')('mcp-grafana-yorizon');
 
 // ─── Configuration ────────────────────────────────────────────
 
@@ -104,107 +110,12 @@ function extractScalar(promResult) {
 }
 
 // ─── Tool Definitions ─────────────────────────────────────────
+// Only Yorizon-specific smart tools. Generic Grafana tools (dashboards, raw
+// PromQL, datasources, etc.) are handled by the official grafana/mcp-grafana.
 
 const TOOLS = [
   {
-    name: 'grafana_health',
-    description: 'Check Grafana instance connectivity and health status.',
-    inputSchema: { type: 'object', properties: {} },
-  },
-  {
-    name: 'grafana_list_datasources',
-    description:
-      'List all configured datasources in Grafana. Useful to discover Prometheus datasource UID.',
-    inputSchema: { type: 'object', properties: {} },
-  },
-  {
-    name: 'grafana_search_dashboards',
-    description: 'Search Grafana dashboards by name or tag.',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        query: {
-          type: 'string',
-          description: 'Search string to filter dashboards by name.',
-        },
-        tag: {
-          type: 'string',
-          description: 'Filter dashboards by tag.',
-        },
-      },
-    },
-  },
-  {
-    name: 'grafana_get_dashboard',
-    description:
-      'Retrieve a Grafana dashboard by UID, including all panels and queries.',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        uid: {
-          type: 'string',
-          description: 'Dashboard UID.',
-        },
-      },
-      required: ['uid'],
-    },
-  },
-  {
-    name: 'grafana_query_prometheus',
-    description:
-      'Execute a raw PromQL instant query via Grafana datasource proxy. Returns Prometheus API response.',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        promql: {
-          type: 'string',
-          description: 'PromQL expression to evaluate.',
-        },
-        datasource_uid: {
-          type: 'string',
-          description:
-            'Datasource UID or name. Auto-detects Prometheus if omitted.',
-        },
-      },
-      required: ['promql'],
-    },
-  },
-  {
-    name: 'grafana_query_range',
-    description:
-      'Execute a PromQL range query over a time window. Returns time-series data.',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        promql: {
-          type: 'string',
-          description: 'PromQL expression to evaluate.',
-        },
-        start: {
-          type: 'string',
-          description:
-            'Start time (RFC3339 or Unix epoch seconds). Defaults to 1 hour ago.',
-        },
-        end: {
-          type: 'string',
-          description:
-            'End time (RFC3339 or Unix epoch seconds). Defaults to now.',
-        },
-        step: {
-          type: 'string',
-          description: 'Query resolution step (e.g. "60s", "5m"). Defaults to "60s".',
-        },
-        datasource_uid: {
-          type: 'string',
-          description:
-            'Datasource UID or name. Auto-detects Prometheus if omitted.',
-        },
-      },
-      required: ['promql'],
-    },
-  },
-  {
-    name: 'grafana_namespace_health',
+    name: 'yorizon_namespace_health',
     description:
       'Smart health overview for a Kubernetes namespace. Returns CPU, memory, pod count, restart rate, and readiness status in a formatted summary. Ideal first call for operational triage.',
     inputSchema: {
@@ -224,7 +135,7 @@ const TOOLS = [
     },
   },
   {
-    name: 'grafana_namespace_metric',
+    name: 'yorizon_namespace_metric',
     description: `Query a specific pre-built operational metric for a namespace. Available metrics: ${Object.keys(NAMESPACE_QUERIES).join(', ')}`,
     inputSchema: {
       type: 'object',
@@ -247,7 +158,7 @@ const TOOLS = [
     },
   },
   {
-    name: 'grafana_namespace_compare',
+    name: 'yorizon_namespace_compare',
     description:
       'Compare key operational metrics across multiple namespaces side-by-side. Useful for comparing pre1 vs production or across teams.',
     inputSchema: {
@@ -276,7 +187,7 @@ const TOOLS = [
     },
   },
   {
-    name: 'grafana_namespace_alerts',
+    name: 'yorizon_namespace_alerts',
     description:
       'Fetch active Grafana alerts optionally filtered by namespace label.',
     inputSchema: {
@@ -290,7 +201,7 @@ const TOOLS = [
     },
   },
   {
-    name: 'grafana_list_metrics',
+    name: 'yorizon_list_metrics',
     description:
       'List available pre-built metric queries with descriptions. No Grafana call needed.',
     inputSchema: { type: 'object', properties: {} },
@@ -304,85 +215,8 @@ async function handleTool(name, args) {
 
   const result = await withErrorHandling(name, async () => {
     switch (name) {
-      // ── Health ──────────────────────────────────
-      case 'grafana_health': {
-        const health = await client.health();
-        return ok({ status: 'connected', grafana: health, url: GRAFANA_URL });
-      }
-
-      // ── Datasources ────────────────────────────
-      case 'grafana_list_datasources': {
-        const ds = await client.listDatasources();
-        return ok(
-          ds.map((d) => ({
-            uid: d.uid,
-            name: d.name,
-            type: d.type,
-            url: d.url,
-            isDefault: d.isDefault,
-          })),
-        );
-      }
-
-      // ── Dashboards ─────────────────────────────
-      case 'grafana_search_dashboards': {
-        const results = await client.searchDashboards(
-          args.query || '',
-          args.tag || '',
-        );
-        return ok(
-          results.map((d) => ({
-            uid: d.uid,
-            title: d.title,
-            url: d.url,
-            tags: d.tags,
-            type: d.type,
-          })),
-        );
-      }
-
-      case 'grafana_get_dashboard': {
-        const dash = await client.getDashboard(args.uid);
-        // Return summary: panels list + meta
-        const panels = (dash.dashboard?.panels || []).map((p) => ({
-          id: p.id,
-          title: p.title,
-          type: p.type,
-          datasource: p.datasource,
-        }));
-        return ok({
-          uid: dash.dashboard?.uid,
-          title: dash.dashboard?.title,
-          tags: dash.dashboard?.tags,
-          panels,
-          meta: {
-            folder: dash.meta?.folderTitle,
-            created: dash.meta?.created,
-            updated: dash.meta?.updated,
-          },
-        });
-      }
-
-      // ── Raw Prometheus queries ──────────────────
-      case 'grafana_query_prometheus': {
-        const result = await client.queryInstant(args.promql, {
-          datasourceUid: args.datasource_uid || DEFAULT_DS_UID,
-        });
-        return ok(result);
-      }
-
-      case 'grafana_query_range': {
-        const result = await client.queryRange(args.promql, {
-          datasourceUid: args.datasource_uid || DEFAULT_DS_UID,
-          start: args.start,
-          end: args.end,
-          step: args.step,
-        });
-        return ok(result);
-      }
-
       // ── Namespace Health Overview ───────────────
-      case 'grafana_namespace_health': {
+      case 'yorizon_namespace_health': {
         const ns = resolveNS(args.namespace);
         const dsUid = args.datasource_uid || DEFAULT_DS_UID;
         const summary = { namespace: ns, timestamp: new Date().toISOString(), metrics: {} };
@@ -435,7 +269,7 @@ async function handleTool(name, args) {
       }
 
       // ── Single namespace metric ─────────────────
-      case 'grafana_namespace_metric': {
+      case 'yorizon_namespace_metric': {
         const ns = resolveNS(args.namespace);
         const def = NAMESPACE_QUERIES[args.metric];
         if (!def) {
@@ -457,7 +291,7 @@ async function handleTool(name, args) {
       }
 
       // ── Cross-namespace compare ─────────────────
-      case 'grafana_namespace_compare': {
+      case 'yorizon_namespace_compare': {
         const namespaces = args.namespaces;
         const metricKeys = args.metrics || HEALTH_OVERVIEW_METRICS;
         const dsUid = args.datasource_uid || DEFAULT_DS_UID;
@@ -499,7 +333,7 @@ async function handleTool(name, args) {
       }
 
       // ── Alerts ──────────────────────────────────
-      case 'grafana_namespace_alerts': {
+      case 'yorizon_namespace_alerts': {
         const alerts = await client.getAlerts();
         let filtered = alerts;
         if (args.namespace) {
@@ -525,7 +359,7 @@ async function handleTool(name, args) {
       }
 
       // ── List available metrics ──────────────────
-      case 'grafana_list_metrics': {
+      case 'yorizon_list_metrics': {
         return ok(
           Object.entries(NAMESPACE_QUERIES).map(([key, def]) => ({
             name: key,
@@ -554,7 +388,7 @@ async function handleTool(name, args) {
 // ─── MCP Server Setup ─────────────────────────────────────────
 
 const server = new Server(
-  { name: 'mcp-grafana', version: '0.1.0' },
+  { name: 'mcp-grafana-yorizon', version: '0.2.0' },
   { capabilities: { tools: {} } },
 );
 
@@ -573,7 +407,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  log.info('MCP Grafana Server running on stdio', {
+  log.info('MCP Grafana Yorizon Server running on stdio', {
     url: GRAFANA_URL,
     defaultDatasource: DEFAULT_DS_UID || '(auto-detect)',
     defaultNamespace: DEFAULT_NS || '(none)',
@@ -582,6 +416,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error('[mcp-grafana] Fatal:', err.message);
+  console.error('[mcp-grafana-yorizon] Fatal:', err.message);
   process.exit(1);
 });

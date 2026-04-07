@@ -134,7 +134,7 @@
     //   }
     // },
     {
-      "label": "🟢 Start: mcp-grafana",
+      "label": "🟢 Start: mcp-grafana-yorizon",
       "type": "shell",
       "command": "npm",
       "args": ["start"],
@@ -155,7 +155,7 @@
         "🟢 Start: mcp-agent-registry"
         ,"🟢 Start: mcp-knowledge"
         ,"🟢 Start: mcp-agent-runtime-bridge"
-        ,"🟢 Start: mcp-grafana"
+        ,"🟢 Start: mcp-grafana-yorizon"
         // ,"🟢 Start: mcp-server-git"
       ],
       "dependsOrder": "parallel",

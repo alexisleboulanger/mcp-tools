@@ -1,19 +1,35 @@
 // VS Code MCP integration — add to .vscode/mcp.json "servers" block
+//
+// Two servers work together:
+//   1. grafana (official)       → 50+ tools: dashboards, Loki, alerting, rendering, etc.
+//   2. mcp-grafana-yorizon (ours) → Smart K8s namespace metrics: health, compare, pre-built queries
 {
   "servers": {
-    "mcp-grafana": {
+    // ── Official Grafana MCP server (generic tools) ──────────────
+    "grafana": {
+      "type": "stdio",
+      "command": "C:\\Users\\aleboula\\AppData\\Roaming\\Python\\Python311\\Scripts\\uvx.exe",
+      "args": ["mcp-grafana"],
+      "env": {
+        "GRAFANA_URL": "https://grafana.ops-services.at-pre1.yrzn.cloud",
+        // Auth option 1: Service account token (recommended)
+        // "GRAFANA_SERVICE_ACCOUNT_TOKEN": "<your token>",
+        // Auth option 2: Basic auth (username/password)
+        "GRAFANA_USERNAME": "admin",
+        "GRAFANA_PASSWORD": "${input:grafanaPassword}"
+      }
+    },
+    // ── Yorizon namespace intelligence (our smart tools) ─────────
+    "mcp-grafana-yorizon": {
       "type": "stdio",
       "command": "node",
       "args": ["C:\\dev\\mcp\\mcp-grafana\\server.js"],
       "env": {
         "GRAFANA_URL": "https://grafana.ops-services.at-pre1.yrzn.cloud",
-        // Auth option 1: API key
-        // "GRAFANA_API_KEY": "${input:grafanaApiKey}",
-        // Auth option 2: Basic auth (username/password)
         "GRAFANA_USER": "admin",
         "GRAFANA_PASSWORD": "${input:grafanaPassword}"
-        // "GRAFANA_DATASOURCE_UID": "prometheus"
-        // "GRAFANA_DEFAULT_NAMESPACE": "my-namespace"
+        // "GRAFANA_DATASOURCE_UID": "mimir"
+        // "GRAFANA_DEFAULT_NAMESPACE": "yorizon-system-api"
       }
     }
   }
