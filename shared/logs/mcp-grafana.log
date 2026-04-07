@@ -1,0 +1,2 @@
+{"time":"2026-04-07T09:10:22.647Z","level":"info","server":"mcp-grafana","msg":"MCP Grafana Server running on stdio","url":"https://grafana.ops-services.at-pre1.yrzn.cloud","defaultDatasource":"(auto-detect)","defaultNamespace":"(none)","tools":11}
+{"time":"2026-04-07T10:04:28.907Z","level":"info","server":"mcp-grafana","msg":"MCP Grafana Server running on stdio","url":"https://grafana.ops-services.at-pre1.yrzn.cloud","defaultDatasource":"(auto-detect)","defaultNamespace":"(none)","tools":11}

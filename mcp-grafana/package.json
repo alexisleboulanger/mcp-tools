@@ -1,0 +1,16 @@
+{
+  "name": "mcp-grafana",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MCP server for Grafana — smart operational metrics fetching from Yorizon environments.",
+  "license": "MIT",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "dotenv": "^16.4.7"
+  }
+}

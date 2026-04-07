@@ -1,0 +1,20 @@
+// VS Code MCP integration — add to .vscode/mcp.json "servers" block
+{
+  "servers": {
+    "mcp-grafana": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["C:\\dev\\mcp\\mcp-grafana\\server.js"],
+      "env": {
+        "GRAFANA_URL": "https://grafana.ops-services.at-pre1.yrzn.cloud",
+        // Auth option 1: API key
+        // "GRAFANA_API_KEY": "${input:grafanaApiKey}",
+        // Auth option 2: Basic auth (username/password)
+        "GRAFANA_USER": "admin",
+        "GRAFANA_PASSWORD": "${input:grafanaPassword}"
+        // "GRAFANA_DATASOURCE_UID": "prometheus"
+        // "GRAFANA_DEFAULT_NAMESPACE": "my-namespace"
+      }
+    }
+  }
+}

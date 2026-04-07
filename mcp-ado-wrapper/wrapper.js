@@ -113,6 +113,7 @@ async function main() {
   let justPreflight = false;
   let keepAlive = false;
   let debugMode = false;
+  const enableResponseFilter = ['1','true','yes','on'].includes(String(process.env.ADO_WRAPPER_ENABLE_FILTER || '').toLowerCase());
   let listProjectsOnly = false;
   let wikiProject = null;
   let wikiName = null;
@@ -633,6 +634,7 @@ async function main() {
       } else {
         console.error(`[ado-wrapper][verbose] Spawning via npx: ${npxPath} ${childArgs.join(' ')}`);
       }
+      console.error(`[ado-wrapper][verbose] responseFilter=${enableResponseFilter ? 'enabled' : 'disabled'}`);
     }
     // Use explicit pipe stdio to avoid Windows spawn EINVAL issues with inherit under extension host.
     // We'll manually forward stdout/stderr to maintain protocol purity (stdout) and diagnostics (stderr).
@@ -658,10 +660,15 @@ async function main() {
         process.exit(1);
       }
     }
-    // Forward protocol stdout through response filter to strip unnecessary ADO fields.
+    // Forward protocol stdout directly by default.
+    // The response filter can be re-enabled via ADO_WRAPPER_ENABLE_FILTER=1 once it is proven safe.
     if (child.stdout) {
-      const filter = new McpResponseFilter();
-      child.stdout.pipe(filter).pipe(process.stdout);
+      if (enableResponseFilter) {
+        const filter = new McpResponseFilter();
+        child.stdout.pipe(filter).pipe(process.stdout);
+      } else {
+        child.stdout.pipe(process.stdout);
+      }
     }
     // Forward diagnostics stderr (prefix only in debugMode)
     if (child.stderr) {

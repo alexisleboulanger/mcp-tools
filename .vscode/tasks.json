@@ -134,11 +134,28 @@
     //   }
     // },
     {
+      "label": "🟢 Start: mcp-grafana",
+      "type": "shell",
+      "command": "npm",
+      "args": ["start"],
+      "options": {
+        "cwd": "C:\\dev\\mcp\\mcp-grafana"
+      },
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "mcp-servers"
+      }
+    },
+    {
       "label": "🚀 Start All MCP Servers",
       "dependsOn": [
         "🟢 Start: mcp-agent-registry"
         ,"🟢 Start: mcp-knowledge"
         ,"🟢 Start: mcp-agent-runtime-bridge"
+        ,"🟢 Start: mcp-grafana"
         // ,"🟢 Start: mcp-server-git"
       ],
       "dependsOrder": "parallel",
