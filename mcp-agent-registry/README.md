@@ -62,7 +62,16 @@ Knowledge Graph (.memory/knowledge-graph.json)
 
 .github/agents/*.agent.md
   └─ Agent file discovery ──→ enriches cards + health checks
+  └─ tools array (e.g., 'caching/*') ──→ getDeclaredTools, requiresMcpServer
 ```
+
+### Related MCP Servers
+
+| Server | Relation to Registry |
+|--------|---------------------|
+| `mcp-knowledge` | Source of truth — registry reads Agent/MCPServer entities from KG |
+| `mcp-caching` | 9 external-data agents declare `caching/*` tools — registry detects via `getDeclaredTools()` |
+| `mcp-agent-context` | Context staleness data used in `agent_health` reports |
 
 ## A2A Agent Card Format
 
@@ -89,3 +98,5 @@ Knowledge Graph (.memory/knowledge-graph.json)
 ## Phase Reference
 
 This server is **Phase 3.3** of the [Agentic AI Roadmap](../../.knowledge/solution/architecture-agentic-ai-roadmap.md) and serves as the foundation for Phase 6 (Agent Discovery Registry).
+
+Phase 4.8 (`mcp-caching`) added `caching/*` to 9 agent tool arrays — the registry auto-discovers these via agent file scanning and surfaces them in `get_agent_card` metadata and `agent_health` tool dependency checks.

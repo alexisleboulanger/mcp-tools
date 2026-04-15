@@ -1,0 +1,22 @@
+{
+  "name": "mcp-caching",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MCP server for agent-level caching — markdown snapshots with TTL, stale-while-revalidate, and deterministic keys",
+  "license": "MIT",
+  "type": "commonjs",
+  "main": "server.js",
+  "bin": {
+    "mcp-caching": "./server.js"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test-caching.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
