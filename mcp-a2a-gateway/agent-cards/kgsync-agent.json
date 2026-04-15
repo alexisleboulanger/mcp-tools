@@ -1,0 +1,42 @@
+{
+  "name": "KGSyncAgent",
+  "description": "Syncs knowledge graph to .knowledge markdown files and rebuilds INDEX.md. Keeps human-readable docs in sync with graph state.",
+  "provider": {
+    "organization": "Yorizon"
+  },
+  "version": "1.0.0",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "skills": [
+    {
+      "id": "kgsync",
+      "name": "KGSyncAgent",
+      "description": "Syncs knowledge graph to .knowledge markdown files and rebuilds INDEX.md. Keeps human-readable docs in sync with graph state.",
+      "inputModes": [
+        "text/plain"
+      ],
+      "outputModes": [
+        "text/markdown"
+      ]
+    }
+  ],
+  "metadata": {
+    "entityId": "03f0030a-537e-4ca9-aa3c-87fef2d073ff",
+    "entityType": "Agent",
+    "created": "2026-03-18T11:52:41.094Z",
+    "delegatesTo": [],
+    "servedBy": [
+      "McpKnowledge"
+    ],
+    "endpoint": "http://localhost:8907/a2a",
+    "authMode": "none",
+    "timeoutMs": 30000,
+    "retryCount": 1,
+    "retryDelayMs": 500,
+    "resultSchemaId": "yorizon.a2a.result.v1",
+    "generatedAt": "2026-04-15T16:03:57.052Z",
+    "source": "knowledge-graph"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "name": "ADOWorkItemsAgent",
+  "description": "Queries Azure DevOps work items (epics, features, stories, tasks, bugs). Searches, lists, filters, inspects, and updates work items, sprints, backlogs, and iterations.",
+  "provider": {
+    "organization": "Yorizon"
+  },
+  "version": "1.0.0",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "skills": [
+    {
+      "id": "adowork_items",
+      "name": "ADOWorkItemsAgent",
+      "description": "Queries Azure DevOps work items (epics, features, stories, tasks, bugs). Searches, lists, filters, inspects, and updates work items, sprints, backlogs, and iterations.",
+      "inputModes": [
+        "text/plain"
+      ],
+      "outputModes": [
+        "text/markdown"
+      ]
+    }
+  ],
+  "metadata": {
+    "entityId": "4bda8f2d-bf2c-4be6-94b3-335e3f6737a5",
+    "entityType": "Agent",
+    "created": "2026-03-18T11:52:20.036Z",
+    "delegatesTo": [],
+    "servedBy": [
+      "McpAdoWrapped"
+    ],
+    "endpoint": "http://localhost:8903/a2a",
+    "authMode": "none",
+    "timeoutMs": 30000,
+    "retryCount": 1,
+    "retryDelayMs": 500,
+    "resultSchemaId": "yorizon.a2a.result.v1",
+    "generatedAt": "2026-04-15T16:03:57.048Z",
+    "source": "knowledge-graph"
+  }
+}

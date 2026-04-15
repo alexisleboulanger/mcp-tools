@@ -1,0 +1,23 @@
+{
+  "name": "mcp-a2a-gateway",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MCP server scaffold for A2A discovery and task dispatch",
+  "license": "MIT",
+  "type": "commonjs",
+  "main": "server.js",
+  "bin": {
+    "mcp-a2a-gateway": "./server.js"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "export-cards": "node scripts/export-cards-from-knowledge.js",
+    "smoke": "node scripts/live-tool-smoke.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

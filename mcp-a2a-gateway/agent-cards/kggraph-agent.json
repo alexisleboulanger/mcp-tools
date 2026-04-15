@@ -1,0 +1,42 @@
+{
+  "name": "KGGraphAgent",
+  "description": "CRUD operations on knowledge graph entities and relations. Adds, searches, reads, connects, or deletes entities with ontology validation.",
+  "provider": {
+    "organization": "Yorizon"
+  },
+  "version": "1.0.0",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "skills": [
+    {
+      "id": "kggraph",
+      "name": "KGGraphAgent",
+      "description": "CRUD operations on knowledge graph entities and relations. Adds, searches, reads, connects, or deletes entities with ontology validation.",
+      "inputModes": [
+        "text/plain"
+      ],
+      "outputModes": [
+        "text/markdown"
+      ]
+    }
+  ],
+  "metadata": {
+    "entityId": "d32c38ca-b2e4-4bda-81d3-82c0be1230c0",
+    "entityType": "Agent",
+    "created": "2026-03-18T11:52:41.074Z",
+    "delegatesTo": [],
+    "servedBy": [
+      "McpKnowledge"
+    ],
+    "endpoint": "http://localhost:8904/a2a",
+    "authMode": "none",
+    "timeoutMs": 30000,
+    "retryCount": 1,
+    "retryDelayMs": 500,
+    "resultSchemaId": "yorizon.a2a.result.v1",
+    "generatedAt": "2026-04-15T16:03:57.050Z",
+    "source": "knowledge-graph"
+  }
+}

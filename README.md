@@ -38,6 +38,7 @@ This repository contains custom MCP servers that enable AI assistants (GitHub Co
 | [**mcp-chat-backup**](mcp-chat-backup/) | Chat Persistence | stdio | 6 |
 | [**mcp-knowledge**](mcp-knowledge/) | Documentation Manager | stdio | 7 |
 | [**mcp-agent-registry**](mcp-agent-registry/) | Agent Discovery & A2A Cards | stdio | 5 |
+| [**mcp-a2a-gateway**](mcp-a2a-gateway/) | A2A Gateway (scaffold) | stdio | 4 |
 | [**mcp-server-git**](mcp-server-git/) | Git operations | stdio (Python venv) | 12 |
 
 ## Quick Start
@@ -69,6 +70,7 @@ cd mcp-serp-wrapper && npm install && cd ..
 cd mcp-chat-backup && npm install && cd ..
 cd mcp-knowledge && npm install && cd ..
 cd mcp-agent-registry && npm install && cd ..
+cd mcp-a2a-gateway && npm install && cd ..
 ```
 
 ### 2. Configure VS Code

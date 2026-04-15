@@ -1,0 +1,44 @@
+{
+  "name": "OwnerPortalAgent",
+  "description": "Reports on Portal team's progress, open items, and blockers. Filters ADO WorkItems to area path Yorizon Nexus\\\\Yorizon Portal.",
+  "provider": {
+    "organization": "Yorizon"
+  },
+  "version": "1.0.0",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "skills": [
+    {
+      "id": "owner_portal",
+      "name": "OwnerPortalAgent",
+      "description": "Reports on Portal team's progress, open items, and blockers. Filters ADO WorkItems to area path Yorizon Nexus\\\\Yorizon Portal.",
+      "inputModes": [
+        "text/plain"
+      ],
+      "outputModes": [
+        "text/markdown"
+      ]
+    }
+  ],
+  "metadata": {
+    "entityId": "6c1e088c-15bc-49ce-8bdf-9441e0d2019b",
+    "entityType": "Agent",
+    "created": "2026-03-18T12:28:42.394Z",
+    "delegatesTo": [
+      "ADOWorkItemsAgent"
+    ],
+    "servedBy": [
+      "McpAdoWrapped"
+    ],
+    "endpoint": "http://localhost:8914/a2a",
+    "authMode": "none",
+    "timeoutMs": 30000,
+    "retryCount": 1,
+    "retryDelayMs": 500,
+    "resultSchemaId": "yorizon.a2a.result.v1",
+    "generatedAt": "2026-04-15T16:03:57.070Z",
+    "source": "knowledge-graph"
+  }
+}

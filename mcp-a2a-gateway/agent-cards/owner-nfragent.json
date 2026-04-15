@@ -1,0 +1,50 @@
+{
+  "name": "OwnerNFRAgent",
+  "description": "Audits non-functional requirements (security, availability, performance, scalability, observability) across architecture domains. Filters ADO to Yorizon NFRs and Product Integration Security area paths. Parameterized by topic.",
+  "provider": {
+    "organization": "Yorizon"
+  },
+  "version": "1.0.0",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "skills": [
+    {
+      "id": "owner_nfr",
+      "name": "OwnerNFRAgent",
+      "description": "Audits non-functional requirements (security, availability, performance, scalability, observability) across architecture domains. Filters ADO to Yorizon NFRs and Product Integration Security area paths. Parameterized by topic.",
+      "inputModes": [
+        "text/plain"
+      ],
+      "outputModes": [
+        "text/markdown"
+      ]
+    }
+  ],
+  "metadata": {
+    "entityId": "c97ec2cb-54e9-4c39-bfa9-5c4956c2192a",
+    "entityType": "Agent",
+    "created": "2026-03-18T12:28:42.431Z",
+    "delegatesTo": [
+      "OwnerArchitectureAgent",
+      "KGGraphAgent",
+      "ADOWorkItemsAgent",
+      "ADOWikiAgent",
+      "OwnerPortalAgent",
+      "OwnerSystemAPIAgent",
+      "OwnerDevOpsAgent"
+    ],
+    "servedBy": [
+      "McpKnowledge"
+    ],
+    "endpoint": "http://localhost:8913/a2a",
+    "authMode": "none",
+    "timeoutMs": 30000,
+    "retryCount": 1,
+    "retryDelayMs": 500,
+    "resultSchemaId": "yorizon.a2a.result.v1",
+    "generatedAt": "2026-04-15T16:03:57.068Z",
+    "source": "knowledge-graph"
+  }
+}

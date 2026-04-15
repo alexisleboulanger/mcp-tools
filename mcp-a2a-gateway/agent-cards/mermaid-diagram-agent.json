@@ -1,0 +1,40 @@
+{
+  "name": "MermaidDiagramAgent",
+  "description": "Parses, validates, renders, and generates Mermaid diagrams. Creates architecture diagrams, validates syntax, previews diagrams.",
+  "provider": {
+    "organization": "Yorizon"
+  },
+  "version": "1.0.0",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "skills": [
+    {
+      "id": "mermaid_diagram",
+      "name": "MermaidDiagramAgent",
+      "description": "Parses, validates, renders, and generates Mermaid diagrams. Creates architecture diagrams, validates syntax, previews diagrams.",
+      "inputModes": [
+        "text/plain"
+      ],
+      "outputModes": [
+        "text/markdown"
+      ]
+    }
+  ],
+  "metadata": {
+    "entityId": "b26b3bc2-4094-4beb-8630-646576981e65",
+    "entityType": "Agent",
+    "created": "2026-03-18T11:52:02.000Z",
+    "delegatesTo": [],
+    "servedBy": [],
+    "endpoint": "http://localhost:8909/a2a",
+    "authMode": "none",
+    "timeoutMs": 30000,
+    "retryCount": 1,
+    "retryDelayMs": 500,
+    "resultSchemaId": "yorizon.a2a.result.v1",
+    "generatedAt": "2026-04-15T16:03:57.054Z",
+    "source": "knowledge-graph"
+  }
+}

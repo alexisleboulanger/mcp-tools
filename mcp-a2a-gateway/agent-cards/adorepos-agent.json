@@ -1,0 +1,42 @@
+{
+  "name": "ADOReposAgent",
+  "description": "Searches Azure DevOps code repositories, lists pull requests, browses branches, and searches commits.",
+  "provider": {
+    "organization": "Yorizon"
+  },
+  "version": "1.0.0",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "skills": [
+    {
+      "id": "adorepos",
+      "name": "ADOReposAgent",
+      "description": "Searches Azure DevOps code repositories, lists pull requests, browses branches, and searches commits.",
+      "inputModes": [
+        "text/plain"
+      ],
+      "outputModes": [
+        "text/markdown"
+      ]
+    }
+  ],
+  "metadata": {
+    "entityId": "b7a9a457-4c90-4d2e-994d-6a0b80ec16b5",
+    "entityType": "Agent",
+    "created": "2026-03-18T11:52:18.978Z",
+    "delegatesTo": [],
+    "servedBy": [
+      "McpAdoWrapped"
+    ],
+    "endpoint": "http://localhost:8901/a2a",
+    "authMode": "none",
+    "timeoutMs": 30000,
+    "retryCount": 1,
+    "retryDelayMs": 500,
+    "resultSchemaId": "yorizon.a2a.result.v1",
+    "generatedAt": "2026-04-15T16:03:57.046Z",
+    "source": "knowledge-graph"
+  }
+}

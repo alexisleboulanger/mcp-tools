@@ -1,0 +1,43 @@
+{
+  "name": "MeetingReportAgent",
+  "description": "Fetches meeting transcripts, Teams chat messages, calendar events, and chat backup history. Retrieves meeting notes, summarizes discussions, extracts action items.",
+  "provider": {
+    "organization": "Yorizon"
+  },
+  "version": "1.0.0",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "skills": [
+    {
+      "id": "meeting_report",
+      "name": "MeetingReportAgent",
+      "description": "Fetches meeting transcripts, Teams chat messages, calendar events, and chat backup history. Retrieves meeting notes, summarizes discussions, extracts action items.",
+      "inputModes": [
+        "text/plain"
+      ],
+      "outputModes": [
+        "text/markdown"
+      ]
+    }
+  ],
+  "metadata": {
+    "entityId": "6c8797c0-9b4d-447c-99b3-65cfa6e9b739",
+    "entityType": "Agent",
+    "created": "2026-03-18T11:51:45.093Z",
+    "delegatesTo": [],
+    "servedBy": [
+      "McpM365",
+      "McpChatBackup"
+    ],
+    "endpoint": "http://localhost:8908/a2a",
+    "authMode": "none",
+    "timeoutMs": 30000,
+    "retryCount": 1,
+    "retryDelayMs": 500,
+    "resultSchemaId": "yorizon.a2a.result.v1",
+    "generatedAt": "2026-04-15T16:03:57.053Z",
+    "source": "knowledge-graph"
+  }
+}

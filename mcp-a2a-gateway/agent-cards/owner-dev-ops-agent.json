@@ -1,0 +1,44 @@
+{
+  "name": "OwnerDevOpsAgent",
+  "description": "Reports on DevOps team's progress, CI/CD pipelines, infrastructure, and K8s state. Filters ADO WorkItems to area path Yorizon Nexus\\\\Yorizon DevOps.",
+  "provider": {
+    "organization": "Yorizon"
+  },
+  "version": "1.0.0",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "skills": [
+    {
+      "id": "owner_dev_ops",
+      "name": "OwnerDevOpsAgent",
+      "description": "Reports on DevOps team's progress, CI/CD pipelines, infrastructure, and K8s state. Filters ADO WorkItems to area path Yorizon Nexus\\\\Yorizon DevOps.",
+      "inputModes": [
+        "text/plain"
+      ],
+      "outputModes": [
+        "text/markdown"
+      ]
+    }
+  ],
+  "metadata": {
+    "entityId": "39500281-de13-4571-aaa3-59673898cc86",
+    "entityType": "Agent",
+    "created": "2026-03-18T12:28:42.372Z",
+    "delegatesTo": [
+      "ADOWorkItemsAgent"
+    ],
+    "servedBy": [
+      "McpAdoWrapped"
+    ],
+    "endpoint": "http://localhost:8912/a2a",
+    "authMode": "none",
+    "timeoutMs": 30000,
+    "retryCount": 1,
+    "retryDelayMs": 500,
+    "resultSchemaId": "yorizon.a2a.result.v1",
+    "generatedAt": "2026-04-15T16:03:57.067Z",
+    "source": "knowledge-graph"
+  }
+}
