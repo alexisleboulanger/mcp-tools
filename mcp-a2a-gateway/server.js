@@ -1,16 +1,14 @@
 #!/usr/bin/env node
 
 /**
- * MCP A2A Gateway (Scaffold)
+ * MCP A2A Gateway
  *
- * Provides the planned Phase 5 tool surface with scaffold behavior:
- * - a2a_list_agents
- * - a2a_discover
- * - a2a_send_task
- * - a2a_get_result
+ * Provides the A2A protocol tool surface:
+ * - a2a_send_task  — dispatch a task to an agent endpoint (HTTP or scaffold)
+ * - a2a_get_result — poll job status / retrieve result
  *
- * Current implementation reads local Agent Card files and uses an in-memory
- * job queue for task execution simulation.
+ * Agent listing and discovery are handled by the agent-registry MCP server.
+ * This gateway is purely the task dispatch + result layer.
  */
 
 const crypto = require('node:crypto');
@@ -19,7 +17,6 @@ const { StdioServerTransport } = require('@modelcontextprotocol/sdk/server/stdio
 const { ListToolsRequestSchema, CallToolRequestSchema } = require('@modelcontextprotocol/sdk/types.js');
 const { mcpError, withErrorHandling } = require('../shared/mcp-error');
 const createLogger = require('../shared/mcp-logger');
-const { DEFAULT_CARDS_DIR, loadAgentCards, discoverAgents } = require('./registry');
 const { DEFAULT_JOB_STORE_PATH, createJobStore } = require('./job-store');
 const { DEFAULT_AUDIT_LOG_PATH, createAuditLogger } = require('./audit-log');
 
@@ -44,24 +41,6 @@ function nowIso() {
 
 function makeJobId() {
   return `job_${crypto.randomUUID()}`;
-}
-
-function sanitizeCard(card) {
-  return {
-    name: card.name || null,
-    description: card.description || '',
-    version: card.version || '1.0.0',
-    skills: Array.isArray(card.skills) ? card.skills : [],
-    metadata: card.metadata || {},
-    endpoint: card?.metadata?.endpoint || null,
-    sourceFile: card._file || null,
-    invalid: card._invalid === true,
-  };
-}
-
-function listAgents() {
-  const cards = loadAgentCards();
-  return cards.map(sanitizeCard);
 }
 
 function audit(event, payload = {}) {
@@ -333,40 +312,11 @@ function queueScaffoldJob(agentName, task, input) {
 
 const toolDefinitions = [
   {
-    name: 'a2a_list_agents',
-    description:
-      'List all known A2A agents from local Agent Card files. ' +
-      'Use this before sending tasks to confirm available agent names and skills.',
-    inputSchema: {
-      type: 'object',
-      properties: {},
-    },
-  },
-  {
-    name: 'a2a_discover',
-    description:
-      'Discover candidate agents for a capability query by matching against Agent Card name, description, and skills. ' +
-      'Returns ranked matches with simple relevance scores.',
-    inputSchema: {
-      type: 'object',
-      required: ['query'],
-      properties: {
-        query: {
-          type: 'string',
-          description: 'Natural language capability query (e.g., "nfr audit", "architecture review")',
-        },
-        top_k: {
-          type: 'number',
-          description: 'Maximum number of matches to return (default: 5)',
-        },
-      },
-    },
-  },
-  {
     name: 'a2a_send_task',
     description:
       'Send a task to a target A2A agent. ' +
-      'Default mode is auto: HTTP dispatch to agent endpoint with timeout/retry/correlation-id, then optional scaffold fallback. ' +
+      'Use agent-registry (find_agent / get_agent_card) to discover agents and their endpoints first. ' +
+      'Default mode is auto: HTTP dispatch with timeout/retry/correlation-id, then optional scaffold fallback. ' +
       'Use a2a_get_result to poll completion.',
     inputSchema: {
       type: 'object',
@@ -374,11 +324,15 @@ const toolDefinitions = [
       properties: {
         agent: {
           type: 'string',
-          description: 'Target agent name from a2a_list_agents.',
+          description: 'Target agent name (use agent-registry find_agent to discover agents).',
         },
         task: {
           type: 'string',
           description: 'Task description to dispatch to the target agent.',
+        },
+        endpoint: {
+          type: 'string',
+          description: 'HTTP endpoint URL for the agent (from agent-registry get_agent_card). Required for http/auto mode.',
         },
         input: {
           type: 'object',
@@ -424,43 +378,6 @@ const toolDefinitions = [
 
 async function handleTool(name, args) {
   switch (name) {
-    case 'a2a_list_agents': {
-      const agents = listAgents();
-      audit('tool.a2a_list_agents', {
-        count: agents.length,
-        cards_path: DEFAULT_CARDS_DIR,
-      });
-      return {
-        status: 'ok',
-        cards_path: DEFAULT_CARDS_DIR,
-        count: agents.length,
-        agents,
-      };
-    }
-
-    case 'a2a_discover': {
-      const query = String(args.query || '').trim();
-      if (!query) {
-        throw new Error('query is required');
-      }
-
-      const cards = loadAgentCards();
-      const topK = Number(args.top_k || 5);
-      const matches = discoverAgents(query, cards)
-        .slice(0, topK)
-        .map((entry) => ({
-          score: entry.score,
-          agent: sanitizeCard(entry.card),
-        }));
-
-      return {
-        status: 'ok',
-        query,
-        count: matches.length,
-        matches,
-      };
-    }
-
     case 'a2a_send_task': {
       const agentName = String(args.agent || '').trim();
       const task = String(args.task || '').trim();
@@ -468,19 +385,15 @@ async function handleTool(name, args) {
       const correlationId = String(args.correlation_id || crypto.randomUUID());
       const timeoutMs = Number(args.timeout_ms || A2A_REQUEST_TIMEOUT_MS);
       const retryCount = Number(args.retry_count || A2A_RETRY_COUNT);
+      const endpoint = args.endpoint ? String(args.endpoint).trim() : null;
       if (!agentName) throw new Error('agent is required');
       if (!task) throw new Error('task is required');
       if (!['auto', 'http', 'scaffold'].includes(mode)) {
         throw new Error('mode must be one of: auto, http, scaffold');
       }
-
-      const cards = loadAgentCards();
-      const target = cards.find((card) => card.name === agentName);
-      if (!target) {
-        throw new Error(`Unknown agent: ${agentName}. Use a2a_list_agents first.`);
+      if (mode === 'http' && !endpoint) {
+        throw new Error('endpoint is required when mode is http. Use agent-registry get_agent_card to find the endpoint.');
       }
-
-      const endpoint = target?.metadata?.endpoint || target?.url || null;
 
       if (mode === 'scaffold') {
         const job = queueScaffoldJob(agentName, task, args.input || {});
@@ -521,14 +434,14 @@ async function handleTool(name, args) {
             job_id: job.job_id,
             agent: agentName,
             task,
-            warning: 'Target has no endpoint metadata; scaffold fallback used.',
+            warning: 'No endpoint provided; scaffold fallback used. Use agent-registry get_agent_card to find the endpoint.',
             next_action: {
               tool: 'a2a_get_result',
               input: { job_id: job.job_id },
             },
           };
         }
-        throw new Error(`No endpoint configured for ${agentName}`);
+        throw new Error(`No endpoint provided for ${agentName}. Use agent-registry get_agent_card to find the endpoint.`);
       }
 
       const job = queueHttpJob({
@@ -634,7 +547,6 @@ async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
   log.info('MCP A2A Gateway server running on stdio', {
-    cardsPath: DEFAULT_CARDS_DIR,
     jobStorePath: DEFAULT_JOB_STORE_PATH,
     auditLogPath: DEFAULT_AUDIT_LOG_PATH,
     persistedJobs: jobStore.size(),
@@ -653,7 +565,7 @@ main().catch((err) => {
     JSON.stringify(
       mcpError('STARTUP_ERROR', message, {
         recovery: 'Verify dependencies and configuration, then restart the server.',
-        next_steps: ['Run npm install', 'Check A2A_AGENT_CARDS_PATH if customized'],
+        next_steps: ['Run npm install'],
       }),
       null,
       2,
@@ -666,7 +578,6 @@ main().catch((err) => {
 module.exports = {
   handleTool,
   toolDefinitions,
-  listAgents,
   queueScaffoldJob,
   dispatchHttpTask,
 };
