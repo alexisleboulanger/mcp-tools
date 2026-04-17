@@ -154,7 +154,6 @@
       "dependsOn": [
         "🟢 Start: mcp-agent-registry"
         ,"🟢 Start: mcp-knowledge"
-        ,"🟢 Start: mcp-agent-runtime-bridge"
         ,"🟢 Start: mcp-grafana-yorizon"
         // ,"🟢 Start: mcp-server-git"
       ],

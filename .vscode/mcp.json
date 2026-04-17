@@ -67,5 +67,15 @@
       "command": "C:\\dev\\mcp\\mcp-server-git\\.venv\\Scripts\\python.exe",
       "args": ["-m", "mcp_server_git", "--repository", "C:\\dev\\yorizon"]  
       }
+      ,"agent-runtime": {
+         "type": "stdio",
+         "command": "node",
+         "args": ["C:\\dev\\mcp\\mcp-agent-runtime-bridge\\server.js"],
+         "env": {
+            "AGENT_RUNTIME_URL": "http://localhost:8000",
+            "AGENT_RUNTIME_WORKDIR": "C:\\dev\\yorizon\\yorizon-agent-runtime",
+            "AGENT_RUNTIME_PYTHON": "C:\\dev\\yorizon\\yorizon-agent-runtime\\.venv\\Scripts\\python.exe"
+         }
+      }
    }
 }
