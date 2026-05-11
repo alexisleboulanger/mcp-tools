@@ -1,0 +1,23 @@
+{
+  "name": "mcp-gitleaks",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MCP server for Gitleaks — secret detection in Git repositories",
+  "license": "MIT",
+  "type": "commonjs",
+  "main": "server.js",
+  "bin": {
+    "mcp-gitleaks": "./server.js"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test.js",
+    "scan-all": "node scan-all-repos.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
