@@ -1,0 +1,22 @@
+{
+  "name": "mcp-dependency-check",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MCP server for OWASP Dependency Check — Software Composition Analysis (SCA) for known vulnerabilities in project dependencies",
+  "license": "MIT",
+  "type": "commonjs",
+  "main": "server.js",
+  "bin": {
+    "mcp-dependency-check": "./server.js"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
