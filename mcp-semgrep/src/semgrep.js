@@ -11,7 +11,7 @@ const { SEMGREP_BIN, PYTHON_SCRIPTS_DIR, DEFAULT_CONFIG, SCAN_TIMEOUT_MS } = req
  * Build env with Python Scripts dir on PATH so semgrep can find pysemgrep.
  */
 function buildEnv() {
-  const env = { ...process.env, SEMGREP_SEND_METRICS: 'on' };
+  const env = { ...process.env, SEMGREP_SEND_METRICS: 'off' };
   // Force UTF-8 on Windows to avoid cp1252 encoding crashes with Unicode rule files
   if (process.platform === 'win32') {
     env.PYTHONUTF8 = '1';
