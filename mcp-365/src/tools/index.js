@@ -8,7 +8,32 @@ import { filesTools, handleFilesTool } from './files.js';
 import { mailTools, handleMailTool } from './mail.js';
 import { calendarTools, handleCalendarTool } from './calendar.js';
 import { teamsTools, handleTeamsTool } from './teams.js';
+import { onenoteTools, handleOneNoteTool } from './onenote.js';
 import { PermissionError } from '../graph-client.js';
+import { startAuthServer } from '../auth-web.js';
+
+// Authentication tool
+const authTools = [
+  {
+    name: 'm365_authenticate',
+    description: `Open a secure local web page to authenticate with Microsoft 365.
+
+**Use when:** Any M365 tool returns AUTH_EXPIRED or AUTH_ERROR.
+
+**How it works:**
+- Opens a browser page on localhost
+- User signs into Graph Explorer and pastes the token
+- Token goes directly browser→localhost (never through AI/chat)
+- Token is saved and server reloads automatically
+
+**This is the FIRST tool to call when authentication fails.**`,
+    inputSchema: {
+      type: 'object',
+      properties: {},
+      required: [],
+    },
+  },
+];
 
 // Status/diagnostic tool
 const statusTools = [
@@ -25,10 +50,12 @@ const statusTools = [
 
 // Aggregate all tools
 export const tools = [
+  ...authTools,
   ...statusTools,
   ...searchTools,
   ...sharepointTools,
   ...filesTools,
+  ...onenoteTools,
   ...mailTools,
   ...calendarTools,
   ...teamsTools,
@@ -86,6 +113,26 @@ async function handleStatusTool(client) {
 // Route tool calls to appropriate handler
 export async function handleToolCall(name, args, client, config) {
   try {
+    // Auth tool (does not need a valid client)
+    if (name === 'm365_authenticate') {
+      return handleAuthTool();
+    }
+
+    // Check token expiry before any Graph call
+    if (config.accessToken) {
+      const parts = config.accessToken.split('.');
+      if (parts.length === 3) {
+        const payload = JSON.parse(Buffer.from(parts[1], 'base64').toString());
+        if (payload.exp * 1000 < Date.now()) {
+          return {
+            error: 'AUTH_EXPIRED',
+            message: 'Your Microsoft 365 token has expired.',
+            action: 'Call the m365_authenticate tool to get a new token.',
+          };
+        }
+      }
+    }
+
     // Status tool
     if (name === 'm365_status') {
       return handleStatusTool(client);
@@ -104,6 +151,11 @@ export async function handleToolCall(name, args, client, config) {
     // Files/OneDrive tools
     if (name.startsWith('m365_files')) {
       return handleFilesTool(name, args, client, config);
+    }
+    
+    // OneNote tools
+    if (name.startsWith('m365_onenote')) {
+      return handleOneNoteTool(name, args, client);
     }
     
     // Mail tools
@@ -132,5 +184,25 @@ export async function handleToolCall(name, args, client, config) {
       };
     }
     throw error;
+  }
+}
+
+// Handle authentication via local web UI
+async function handleAuthTool() {
+  try {
+    const result = await startAuthServer();
+    return {
+      success: true,
+      message: `Authenticated as ${result.user}`,
+      minutesLeft: result.minutesLeft,
+      scopeCount: result.scopes.length,
+      note: 'Token saved. Restart MCP server to use the new token, or call m365_status to verify.',
+    };
+  } catch (error) {
+    return {
+      error: 'AUTH_TIMEOUT',
+      message: error.message,
+      action: 'Try again — the authentication page was open for 5 minutes without a token being submitted.',
+    };
   }
 }

@@ -72,6 +72,14 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
   
   try {
+    // m365_authenticate doesn't need a graph client
+    if (name === 'm365_authenticate') {
+      const result = await handleToolCall(name, args, null, config);
+      return {
+        content: [{ type: 'text', text: JSON.stringify(result, null, 2) }],
+      };
+    }
+
     const client = await getGraphClient();
     const result = await handleToolCall(name, args, client, config);
     
@@ -88,8 +96,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     if (errorMessage.includes('401') || errorMessage.includes('Unauthorized') || errorMessage.includes('token')) {
       return mcpError('AUTH_ERROR', errorMessage, {
         tool: name,
-        recovery: 'Authentication failed or token expired.',
-        next_steps: ['Re-authenticate with M365', 'Check tenant configuration'],
+        recovery: 'Token expired or invalid. Call m365_authenticate to get a new token.',
+        next_steps: ['Call m365_authenticate'],
       });
     }
     if (errorMessage.includes('404') || errorMessage.includes('not found')) {
@@ -103,7 +111,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       return mcpError('FORBIDDEN', errorMessage, {
         tool: name,
         recovery: 'Insufficient permissions to access this resource.',
-        next_steps: ['Check Graph API permissions', 'Request admin consent for the required scope'],
+        next_steps: ['Check Graph API permissions', 'Call m365_authenticate with broader scopes'],
       });
     }
     return mcpError('INTERNAL_ERROR', errorMessage, {
@@ -116,10 +124,34 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
 // Start server
 async function main() {
+  // Check if we have a valid token
+  if (config.accessToken) {
+    try {
+      // Decode JWT to check expiry
+      const parts = config.accessToken.split('.');
+      if (parts.length === 3) {
+        const payload = JSON.parse(Buffer.from(parts[1], 'base64').toString());
+        const expiresAt = payload.exp * 1000;
+        const now = Date.now();
+        if (now > expiresAt) {
+          const minutesAgo = Math.round((now - expiresAt) / 60000);
+          console.error(`[mcp-365] ⚠ Token EXPIRED (${minutesAgo} min ago)`);
+          console.error('[mcp-365] Run: npm run token:refresh');
+        } else {
+          const minutesLeft = Math.round((expiresAt - now) / 60000);
+          console.error(`[mcp-365] ✓ Token valid (${minutesLeft} min remaining)`);
+          console.error(`[mcp-365] User: ${payload.name || payload.upn || 'unknown'}`);
+        }
+      }
+    } catch { /* ignore decode errors */ }
+  } else {
+    console.error('[mcp-365] ⚠ No token configured');
+    console.error('[mcp-365] Run: npm run token:refresh');
+  }
+
   const transport = new StdioServerTransport();
   await server.connect(transport);
   
-  // Log to stderr (not stdout which is for MCP protocol)
   console.error('[mcp-365] Server started');
   console.error(`[mcp-365] Tenant: ${config.tenantId || 'common'}`);
   console.error(`[mcp-365] Tools available: ${tools.length}`);

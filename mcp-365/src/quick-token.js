@@ -18,17 +18,13 @@ import { exec } from 'child_process';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const envPath = join(__dirname, '..', '.env');
 
-// Scopes needed for full M365 access
+// Scopes needed for M365 access (user-consentable in Graph Explorer)
 const REQUIRED_SCOPES = [
   'User.Read',
   'Mail.Read',
   'Calendars.Read',
   'Files.Read.All',
   'Sites.Read.All',
-  'Team.ReadBasic.All',
-  'OnlineMeetings.Read',
-  'OnlineMeetingArtifact.Read.All',
-  'OnlineMeetingTranscript.Read.All',
 ];
 
 // Graph Explorer URL — user must consent to scopes in the "Modify permissions" tab

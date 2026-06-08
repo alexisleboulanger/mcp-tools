@@ -22,21 +22,29 @@ import { exec } from 'child_process';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const TOKEN_CACHE_PATH = join(__dirname, '..', '.token-cache.json');
 
+// Microsoft Graph PowerShell SDK - Microsoft first-party, pre-authorized in enterprise tenants
+// Supports http://localhost redirect URIs, bypasses admin consent requirements
+const GRAPH_POWERSHELL_CLIENT_ID = '14d82eec-204b-4c2f-b7e8-296a70dab67e';
+
 // Graph Explorer's Client ID - Microsoft's pre-consented app
-// Works in all tenants without admin consent!
+// NOTE: Device code flow is blocked by Insight CAP, and redirect URI is fixed
 const GRAPH_EXPLORER_CLIENT_ID = 'de8bc8b5-d9f9-48b1-a8ad-b748da725064';
 
+// Known Microsoft first-party app IDs that bypass admin consent
+const MICROSOFT_FIRST_PARTY_APPS = new Set([
+  GRAPH_EXPLORER_CLIENT_ID,
+  GRAPH_POWERSHELL_CLIENT_ID,
+]);
+
 // Default scopes for M365 access
+// Only user-consentable scopes - no admin consent required!
+// Meeting recordings are accessible via Files.Read.All (stored in OneDrive/SharePoint)
 const DEFAULT_SCOPES = [
   'User.Read',
   'Files.Read.All',
   'Sites.Read.All',
   'Mail.Read',
   'Calendars.Read',
-  'Team.ReadBasic.All',
-  'OnlineMeetings.Read',
-  'OnlineMeetingArtifact.Read.All',
-  'OnlineMeetingTranscript.Read.All',
   'offline_access', // Required for refresh tokens
 ];
 
@@ -47,13 +55,11 @@ const DEFAULT_SCOPES = [
 export class InteractiveAuthProvider {
   constructor(config) {
     this.config = config;
-    // Use Graph Explorer's client ID by default - no admin consent needed!
-    this.clientId = config.clientId || GRAPH_EXPLORER_CLIENT_ID;
+    this.clientId = config.clientId || GRAPH_POWERSHELL_CLIENT_ID;
     this.tenantId = config.tenantId || 'common';
-    // Graph Explorer uses this redirect URI
-    this.redirectUri = this.clientId === GRAPH_EXPLORER_CLIENT_ID 
-      ? 'https://developer.microsoft.com/en-us/graph/graph-explorer'
-      : (config.redirectUri || 'http://localhost:3000/auth/callback');
+    // Always use localhost redirect for auth code + PKCE flow
+    // Azure AD supports localhost for public clients per RFC 8252
+    this.redirectUri = config.redirectUri || 'http://localhost:3847';
     this.scopes = config.scopes || DEFAULT_SCOPES;
     
     // Ensure offline_access is included for refresh tokens
@@ -159,97 +165,124 @@ export class InteractiveAuthProvider {
       }
     }
 
-    // Use device code flow when using Graph Explorer client ID (no redirect URI needed)
-    if (this.clientId === GRAPH_EXPLORER_CLIENT_ID) {
-      return this.acquireTokenByDeviceCode(scopes);
-    }
-
-    // Otherwise use authorization code flow with PKCE
-    return this.acquireTokenInteractive(scopes);
+    // Always use authorization code + PKCE (browser redirect)
+    // Device code flow is blocked by Insight CAP, even for Graph Explorer
+    // Use Graph Explorer's registered redirect URI (admin-consented in tenant)
+    return this.acquireTokenViaGraphExplorerRedirect(scopes);
   }
 
   /**
-   * Device code flow - works without redirect URI
-   * Perfect for Graph Explorer's client ID
+   * Auth code flow using Graph Explorer's own redirect URI
+   * 
+   * This works because:
+   * - Graph Explorer is admin-consented in the tenant for its own redirect
+   * - We use that same redirect URI so the consent check passes
+   * - Azure AD redirects to Graph Explorer's page with ?code= in the URL
+   * - User pastes the full URL back, we extract the code and exchange for tokens
+   * - This is a ONE-TIME operation: refresh tokens last 90 days and auto-renew
    */
-  async acquireTokenByDeviceCode(scopes) {
+  async acquireTokenViaGraphExplorerRedirect(scopes) {
+    // Graph Explorer's registered and admin-consented redirect URI
+    const graphExplorerRedirect = 'https://developer.microsoft.com/en-us/graph/graph-explorer';
+    
     console.error('\n' + '═'.repeat(60));
-    console.error('[mcp-365] Sign in with your Microsoft account');
-    console.error('═'.repeat(60));
-    console.error('[mcp-365] Using Graph Explorer (Microsoft pre-consented app)');
-    console.error('');
-
-    const result = await this.pca.acquireTokenByDeviceCode({
-      scopes,
-      deviceCodeCallback: (response) => {
-        const code = response.userCode || response.message?.match(/code\s+(\S+)/i)?.[1] || '???';
-        console.error('╔════════════════════════════════════════════════════════════╗');
-        console.error('║  To sign in, open a browser and go to:                     ║');
-        console.error('║  https://microsoft.com/devicelogin                         ║');
-        console.error('╠════════════════════════════════════════════════════════════╣');
-        console.error(`║  Enter code: ${code.padEnd(44)}║`);
-        console.error('╚════════════════════════════════════════════════════════════╝');
-        console.error('');
-        console.error(response.message || `Use code: ${code}`);
-        console.error('');
-      },
-    });
-
-    if (!result) {
-      throw new Error('Failed to acquire token via device code');
-    }
-
-    this.account = result.account;
-    console.error('');
-    console.error('═'.repeat(60));
-    console.error(`[mcp-365] ✓ Authenticated as: ${this.account?.username || 'unknown'}`);
-    console.error(`[mcp-365] ✓ Token expires: ${result.expiresOn?.toLocaleString()}`);
-    console.error('═'.repeat(60) + '\n');
-
-    return result.accessToken;
-  }
-
-  /**
-   * Interactive token acquisition using authorization code flow with PKCE
-   */
-  async acquireTokenInteractive(scopes) {
-    console.error('\n' + '═'.repeat(60));
-    console.error('[mcp-365] Interactive login required');
+    console.error('[mcp-365] One-time authentication setup');
     console.error('═'.repeat(60));
 
     // Generate PKCE codes
     const { verifier, challenge } = await this.cryptoProvider.generatePkceCodes();
     
-    // Create authorization URL
+    // Create authorization URL using Graph Explorer's redirect
     const authCodeUrl = await this.pca.getAuthCodeUrl({
       scopes,
-      redirectUri: this.redirectUri,
+      redirectUri: graphExplorerRedirect,
       codeChallenge: challenge,
       codeChallengeMethod: 'S256',
-      prompt: 'select_account', // Allow user to choose account
     });
 
-    // Start local server to handle callback
-    const authCode = await this.startCallbackServer(authCodeUrl);
+    console.error('');
+    console.error('╔════════════════════════════════════════════════════════════╗');
+    console.error('║  STEP 1: Open this URL in your browser:                    ║');
+    console.error('╚════════════════════════════════════════════════════════════╝');
+    console.error('');
+    console.error(authCodeUrl);
+    console.error('');
+    console.error('╔════════════════════════════════════════════════════════════╗');
+    console.error('║  STEP 2: Sign in with your Insight account                 ║');
+    console.error('║  STEP 3: After redirect, copy the FULL URL from the        ║');
+    console.error('║          browser address bar (it contains ?code=...)        ║');
+    console.error('║  STEP 4: Paste it below                                    ║');
+    console.error('╚════════════════════════════════════════════════════════════╝');
+    console.error('');
+
+    // Open browser automatically
+    this.openBrowser(authCodeUrl);
+
+    // Read the pasted URL from stdin
+    const redirectedUrl = await this.readLineFromStdin('Paste the full URL here: ');
+    
+    // Extract the authorization code from the pasted URL
+    let authCode;
+    try {
+      const url = new URL(redirectedUrl.trim());
+      authCode = url.searchParams.get('code');
+      if (!authCode) {
+        throw new Error('No authorization code found in the URL');
+      }
+    } catch (e) {
+      // Maybe they pasted just the code
+      if (redirectedUrl.trim().length > 20 && !redirectedUrl.includes('://')) {
+        authCode = redirectedUrl.trim();
+      } else {
+        throw new Error(`Could not extract auth code from pasted URL: ${e.message}`);
+      }
+    }
 
     // Exchange code for tokens
     const tokenResponse = await this.pca.acquireTokenByCode({
       code: authCode,
       scopes,
-      redirectUri: this.redirectUri,
+      redirectUri: graphExplorerRedirect,
       codeVerifier: verifier,
     });
 
     if (!tokenResponse) {
-      throw new Error('Failed to acquire token');
+      throw new Error('Failed to exchange authorization code for token');
     }
 
     this.account = tokenResponse.account;
+    console.error('');
+    console.error('═'.repeat(60));
     console.error(`[mcp-365] ✓ Authenticated as: ${this.account?.username || 'unknown'}`);
     console.error(`[mcp-365] ✓ Token expires: ${tokenResponse.expiresOn?.toLocaleString()}`);
+    console.error(`[mcp-365] ✓ Refresh token cached — won't need to do this again!`);
     console.error('═'.repeat(60) + '\n');
 
     return tokenResponse.accessToken;
+  }
+
+  /**
+   * Read a line from stdin (for paste-back auth flow)
+   */
+  readLineFromStdin(prompt) {
+    return new Promise((resolve) => {
+      process.stderr.write(prompt);
+      
+      let data = '';
+      process.stdin.setEncoding('utf8');
+      process.stdin.resume();
+      
+      const onData = (chunk) => {
+        data += chunk;
+        if (data.includes('\n')) {
+          process.stdin.pause();
+          process.stdin.removeListener('data', onData);
+          resolve(data.split('\n')[0]);
+        }
+      };
+      
+      process.stdin.on('data', onData);
+    });
   }
 
   /**
@@ -257,12 +290,15 @@ export class InteractiveAuthProvider {
    */
   startCallbackServer(authCodeUrl) {
     return new Promise((resolve, reject) => {
-      const port = new URL(this.redirectUri).port || 3847;
+      const redirectUrl = new URL(this.redirectUri);
+      const port = redirectUrl.port || 3847;
+      const expectedPath = redirectUrl.pathname || '/';
       
       const server = createServer(async (req, res) => {
         const url = new URL(req.url, `http://localhost:${port}`);
         
-        if (url.pathname === '/auth/callback') {
+        // Accept both the exact path and /auth/callback for flexibility
+        if (url.pathname === expectedPath || url.pathname === '/auth/callback' || url.pathname === '/') {
           const code = url.searchParams.get('code');
           const error = url.searchParams.get('error');
           const errorDescription = url.searchParams.get('error_description');

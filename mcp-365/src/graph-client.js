@@ -12,6 +12,7 @@ const ENDPOINT_PERMISSIONS = {
   '/me/events': ['Calendars.Read', 'Calendars.ReadWrite'],
   '/me/drive': ['Files.Read', 'Files.ReadWrite', 'Files.Read.All', 'Files.ReadWrite.All'],
   '/drives': ['Files.Read', 'Files.ReadWrite', 'Files.Read.All', 'Files.ReadWrite.All'],
+  '/me/onenote': ['Notes.Read', 'Notes.Read.All', 'Notes.ReadWrite.All'],
   '/sites': ['Sites.Read.All', 'Sites.ReadWrite.All'],
   '/teams': ['Team.ReadBasic.All', 'TeamSettings.Read.All'],
   '/search/query': ['Files.Read.All', 'Mail.Read', 'Calendars.Read'],

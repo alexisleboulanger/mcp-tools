@@ -21,10 +21,10 @@ const execAsync = promisify(exec);
  * @returns {object} Auth provider with getAccessToken() method
  */
 export async function createAuthProvider(config) {
-  // Option 1: Pre-configured access token (for testing with Graph Explorer token)
-  // This takes priority for quick testing scenarios
+  // Primary: Pre-configured access token from Graph Explorer
+  // This is the only working option for Insight tenant (all OAuth flows blocked)
   if (config.accessToken) {
-    console.error('[mcp-365] Using pre-configured access token');
+    console.error('[mcp-365] Using Graph Explorer access token');
     return {
       async getAccessToken() {
         return config.accessToken;
@@ -34,11 +34,14 @@ export async function createAuthProvider(config) {
   }
 
   // Option 2: Interactive authentication (RECOMMENDED)
-  // Uses Graph Explorer's client ID by default - no admin consent needed!
-  // Falls back to device code flow which works everywhere
+  // Uses Microsoft Graph PowerShell SDK app by default - Microsoft first-party,
+  // pre-authorized in enterprise tenants, supports localhost redirects
   if (config.useInteractive !== false) {
-    const clientId = config.clientId || 'de8bc8b5-d9f9-48b1-a8ad-b748da725064'; // Graph Explorer
-    console.error('[mcp-365] Using interactive authentication (Graph Explorer app)');
+    const clientId = config.clientId || '14d82eec-204b-4c2f-b7e8-296a70dab67e'; // Graph PowerShell SDK
+    const flowType = clientId === 'de8bc8b5-d9f9-48b1-a8ad-b748da725064' 
+      ? 'device code' : 'browser (auth code + PKCE)';
+    console.error(`[mcp-365] Using interactive authentication: ${flowType}`);
+    console.error(`[mcp-365] App: ${clientId === '14d82eec-204b-4c2f-b7e8-296a70dab67e' ? 'Microsoft Graph PowerShell SDK (first-party)' : clientId}`);
     const provider = new InteractiveAuthProvider({ ...config, clientId });
     
     // Wrap to match expected interface

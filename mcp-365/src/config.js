@@ -41,7 +41,7 @@ export function loadConfig() {
     
     // Scopes
     scopes: (process.env.MICROSOFT_SCOPES || 
-      'User.Read Files.Read.All Sites.Read.All Mail.Read Calendars.Read Team.ReadBasic.All OnlineMeetings.Read OnlineMeetingArtifact.Read.All OnlineMeetingTranscript.Read.All'
+      'User.Read Files.Read.All Sites.Read.All Mail.Read Calendars.Read offline_access'
     ).split(/\s+/).filter(Boolean),
     
     // Optional SharePoint site scope
@@ -57,8 +57,7 @@ export function loadConfig() {
 
   // Validation
   if (!config.clientId && !config.accessToken) {
-    console.error('[mcp-365] Warning: No MICROSOFT_CLIENT_ID or MICROSOFT_ACCESS_TOKEN configured');
-    console.error('[mcp-365] Set up authentication in .env file. See .env.example');
+    console.error('[mcp-365] No MICROSOFT_CLIENT_ID set — using Graph Explorer app (device code flow)');
   }
 
   return config;
