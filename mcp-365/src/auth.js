@@ -33,16 +33,11 @@ export async function createAuthProvider(config) {
     };
   }
 
-  // Option 2: Interactive authentication (RECOMMENDED)
-  // Uses Microsoft Graph PowerShell SDK app by default - Microsoft first-party,
-  // pre-authorized in enterprise tenants, supports localhost redirects
-  if (config.useInteractive !== false) {
-    const clientId = config.clientId || '14d82eec-204b-4c2f-b7e8-296a70dab67e'; // Graph PowerShell SDK
-    const flowType = clientId === 'de8bc8b5-d9f9-48b1-a8ad-b748da725064' 
-      ? 'device code' : 'browser (auth code + PKCE)';
-    console.error(`[mcp-365] Using interactive authentication: ${flowType}`);
-    console.error(`[mcp-365] App: ${clientId === '14d82eec-204b-4c2f-b7e8-296a70dab67e' ? 'Microsoft Graph PowerShell SDK (first-party)' : clientId}`);
-    const provider = new InteractiveAuthProvider({ ...config, clientId });
+  // Option 2: Interactive authentication through an app registered for this MCP.
+  // Its loopback redirect URI and delegated permissions must be approved by the tenant.
+  if (config.useInteractive !== false && config.clientId) {
+    console.error('[mcp-365] Using interactive authentication: browser (auth code + PKCE)');
+    const provider = new InteractiveAuthProvider(config);
     
     // Wrap to match expected interface
     return {
@@ -172,9 +167,9 @@ export async function createAuthProvider(config) {
   throw new Error(
     'No valid authentication configuration.\n\n' +
     'To authenticate, either:\n' +
-    '1. Set MICROSOFT_CLIENT_ID for interactive browser login (recommended)\n' +
-    '2. Run "az login" for Azure CLI auth\n' +
-    '3. Set MICROSOFT_ACCESS_TOKEN with a Graph Explorer token\n\n' +
+    '1. Set MICROSOFT_CLIENT_ID for an organization-approved app and browser login\n' +
+    '2. Run "az login" for limited Azure CLI auth\n' +
+    '3. Set MICROSOFT_ACCESS_TOKEN with a short-lived token for troubleshooting only\n\n' +
     'See README.md for setup instructions.'
   );
 }

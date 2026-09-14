@@ -10,23 +10,22 @@ import { calendarTools, handleCalendarTool } from './calendar.js';
 import { teamsTools, handleTeamsTool } from './teams.js';
 import { onenoteTools, handleOneNoteTool } from './onenote.js';
 import { PermissionError } from '../graph-client.js';
-import { startAuthServer } from '../auth-web.js';
+import { InteractiveAuthProvider } from '../auth-interactive.js';
 
 // Authentication tool
 const authTools = [
   {
     name: 'm365_authenticate',
-    description: `Open a secure local web page to authenticate with Microsoft 365.
+    description: `Authenticate with Microsoft 365 through the organization's approved Entra application.
 
 **Use when:** Any M365 tool returns AUTH_EXPIRED or AUTH_ERROR.
 
 **How it works:**
-- Opens a browser page on localhost
-- User signs into Graph Explorer and pastes the token
-- Token goes directly browser→localhost (never through AI/chat)
-- Token is saved and server reloads automatically
+  - Opens a browser sign-in page and receives the OAuth callback at localhost
+  - Uses the client ID, redirect URI, and delegated scopes configured for this MCP
+  - Caches the authenticated session locally for silent renewal
 
-**This is the FIRST tool to call when authentication fails.**`,
+  **Prerequisite:** An Insight administrator must approve the app and requested scopes.`,
     inputSchema: {
       type: 'object',
       properties: {},
@@ -115,7 +114,7 @@ export async function handleToolCall(name, args, client, config) {
   try {
     // Auth tool (does not need a valid client)
     if (name === 'm365_authenticate') {
-      return handleAuthTool();
+      return handleAuthTool(config);
     }
 
     // Check token expiry before any Graph call
@@ -188,21 +187,30 @@ export async function handleToolCall(name, args, client, config) {
 }
 
 // Handle authentication via local web UI
-async function handleAuthTool() {
+async function handleAuthTool(config) {
+  if (!config.clientId) {
+    return {
+      error: 'AUTH_CONFIGURATION_REQUIRED',
+      message: 'Set MICROSOFT_CLIENT_ID to the client ID of an Insight-approved Entra app before authenticating.',
+      action: 'Request delegated consent for only the MCP tools you need, then configure the app client ID and loopback redirect URI.',
+    };
+  }
+
   try {
-    const result = await startAuthServer();
+    const provider = new InteractiveAuthProvider(config);
+    await provider.getAccessToken();
+    const account = provider.getAccountInfo();
     return {
       success: true,
-      message: `Authenticated as ${result.user}`,
-      minutesLeft: result.minutesLeft,
-      scopeCount: result.scopes.length,
-      note: 'Token saved. Restart MCP server to use the new token, or call m365_status to verify.',
+      message: `Authenticated as ${account?.username || 'unknown'}`,
+      scopeCount: config.scopes.length,
+      note: 'Session cached. Call m365_status to verify available capabilities.',
     };
   } catch (error) {
     return {
-      error: 'AUTH_TIMEOUT',
+      error: 'AUTH_FAILED',
       message: error.message,
-      action: 'Try again — the authentication page was open for 5 minutes without a token being submitted.',
+      action: 'Ask the Insight Entra administrator to approve the configured client ID, redirect URI, and requested delegated scopes.',
     };
   }
 }

@@ -7,8 +7,8 @@
  * - Caches tokens with automatic refresh
  * - Supports incremental consent for new scopes
  * 
- * Uses Graph Explorer's Client ID by default - a Microsoft first-party app
- * that's pre-consented in all tenants, so no admin approval needed!
+ * Uses a client application registered for this MCP server. The redirect URI and
+ * requested delegated permissions must be permitted by the tenant administrator.
  */
 
 import { PublicClientApplication, CryptoProvider } from '@azure/msal-node';
@@ -22,23 +22,8 @@ import { exec } from 'child_process';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const TOKEN_CACHE_PATH = join(__dirname, '..', '.token-cache.json');
 
-// Microsoft Graph PowerShell SDK - Microsoft first-party, pre-authorized in enterprise tenants
-// Supports http://localhost redirect URIs, bypasses admin consent requirements
-const GRAPH_POWERSHELL_CLIENT_ID = '14d82eec-204b-4c2f-b7e8-296a70dab67e';
-
-// Graph Explorer's Client ID - Microsoft's pre-consented app
-// NOTE: Device code flow is blocked by Insight CAP, and redirect URI is fixed
-const GRAPH_EXPLORER_CLIENT_ID = 'de8bc8b5-d9f9-48b1-a8ad-b748da725064';
-
-// Known Microsoft first-party app IDs that bypass admin consent
-const MICROSOFT_FIRST_PARTY_APPS = new Set([
-  GRAPH_EXPLORER_CLIENT_ID,
-  GRAPH_POWERSHELL_CLIENT_ID,
-]);
-
 // Default scopes for M365 access
-// Only user-consentable scopes - no admin consent required!
-// Meeting recordings are accessible via Files.Read.All (stored in OneDrive/SharePoint)
+// These scopes can still require tenant-admin consent under enterprise policy.
 const DEFAULT_SCOPES = [
   'User.Read',
   'Files.Read.All',
@@ -55,7 +40,7 @@ const DEFAULT_SCOPES = [
 export class InteractiveAuthProvider {
   constructor(config) {
     this.config = config;
-    this.clientId = config.clientId || GRAPH_POWERSHELL_CLIENT_ID;
+    this.clientId = config.clientId;
     this.tenantId = config.tenantId || 'common';
     // Always use localhost redirect for auth code + PKCE flow
     // Azure AD supports localhost for public clients per RFC 8252
@@ -165,84 +150,26 @@ export class InteractiveAuthProvider {
       }
     }
 
-    // Always use authorization code + PKCE (browser redirect)
-    // Device code flow is blocked by Insight CAP, even for Graph Explorer
-    // Use Graph Explorer's registered redirect URI (admin-consented in tenant)
-    return this.acquireTokenViaGraphExplorerRedirect(scopes);
+    return this.acquireTokenViaBrowser(scopes);
   }
 
   /**
-   * Auth code flow using Graph Explorer's own redirect URI
-   * 
-   * This works because:
-   * - Graph Explorer is admin-consented in the tenant for its own redirect
-   * - We use that same redirect URI so the consent check passes
-   * - Azure AD redirects to Graph Explorer's page with ?code= in the URL
-   * - User pastes the full URL back, we extract the code and exchange for tokens
-   * - This is a ONE-TIME operation: refresh tokens last 90 days and auto-renew
+   * Auth code flow using the redirect URI registered for this MCP application.
    */
-  async acquireTokenViaGraphExplorerRedirect(scopes) {
-    // Graph Explorer's registered and admin-consented redirect URI
-    const graphExplorerRedirect = 'https://developer.microsoft.com/en-us/graph/graph-explorer';
-    
-    console.error('\n' + '═'.repeat(60));
-    console.error('[mcp-365] One-time authentication setup');
-    console.error('═'.repeat(60));
-
-    // Generate PKCE codes
+  async acquireTokenViaBrowser(scopes) {
     const { verifier, challenge } = await this.cryptoProvider.generatePkceCodes();
-    
-    // Create authorization URL using Graph Explorer's redirect
     const authCodeUrl = await this.pca.getAuthCodeUrl({
       scopes,
-      redirectUri: graphExplorerRedirect,
+      redirectUri: this.redirectUri,
       codeChallenge: challenge,
       codeChallengeMethod: 'S256',
     });
+    const authCode = await this.startCallbackServer(authCodeUrl);
 
-    console.error('');
-    console.error('╔════════════════════════════════════════════════════════════╗');
-    console.error('║  STEP 1: Open this URL in your browser:                    ║');
-    console.error('╚════════════════════════════════════════════════════════════╝');
-    console.error('');
-    console.error(authCodeUrl);
-    console.error('');
-    console.error('╔════════════════════════════════════════════════════════════╗');
-    console.error('║  STEP 2: Sign in with your Insight account                 ║');
-    console.error('║  STEP 3: After redirect, copy the FULL URL from the        ║');
-    console.error('║          browser address bar (it contains ?code=...)        ║');
-    console.error('║  STEP 4: Paste it below                                    ║');
-    console.error('╚════════════════════════════════════════════════════════════╝');
-    console.error('');
-
-    // Open browser automatically
-    this.openBrowser(authCodeUrl);
-
-    // Read the pasted URL from stdin
-    const redirectedUrl = await this.readLineFromStdin('Paste the full URL here: ');
-    
-    // Extract the authorization code from the pasted URL
-    let authCode;
-    try {
-      const url = new URL(redirectedUrl.trim());
-      authCode = url.searchParams.get('code');
-      if (!authCode) {
-        throw new Error('No authorization code found in the URL');
-      }
-    } catch (e) {
-      // Maybe they pasted just the code
-      if (redirectedUrl.trim().length > 20 && !redirectedUrl.includes('://')) {
-        authCode = redirectedUrl.trim();
-      } else {
-        throw new Error(`Could not extract auth code from pasted URL: ${e.message}`);
-      }
-    }
-
-    // Exchange code for tokens
     const tokenResponse = await this.pca.acquireTokenByCode({
       code: authCode,
       scopes,
-      redirectUri: graphExplorerRedirect,
+      redirectUri: this.redirectUri,
       codeVerifier: verifier,
     });
 
@@ -255,7 +182,7 @@ export class InteractiveAuthProvider {
     console.error('═'.repeat(60));
     console.error(`[mcp-365] ✓ Authenticated as: ${this.account?.username || 'unknown'}`);
     console.error(`[mcp-365] ✓ Token expires: ${tokenResponse.expiresOn?.toLocaleString()}`);
-    console.error(`[mcp-365] ✓ Refresh token cached — won't need to do this again!`);
+    console.error('[mcp-365] Session cached for silent renewal when the tenant permits it');
     console.error('═'.repeat(60) + '\n');
 
     return tokenResponse.accessToken;

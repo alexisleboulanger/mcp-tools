@@ -52,25 +52,41 @@ npm start
 
 ## Authentication Options
 
-### Option 1: Graph Explorer Token (Recommended for Testing)
+### Option 1: Organization-Approved Delegated App (Recommended)
 
-Best for environments with strict admin consent policies. Provides full M365 permissions.
+Register a single-tenant Entra application for this MCP and ask Insight to grant admin consent for
+the smallest delegated scope set required by enabled tools. Configure the loopback redirect URI
+`http://localhost:3847/auth/callback`, enable public-client flows, then set `MICROSOFT_CLIENT_ID`,
+`MICROSOFT_TENANT_ID`, and `MICROSOFT_SCOPES`. The server uses authorization code flow with PKCE and
+an MSAL cache, eliminating the hourly token-copy workflow.
 
-1. Go to [Microsoft Graph Explorer](https://developer.microsoft.com/en-us/graph/graph-explorer)
-2. Sign in with your corporate account
-3. Consent to the permissions you need (Files, Mail, Calendar, etc.)
-4. Click "Access token" tab and copy the token
-5. Run `npm run token:refresh` and paste the token
+| Use case | Delegated scopes |
+|----------|------------------|
+| Personal calendar and mailbox | `User.Read Calendars.Read Mail.Read offline_access` |
+| User's OneDrive | `User.Read Files.Read offline_access` |
+| SharePoint and shared files | `User.Read Files.Read.All Sites.Read.All offline_access` |
+| Teams membership | `User.Read Team.ReadBasic.All offline_access` |
 
-**Token Helper Commands:**
-```bash
-npm run token:status   # Show current token status and expiry
-npm run token:refresh  # Prompt to enter a new token
-```
+Do not request all file, mail, calendar, Teams, or recording scopes as a bundle. Disable tools that
+do not have an approved scope.
 
-**Note:** Token expires in ~1 hour. The server will detect expired tokens and tell you which permissions are missing.
+### Option 2: Approved Connector Broker
 
-### Option 2: Azure CLI (Limited Scopes)
+When Insight will not approve a custom Graph application, use a Power Automate or Logic Apps flow
+in an approved environment. Its Microsoft 365 connector uses a governed user or service connection.
+Expose only task-specific operations to a separate MCP server through an approved HTTP or custom
+connector endpoint, for example `get_today_calendar`, `search_project_files`, or `list_recent_mail`.
+Authenticate the MCP-to-flow call with Entra or mTLS and return only fields needed by each tool.
+
+This is the preferred fallback because the MCP server holds no reusable Graph token, and the flow is
+auditable, DLP-governed, and limited to approved actions.
+
+### Option 3: Graph Explorer Token (Troubleshooting Only)
+
+Use a copied Graph Explorer token only to confirm that a user can call a Graph endpoint. It expires in
+about an hour and cannot add permissions denied by Insight policy. It is not a supported refresh path.
+
+### Option 4: Azure CLI (Limited Scopes)
 
 Good for basic user info, groups, and directory operations. Handles login/refresh automatically.
 
@@ -87,16 +103,7 @@ Leave `MICROSOFT_ACCESS_TOKEN` empty in `.env` to use Azure CLI.
 **Limitation:** Azure CLI tokens don't include Mail.Read, Files.Read, Calendars.Read scopes.
 Works for: `/me`, `/users`, `/groups`, `/sites` listing
 
-### Option 3: Custom App with Admin Consent (Full Solution)
-
-For production use, get IT to approve your app registration:
-
-1. Create App Registration in Azure Portal
-2. Add required API permissions (see below)
-3. Request admin consent from your IT department
-4. Use device code flow or client credentials
-
-### Option 4: Client Credentials (App-Only Access)
+### Option 5: Client Credentials (App-Only Access)
 
 For service accounts without user context:
 
@@ -105,27 +112,12 @@ For service accounts without user context:
 3. Grant admin consent
 4. Set `MICROSOFT_CLIENT_SECRET` in `.env`
 
-## Why Graph Explorer Has More Access Than Azure CLI
+## Consent Boundaries
 
-Understanding why authentication methods have different capabilities:
-
-### Microsoft First-Party App Pre-Authorization
-
-| App | Owner | Mail/Calendar/Files | Reason |
-|-----|-------|---------------------|--------|
-| **Graph Explorer** | Microsoft | ✅ Full access | Pre-authorized by Microsoft for developer testing |
-| **Azure CLI** | Microsoft | ❌ Not available | Fixed scopes for Azure infrastructure, not M365 content |
-| **Custom App** | You | ❌ Blocked* | Requires admin consent in enterprise tenants |
-
-*Many enterprise tenants require admin consent for ALL unverified (non-Microsoft-published) apps.
-
-### How Graph Explorer Works
-
-Graph Explorer (`de8bc8b5-d9f9-48b1-a8ad-b748da725064`) is special:
-- **Published by Microsoft** and pre-verified in all tenants
-- **Pre-authorized** for a wide range of Graph API permissions
-- **User consent only** - when you consent to `Mail.Read`, you're allowing it to read YOUR mail as YOU
-- No admin approval needed because Microsoft already vetted the app
+Microsoft first-party applications can have their own pre-authorizations, but their client IDs,
+redirect URIs, and refresh tokens cannot be reused by this MCP. Entra validates that the authorization
+request and callback belong to the same registered client. Conditional Access and user-consent policy
+can also restrict Microsoft first-party applications.
 
 ### Why Azure CLI Is Limited
 
@@ -141,13 +133,13 @@ Enterprise tenants often have policies like:
 
 Even permissions that are normally user-consentable (like `Mail.Read`) get blocked for unverified apps.
 
-### Your Options Summary
+### Supported Options Summary
 
 | Solution | Effort | Access Level | Auto-Refresh |
 |----------|--------|--------------|--------------|
-| Graph Explorer token | Low | Full | ❌ (1hr expiry) |
-| Request admin consent | Medium | Full | ✅ |
-| Publish/verify your app | High | Full | ✅ |
+| Approved delegated app | Medium | User-authorized data | ✅ |
+| Approved Power Automate/Logic Apps broker | Medium | Explicit flow actions | Connector-managed |
+| Graph Explorer token | Low | Diagnostic only | ❌ (about 1 hour) |
 | Use Azure CLI only | None | Limited (no mail/files) | ✅ |
 
 ## MCP Tool Design Principles
