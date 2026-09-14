@@ -308,6 +308,19 @@ Add relationship between two entities with validation.
 }
 ```
 
+#### knowledge_graph_delete_entity
+Delete an entity and all incoming and outgoing relations. This preserves graph referential integrity. It updates the graph only; run `knowledge_docs_sync` with `action: "to_docs"` to regenerate derived Markdown documentation.
+
+**Parameters:**
+- `name` (required): Exact entity name to delete
+
+**Example:**
+```javascript
+{
+  "name": "AuthenticationService"
+}
+```
+
 #### knowledge_graph_export
 Export knowledge graph as JSON (JSON/YAML coming).
 
@@ -437,8 +450,8 @@ Bidirectional synchronization between memory and .knowledge folder content.
 4. **Traverses memory entities** and generates markdown files:
    - Each entity → `{layer}/*.md` (based on entity type's layer definition)
    - Folder structure adapts to ontology (standard vs nomad vs custom)
-5. **Updates knowledge-index.json** with new entries
-6. **Auto-calls knowledge_update_index** to compute checksums and bump version
+5. **Prunes stale entity projections** with no corresponding graph entity
+6. **Rebuilds knowledge-index.json** exclusively from current graph entities and generated projections
 
 **Generated File Format:**
 ```markdown
@@ -549,21 +562,20 @@ Generate Mermaid diagrams for ontology or model instances.
 ### Versioning & Integrity
 
 #### knowledge_update_index
-Update `knowledge-index.json` with SHA256 checksums and version tracking.
+Rebuild `knowledge-index.json` from the current graph and generated Markdown projections.
 
-**Purpose:** Maintain document integrity and version control across the entire `.knowledge` folder with automated checksum computation and metadata enrichment.
+**Purpose:** Keep the index and navigation derived solely from `knowledge-graph.json`. Entries with no graph entity or no generated Markdown projection are removed.
 
 **Parameters:**
 - `generateReports` (optional): Generate integrity reports and INDEX.md (default: true)
 
 **Workflow:**
-1. Scans all entries in `knowledge-index.json`
-2. Computes SHA256 checksums for each document
-3. Parses front-matter to extract `entityType` and `relations`
-4. Updates missing or placeholder checksums
-5. Bumps semantic version (patch increment)
-6. Generates `integrity-report.md` (missing metadata, orphan detection)
-7. Generates `INDEX.md` (human-readable index grouped by category)
+1. Reads current entities and relations from `knowledge-graph.json`
+2. Maps each entity to its expected generated Markdown path
+3. Includes only projections that exist
+4. Computes SHA256 checksums and overwrites `knowledge-index.json`
+5. Bumps the patch version when entries change, including removals
+6. Generates `integrity-report.md` and `INDEX.md` from the rebuilt entries
 
 **Auto-Execution:**
 - Automatically called after `knowledge_docs_sync` completes

@@ -161,6 +161,24 @@ function deleteRelation(graph, relationId) {
   return removed;
 }
 
+function deleteEntity(graph, name) {
+  if (!graph.entities || !graph.entities[name]) {
+    throw new Error(`Entity not found: ${name}`);
+  }
+
+  const entity = graph.entities[name];
+  const removedRelations = (graph.relations || [])
+    .filter(relation => relation.from === name || relation.to === name);
+
+  for (const relation of removedRelations) {
+    deleteRelation(graph, relation.id);
+  }
+
+  delete graph.entities[name];
+  updateMetadata(graph);
+  return { entity, relations: removedRelations };
+}
+
 // ──────────────────────────────────────────────
 // Metadata & validation
 // ──────────────────────────────────────────────
@@ -190,6 +208,7 @@ module.exports = {
   addEntity,
   addRelation,
   deleteRelation,
+  deleteEntity,
   updateMetadata,
   validateEntity,
   validateRelation,

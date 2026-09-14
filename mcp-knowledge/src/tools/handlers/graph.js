@@ -1,10 +1,14 @@
 /**
- * Handlers — graph CRUD: read, add_entity, add_relation, export, search, stats, validate
+ * Handlers — graph CRUD: read, add_entity, add_relation, delete_entity, export, search, stats, validate
  */
-const { loadGraph, mutateGraph, addEntity, addRelation, deleteRelation, validateEntity, validateRelation } = require('../../graph');
+const { loadGraph, mutateGraph, addEntity, addRelation, deleteRelation, deleteEntity, validateEntity, validateRelation } = require('../../graph');
 const { KnowledgeError } = require('../../errors');
 const { validateAddEntity, validateAddRelation, validateSearch } = require('../../validate-input');
 const { logOperation } = require('../../audit');
+const fs = require('node:fs');
+const path = require('node:path');
+const { DEFAULT_KNOWLEDGE_BASE } = require('../../config');
+const { entityProjectionPath } = require('../../projections');
 
 // ─── knowledge_graph_read ───────────────────
 function handleGraphRead(args) {
@@ -119,6 +123,52 @@ async function handleGraphDeleteRelation(args) {
         next_steps: [
           'Validate no dangling references: knowledge_graph_validate',
           `Check remaining relations: knowledge_graph_read (filter by entity)`,
+        ],
+      }, null, 2),
+    }],
+  };
+}
+
+// ─── knowledge_graph_delete_entity ───────────
+async function handleGraphDeleteEntity(args) {
+  if (!args?.name || typeof args.name !== 'string') {
+    throw new KnowledgeError(
+      'INVALID_INPUT',
+      'name is required and must be a string',
+      'Use knowledge_graph_read or knowledge_graph_search to find the entity name.',
+    );
+  }
+
+  const { result: deleted } = await mutateGraph(graph => deleteEntity(graph, args.name));
+  const projectionPath = entityProjectionPath(loadGraph(), deleted.entity);
+  const projectionFile = path.join(DEFAULT_KNOWLEDGE_BASE, projectionPath);
+  const projectionCleanup = { path: projectionPath, removed: fs.existsSync(projectionFile) };
+  if (projectionCleanup.removed) {
+    try {
+      fs.unlinkSync(projectionFile);
+    } catch (error) {
+      projectionCleanup.removed = false;
+      projectionCleanup.error = error.message;
+    }
+  }
+  logOperation('delete_entity', deleted.entity.name, {
+    type: deleted.entity.type,
+    removedRelations: deleted.relations.length,
+    projectionCleanup,
+  });
+
+  return {
+    content: [{
+      type: 'text',
+      text: JSON.stringify({
+        success: true,
+        deleted: deleted.entity,
+        removedRelations: deleted.relations,
+        projectionCleanup,
+        message: `Deleted entity: ${deleted.entity.name} and ${deleted.relations.length} connected relation(s)`,
+        next_steps: [
+          'Validate graph integrity: knowledge_graph_validate',
+          'Regenerate derived documentation: knowledge_docs_sync (action: "to_docs")',
         ],
       }, null, 2),
     }],
@@ -263,6 +313,7 @@ module.exports = {
   handleGraphAddEntity,
   handleGraphAddRelation,
   handleGraphDeleteRelation,
+  handleGraphDeleteEntity,
   handleGraphExport,
   handleGraphSearch,
   handleGraphStats,

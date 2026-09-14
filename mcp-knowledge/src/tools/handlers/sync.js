@@ -7,8 +7,10 @@ const { DEFAULT_KNOWLEDGE_BASE, MEMORY_DIR, ONTOLOGY_MD_FILE, GRAPH_MD_FILE, GRA
 const { loadGraph, saveGraph } = require('../../graph');
 const { ensureKnowledgeBaseDirs } = require('../../knowledge-base');
 const { generateOntologyDoc, generateModelDoc } = require('../../generators');
-const { parseFrontMatter, extractObservations, sha256File, bumpPatch } = require('../../helpers');
+const { parseFrontMatter, extractObservations } = require('../../helpers');
 const { logOperation } = require('../../audit');
+const { entityLayer, entityProjectionPath } = require('../../projections');
+const { rebuildIndex } = require('./index');
 
 // ─── knowledge_docs_sync ────────────────────
 
@@ -44,17 +46,16 @@ function syncToDocs(graph) {
   // 3. Entity files in dynamic layer folders
   const layers = dynamicLayers(graph);
   const generatedFiles = [];
-  const indexPath = path.join(MEMORY_DIR, 'knowledge-index.json');
-  let index = fs.existsSync(indexPath) ? JSON.parse(fs.readFileSync(indexPath, 'utf8')) : null;
+  const expectedPaths = new Set(Object.values(graph.entities || {}).map(entity => entityProjectionPath(graph, entity)));
+  const prunedFiles = pruneStaleProjections(layers, expectedPaths);
 
   Object.values(graph.entities || {}).forEach(entity => {
-    const folder = entityLayer(graph, entity);
+    const relativePath = entityProjectionPath(graph, entity);
+    const folder = path.dirname(relativePath);
     const folderPath = path.join(DEFAULT_KNOWLEDGE_BASE, folder);
     if (!fs.existsSync(folderPath)) fs.mkdirSync(folderPath, { recursive: true });
 
-    const filename = entity.name.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase() + '.md';
-    const relativePath = `${folder}/${filename}`;
-    const filePath = path.join(folderPath, filename);
+    const filePath = path.join(DEFAULT_KNOWLEDGE_BASE, relativePath);
 
     const relations = (graph.relations || [])
       .filter(r => r.from === entity.name)
@@ -94,35 +95,10 @@ function syncToDocs(graph) {
 
     fs.writeFileSync(filePath, frontMatterLines.join('\n') + '\n\n' + body.replace(/\s+$/, '') + '\n', 'utf8');
     generatedFiles.push(relativePath);
-
-    // Update index
-    if (index) {
-      const existing = (index.entries || []).find(e => e.slug === entity.name.toLowerCase());
-      if (!existing) {
-        (index.entries = index.entries || []).push({
-          slug: entity.name.toLowerCase(),
-          path: relativePath,
-          title: entity.name,
-          category: folder.charAt(0).toUpperCase() + folder.slice(1),
-          type: entity.type,
-          status: 'active',
-          entityType: entity.type,
-          relations,
-        });
-      } else {
-        existing.path = relativePath;
-        existing.entityType = entity.type;
-        existing.relations = relations;
-      }
-    }
   });
 
-  if (index) {
-    fs.writeFileSync(indexPath, JSON.stringify(index, null, 2), 'utf8');
-  }
-
-  // 4. Auto-update checksums & version
-  const indexUpdate = autoUpdateIndex(indexPath);
+  // 4. Rebuild derived index from the graph and projections just written.
+  const indexUpdate = rebuildIndex(graph, { generateReports: false });
 
   return {
     content: [{
@@ -130,8 +106,9 @@ function syncToDocs(graph) {
       text: JSON.stringify({
         success: true,
         action: 'to_docs',
-        files: { ontology: ONTOLOGY_MD_FILE, graph: GRAPH_MD_FILE, generated: generatedFiles.length },
+        files: { ontology: ONTOLOGY_MD_FILE, graph: GRAPH_MD_FILE, generated: generatedFiles.length, pruned: prunedFiles.length },
         generatedFiles,
+        prunedFiles,
         indexUpdate,
         message: `Knowledge synced FROM graph to .knowledge folder (${generatedFiles.length} entity files generated)`,
         architecture: { primary: 'knowledge-graph.json (source of truth)', secondary: '.knowledge folder (derived read-only views)' },
@@ -229,48 +206,22 @@ function dynamicLayers(graph) {
   return Array.from(set);
 }
 
-function entityLayer(graph, entity) {
-  const def = graph.ontology.entityTypes.find(et => et.name === entity.type);
-  return def?.layer || 'solution';
-}
-
-function autoUpdateIndex(indexPath) {
-  if (!fs.existsSync(indexPath)) return { updated: false, message: 'Index not found or skipped' };
-
-  try {
-    const index = JSON.parse(fs.readFileSync(indexPath, 'utf8'));
-    const originalVersion = index.version || '0.0.0';
-    let updated = false;
-
-    (index.entries || []).forEach(entry => {
-      const fullPath = path.join(DEFAULT_KNOWLEDGE_BASE, entry.path);
-      if (!fs.existsSync(fullPath)) return;
-
-      try {
-        const content = fs.readFileSync(fullPath, 'utf8');
-        const fm = parseFrontMatter(content);
-
-        if (fm.entityType && entry.entityType !== fm.entityType) { entry.entityType = fm.entityType; updated = true; }
-        if (Array.isArray(fm.relations)) {
-          const rels = fm.relations.map(r => r.trim()).filter(Boolean);
-          if (rels.length && JSON.stringify(entry.relations || []) !== JSON.stringify(rels)) { entry.relations = rels; updated = true; }
+function pruneStaleProjections(layers, expectedPaths) {
+  const pruned = [];
+  layers.forEach(layer => {
+    const folderPath = path.join(DEFAULT_KNOWLEDGE_BASE, layer);
+    if (!fs.existsSync(folderPath)) return;
+    fs.readdirSync(folderPath, { withFileTypes: true })
+      .filter(entry => entry.isFile() && entry.name.endsWith('.md'))
+      .forEach(entry => {
+        const relativePath = path.posix.join(layer, entry.name);
+        if (!expectedPaths.has(relativePath)) {
+          fs.unlinkSync(path.join(folderPath, entry.name));
+          pruned.push(relativePath);
         }
-
-        const placeholders = new Set(['TBD', 'PENDING_SHA256', 'PENDING', 'UNKNOWN', 'TODO']);
-        if (!entry.checksum || placeholders.has(entry.checksum)) { entry.checksum = sha256File(fullPath); updated = true; }
-      } catch { /* skip */ }
-    });
-
-    if (updated) {
-      index.version = bumpPatch(originalVersion);
-      index.generated = new Date().toISOString().slice(0, 10);
-      fs.writeFileSync(indexPath, JSON.stringify(index, null, 2), 'utf8');
-      return { updated: true, version: { before: originalVersion, after: index.version }, entries: index.entries.length };
-    }
-    return { updated: false, message: 'No changes detected, version unchanged', version: originalVersion };
-  } catch (err) {
-    return { updated: false, error: err.message };
-  }
+      });
+  });
+  return pruned;
 }
 
 function stripFrontMatter(content) {

@@ -74,6 +74,17 @@ const tools = [
     },
   },
   {
+    name: 'knowledge_graph_delete_entity',
+    description: 'Removes an entity and every relation connected to it, preserving graph referential integrity. This changes the graph only; run knowledge_docs_sync with action "to_docs" to regenerate derived documentation. Returns the deleted entity and removed relations for confirmation.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        name: { type: 'string', description: 'Exact entity name to remove. Use knowledge_graph_read or knowledge_graph_search to find it.' },
+      },
+      required: ['name'],
+    },
+  },
+  {
     name: 'knowledge_graph_export',
     description: 'Returns the complete knowledge graph as a JSON object, including all entities, relations, metadata, and optionally the ontology. Use this for backups, migrations, or full-graph analysis.',
     inputSchema: {
@@ -189,7 +200,7 @@ const tools = [
   // ─── Index / Versioning ───────────────────────
   {
     name: 'knowledge_update_index',
-    description: 'Recalculates checksums for all indexed files, updates entity types and relations from frontmatter, bumps the index version, and optionally generates integrity-report.md and INDEX.md. Use this after manual edits to .knowledge files.',
+    description: 'Rebuilds knowledge-index.json exclusively from current graph entities whose generated Markdown projections exist. Recalculates checksums, removes stale entries, bumps the index version for any entry change including removals, and optionally generates integrity-report.md and INDEX.md.',
     inputSchema: {
       type: 'object',
       properties: {
