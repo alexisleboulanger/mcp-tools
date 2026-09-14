@@ -3,6 +3,10 @@
  */
 
 const path = require('node:path');
+require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
+if (!process.env.NVD_API_KEY) {
+  require('dotenv').config({ path: path.join(__dirname, '..', 'tools', 'dependency-check', 'dependency-check', '.env') });
+}
 
 // Dependency Check binary (bat on Windows, sh on *nix)
 const DC_BIN = process.env.DC_BIN
